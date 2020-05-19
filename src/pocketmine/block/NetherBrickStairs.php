@@ -24,24 +24,29 @@ namespace pocketmine\block;
 
 use pocketmine\item\Tool;
 
-class NetherBrickStairs extends Stair{
+class NetherBrickStairs extends Stair
+{
 
-	protected $id = self::NETHER_BRICKS_STAIRS;
+    protected $id = self::NETHER_BRICKS_STAIRS;
 
-	public function getName(){
-		return "Nether Bricks Stairs";
-	}
+    public function __construct($meta = 0)
+    {
+        $this->meta = $meta;
+    }
 
-	public function getHardness(){
-		return 2;
-	}
+    public function getName()
+    {
+        return "Nether Bricks Stairs";
+    }
 
-	public function getToolType(){
-		return Tool::TYPE_PICKAXE;
-	}
+    public function getHardness()
+    {
+        return 2;
+    }
 
-	public function __construct($meta = 0){
-		$this->meta = $meta;
-	}
+    public function getToolType()
+    {
+        return Tool::TYPE_PICKAXE;
+    }
 
 }

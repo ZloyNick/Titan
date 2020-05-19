@@ -22,31 +22,37 @@
 namespace pocketmine\block;
 
 
-use pocketmine\item\Tool;
 use pocketmine\item\Item;
+use pocketmine\item\Tool;
 
-class NoteBlock extends Solid{
+class NoteBlock extends Solid
+{
 
-	protected $id = self::NOTE_BLOCK;
+    protected $id = self::NOTE_BLOCK;
 
-	public function __construct(){
+    public function __construct()
+    {
 
-	}
+    }
 
-	public function getName(){
-		return "Note Block";
-	}
+    public function getName()
+    {
+        return "Note Block";
+    }
 
-	public function getHardness(){
-		return 0.8;
-	}
+    public function getHardness()
+    {
+        return 0.8;
+    }
 
-	public function getToolType(){
-		return Tool::TYPE_AXE;
-	}
-	
-	public function getDrops(Item $item) {
-		return [Item::NOTE_BLOCK, 0, 1];
-	}
+    public function getToolType()
+    {
+        return Tool::TYPE_AXE;
+    }
+
+    public function getDrops(Item $item)
+    {
+        return [Item::NOTE_BLOCK, 0, 1];
+    }
 
 }

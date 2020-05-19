@@ -25,69 +25,70 @@ namespace pocketmine\utils;
 /**
  * @deprecated
  */
-abstract class TextWrapper{
+abstract class TextWrapper
+{
 
-	private static $characterWidths = [
-		4, 2, 5, 6, 6, 6, 6, 3, 5, 5, 5, 6, 2, 6, 2, 6,
-		6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 2, 2, 5, 6, 5, 6,
-		7, 6, 6, 6, 6, 6, 6, 6, 6, 4, 6, 6, 6, 6, 6, 6,
-		6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 4, 6, 4, 6, 6,
-		6, 6, 6, 6, 6, 5, 6, 6, 2, 6, 5, 3, 6, 6, 6, 6,
-		6, 6, 6, 4, 6, 6, 6, 6, 6, 6, 5, 2, 5, 7
-	];
+    const CHAT_WINDOW_WIDTH = 240;
+    const CHAT_STRING_LENGTH = 119;
+    private static $characterWidths = [
+        4, 2, 5, 6, 6, 6, 6, 3, 5, 5, 5, 6, 2, 6, 2, 6,
+        6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 2, 2, 5, 6, 5, 6,
+        7, 6, 6, 6, 6, 6, 6, 6, 6, 4, 6, 6, 6, 6, 6, 6,
+        6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 4, 6, 4, 6, 6,
+        6, 6, 6, 6, 6, 5, 6, 6, 2, 6, 5, 3, 6, 6, 6, 6,
+        6, 6, 6, 4, 6, 6, 6, 6, 6, 6, 5, 2, 5, 7
+    ];
+    private static $allowedChars = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_abcdefghijklmnopqrstuvwxyz{|}~";
 
-	const CHAT_WINDOW_WIDTH = 240;
-	const CHAT_STRING_LENGTH = 119;
+    private static $allowedCharsArray = [];
 
-	private static $allowedChars = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_abcdefghijklmnopqrstuvwxyz{|}~";
+    public static function init()
+    {
+        self::$allowedCharsArray = [];
+        $len = strlen(self::$allowedChars);
+        for ($i = 0; $i < $len; ++$i) {
+            self::$allowedCharsArray[self::$allowedChars{$i}] = self::$characterWidths[$i];
+        }
+    }
 
-	private static $allowedCharsArray = [];
+    /**
+     * @param $text
+     *
+     * @return string
+     * @deprecated
+     *
+     */
+    public static function wrap($text)
+    {
+        $result = "";
+        $len = strlen($text);
+        $lineWidth = 0;
+        $lineLength = 0;
 
-	public static function init(){
-		self::$allowedCharsArray = [];
-		$len = strlen(self::$allowedChars);
-		for($i = 0; $i < $len; ++$i){
-			self::$allowedCharsArray[self::$allowedChars{$i}] = self::$characterWidths[$i];
-		}
-	}
+        for ($i = 0; $i < $len; ++$i) {
+            $char = $text{$i};
 
-	/**
-	 * @deprecated
-	 *
-	 * @param $text
-	 *
-	 * @return string
-	 */
-	public static function wrap($text){
-		$result = "";
-		$len = strlen($text);
-		$lineWidth = 0;
-		$lineLength = 0;
+            if ($char === "\n") {
+                $lineLength = 0;
+                $lineWidth = 0;
+            } elseif (isset(self::$allowedCharsArray[$char])) {
+                $width = self::$allowedCharsArray[$char];
 
-		for($i = 0; $i < $len; ++$i){
-			$char = $text{$i};
+                if ($lineLength + 1 > self::CHAT_STRING_LENGTH or $lineWidth + $width > self::CHAT_WINDOW_WIDTH) {
+                    $result .= "\n";
+                    $lineLength = 0;
+                    $lineWidth = 0;
+                }
 
-			if($char === "\n"){
-				$lineLength = 0;
-				$lineWidth = 0;
-			}elseif(isset(self::$allowedCharsArray[$char])){
-				$width = self::$allowedCharsArray[$char];
+                ++$lineLength;
+                $lineWidth += $width;
+            } else {
+                return $text;
+            }
 
-				if($lineLength + 1 > self::CHAT_STRING_LENGTH or $lineWidth + $width > self::CHAT_WINDOW_WIDTH){
-					$result .= "\n";
-					$lineLength = 0;
-					$lineWidth = 0;
-				}
+            $result .= $char;
+        }
 
-				++$lineLength;
-				$lineWidth += $width;
-			}else{
-				return $text;
-			}
-
-			$result .= $char;
-		}
-
-		return $result;
-	}
+        return $result;
+    }
 }

@@ -2,20 +2,24 @@
 
 namespace pocketmine\block;
 
-class NetherWartBlock extends Solid {
+class NetherWartBlock extends Solid
+{
 
-	protected $id = self::NETHER_WART_BLOCK_BLOCK;
+    protected $id = self::NETHER_WART_BLOCK_BLOCK;
 
-	public function __construct() {
-		
-	}
+    public function __construct()
+    {
 
-	public function getHardness() {
-		return 1;
-	}
+    }
 
-	public function getName() {
-		return "Nether Wart Block";
-	}
+    public function getHardness()
+    {
+        return 1;
+    }
+
+    public function getName()
+    {
+        return "Nether Wart Block";
+    }
 
 }

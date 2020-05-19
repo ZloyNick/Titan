@@ -27,51 +27,59 @@ use pocketmine\Player;
 /**
  * Called when a player is respawned (or first time spawned)
  */
-class PlayerRespawnEvent extends PlayerEvent{
-	public static $handlerList = null;
+class PlayerRespawnEvent extends PlayerEvent
+{
+    public static $handlerList = null;
 
-	/** @var Position */
-	protected $position;
-	protected $yaw;
-	protected $pitch;
+    /** @var Position */
+    protected $position;
+    protected $yaw;
+    protected $pitch;
 
-	/**
-	 * @param Player   $player
-	 * @param Position $position
-	 */
-	public function __construct(Player $player, Position $position){
-		$this->player = $player;
-		$this->position = $position;
-	}
+    /**
+     * @param Player $player
+     * @param Position $position
+     */
+    public function __construct(Player $player, Position $position)
+    {
+        $this->player = $player;
+        $this->position = $position;
+    }
 
-	/**
-	 * @return Position
-	 */
-	public function getRespawnPosition(){
-		return $this->position;
-	}
+    /**
+     * @return Position
+     */
+    public function getRespawnPosition()
+    {
+        return $this->position;
+    }
 
-	/**
-	 * @param Position $position
-	 */
-	public function setRespawnPosition(Position $position){
-		$this->position = $position;
-	}
-	
-	public function getYaw() {
-		return $this->yaw;
-	}
-	
-	public function setYaw($yaw) {
-		$this->yaw = $yaw;
-	}
-	
-	public function getPitch() {
-		return $this->pitch;
-	}
-	
-	public function setPitch($pitch) {
-		$this->pitch = $pitch;
-	}
-	
+    /**
+     * @param Position $position
+     */
+    public function setRespawnPosition(Position $position)
+    {
+        $this->position = $position;
+    }
+
+    public function getYaw()
+    {
+        return $this->yaw;
+    }
+
+    public function setYaw($yaw)
+    {
+        $this->yaw = $yaw;
+    }
+
+    public function getPitch()
+    {
+        return $this->pitch;
+    }
+
+    public function setPitch($pitch)
+    {
+        $this->pitch = $pitch;
+    }
+
 }

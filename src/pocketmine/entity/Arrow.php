@@ -17,104 +17,111 @@
  * 
  *
 */
+
 namespace pocketmine\entity;
 
+use pocketmine\block\Lava;
 use pocketmine\level\format\FullChunk;
-use pocketmine\level\particle\CriticalParticle;
+use pocketmine\level\Level;
+use pocketmine\math\Vector3;
 use pocketmine\nbt\tag\Compound;
 use pocketmine\network\protocol\AddEntityPacket;
 use pocketmine\Player;
-use pocketmine\level\Level;
-use pocketmine\math\Vector3;
-use pocketmine\block\Lava;
-use function var_dump;
 
-class Arrow extends Projectile {
+class Arrow extends Projectile
+{
 
-	const NETWORK_ID = 80;
+    const NETWORK_ID = 80;
 
-	public $width = 0.5;
-	public $length = 0.5;
-	public $height = 0.5;
-	protected $gravity = 0.03;
-	protected $drag = 0.01;
-	protected $damage = 2;
+    public $width = 0.5;
+    public $length = 0.5;
+    public $height = 0.5;
+    protected $gravity = 0.03;
+    protected $drag = 0.01;
+    protected $damage = 2;
 
-	public function __construct(FullChunk $chunk, Compound $nbt, Entity $shootingEntity = null, $critical = false) {
-		parent::__construct($chunk, $nbt, $shootingEntity);
-		$this->setCritical($critical);
-	}
-
-	public function onUpdate($currentTick) {
-		if ($this->closed) {
-			return false;
-		}
-		$hasUpdate = parent::onUpdate($currentTick);
-
-		if ($this->onGround || $this->hadCollision) {
-		    $this->setCritical(false);
-		}
-
-		if ($this->age > 1200) {
-			$this->kill();
-			$hasUpdate = true;
-		} else if ($this->y < 1) {
-			$this->kill();
-			$hasUpdate = true;
-		}
-		return $hasUpdate;
-	}
-
-	public function isCritical(){
-	    return $this->getDataFlag(self::DATA_FLAGS, self::DATA_FLAG_CRITICAL);
+    public function __construct(FullChunk $chunk, Compound $nbt, Entity $shootingEntity = null, $critical = false)
+    {
+        parent::__construct($chunk, $nbt, $shootingEntity);
+        $this->setCritical($critical);
     }
 
-    public function setCritical($critical = true){
+    public function setCritical($critical = true)
+    {
         $this->setDataFlag(self::DATA_FLAGS, self::DATA_FLAG_CRITICAL, $critical);
     }
 
-	public function spawnTo(Player $player) {
-		if (!isset($this->hasSpawned[$player->getId()]) && isset($player->usedChunks[Level::chunkHash($this->chunk->getX(), $this->chunk->getZ())])) {
-			$this->hasSpawned[$player->getId()] = $player;
-			$pk = new AddEntityPacket();
-			$pk->type = static::NETWORK_ID;
-			$pk->eid = $this->getId();
-			$pk->x = $this->x;
-			$pk->y = $this->y;
-			$pk->z = $this->z;
-			$pk->speedX = $this->motionX;
-			$pk->speedY = $this->motionY;
-			$pk->speedZ = $this->motionZ;
+    public function onUpdate($currentTick)
+    {
+        if ($this->closed) {
+            return false;
+        }
+        $hasUpdate = parent::onUpdate($currentTick);
+
+        if ($this->onGround || $this->hadCollision) {
+            $this->setCritical(false);
+        }
+
+        if ($this->age > 1200) {
+            $this->kill();
+            $hasUpdate = true;
+        } else if ($this->y < 1) {
+            $this->kill();
+            $hasUpdate = true;
+        }
+        return $hasUpdate;
+    }
+
+    public function isCritical()
+    {
+        return $this->getDataFlag(self::DATA_FLAGS, self::DATA_FLAG_CRITICAL);
+    }
+
+    public function spawnTo(Player $player)
+    {
+        if (!isset($this->hasSpawned[$player->getId()]) && isset($player->usedChunks[Level::chunkHash($this->chunk->getX(), $this->chunk->getZ())])) {
+            $this->hasSpawned[$player->getId()] = $player;
+            $pk = new AddEntityPacket();
+            $pk->type = static::NETWORK_ID;
+            $pk->eid = $this->getId();
+            $pk->x = $this->x;
+            $pk->y = $this->y;
+            $pk->z = $this->z;
+            $pk->speedX = $this->motionX;
+            $pk->speedY = $this->motionY;
+            $pk->speedZ = $this->motionZ;
             $pk->metadata = $this->dataProperties;
-			$player->dataPacket($pk);
-		}
-	}
-	
-	public function getBoundingBox() {
-		$bb = clone parent::getBoundingBox();
-		return $bb;
-	}
-	
-	public function move($dx, $dy, $dz) {
-		$this->blocksAround = null;
-		if ($dx == 0 && $dz == 0 && $dy == 0) {
-			return true;
-		}
-		$pos = new Vector3($this->x + $dx, $this->y + $dy, $this->z + $dz);
-		if (!$this->setPosition($pos)) {
-			return false;
-		}
-		$this->onGround = false;
-		$bb = clone $this->boundingBox;
-		$blocks = $this->level->getCollisionBlocks($bb);
-		foreach ($blocks as $block) {
-			if (!$block->isLiquid() && $block instanceof Lava) {
-				$this->onGround = true;
-				break;
-			}
-		}
-		$this->isCollided = $this->onGround;
-		$this->updateFallState($dy, $this->onGround);
-		return true;
-	}
+            $player->dataPacket($pk);
+        }
+    }
+
+    public function getBoundingBox()
+    {
+        $bb = clone parent::getBoundingBox();
+        return $bb;
+    }
+
+    public function move($dx, $dy, $dz)
+    {
+        $this->blocksAround = null;
+        if ($dx == 0 && $dz == 0 && $dy == 0) {
+            return true;
+        }
+        $pos = new Vector3($this->x + $dx, $this->y + $dy, $this->z + $dz);
+        if (!$this->setPosition($pos)) {
+            return false;
+        }
+        $this->onGround = false;
+        $bb = clone $this->boundingBox;
+        $blocks = $this->level->getCollisionBlocks($bb);
+        foreach ($blocks as $block) {
+            if (!$block->isLiquid() && $block instanceof Lava) {
+                $this->onGround = true;
+                break;
+            }
+        }
+        $this->isCollided = $this->onGround;
+        $this->updateFallState($dy, $this->onGround);
+        return true;
+    }
 }

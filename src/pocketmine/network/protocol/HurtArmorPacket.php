@@ -24,19 +24,22 @@ namespace pocketmine\network\protocol;
 #include <rules/DataPacket.h>
 
 
-class HurtArmorPacket extends PEPacket{
-	const NETWORK_ID = Info::HURT_ARMOR_PACKET;
-	const PACKET_NAME = "HURT_ARMOR_PACKET";
+class HurtArmorPacket extends PEPacket
+{
+    const NETWORK_ID = Info::HURT_ARMOR_PACKET;
+    const PACKET_NAME = "HURT_ARMOR_PACKET";
 
-	public $health;
+    public $health;
 
-	public function decode($playerProtocol){
+    public function decode($playerProtocol)
+    {
 
-	}
+    }
 
-	public function encode($playerProtocol){
-		$this->reset($playerProtocol);
-		$this->putSignedVarInt($this->health);
-	}
+    public function encode($playerProtocol)
+    {
+        $this->reset($playerProtocol);
+        $this->putSignedVarInt($this->health);
+    }
 
 }

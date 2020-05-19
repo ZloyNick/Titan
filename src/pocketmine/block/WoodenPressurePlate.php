@@ -24,37 +24,45 @@ namespace pocketmine\block;
 use pocketmine\item\Item;
 use pocketmine\item\Tool;
 
-class WoodenPressurePlate extends Transparent{
+class WoodenPressurePlate extends Transparent
+{
 
-	protected $id = self::WOODEN_PRESSURE_PLATE;
+    protected $id = self::WOODEN_PRESSURE_PLATE;
 
-	public function __construct($meta = 0){
-		$this->meta = $meta;
-	}
+    public function __construct($meta = 0)
+    {
+        $this->meta = $meta;
+    }
 
-	public function getName(){
-		return "Wooden Pressure Plate";
-	}
+    public function getName()
+    {
+        return "Wooden Pressure Plate";
+    }
 
-	public function canBeActivated(){
-		return true;
-	}
+    public function canBeActivated()
+    {
+        return true;
+    }
 
-	public function getHardness(){
-		return 2;
-	}
-	
-	public function canBeFlowedInto(){
-		return true;
-	}
+    public function getHardness()
+    {
+        return 2;
+    }
 
-	public function getToolType(){
-		return Tool::TYPE_AXE;
-	}
+    public function canBeFlowedInto()
+    {
+        return true;
+    }
 
-	public function getDrops(Item $item){
-		return [
-			[Item::WOODEN_PRESSURE_PLATE, 0, 1],
-		];
-	}
+    public function getToolType()
+    {
+        return Tool::TYPE_AXE;
+    }
+
+    public function getDrops(Item $item)
+    {
+        return [
+            [Item::WOODEN_PRESSURE_PLATE, 0, 1],
+        ];
+    }
 }

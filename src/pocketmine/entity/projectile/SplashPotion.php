@@ -54,11 +54,6 @@ class SplashPotion extends Projectile
         $this->setDataProperty(self::DATA_POTION_AUX_VALUE, self::DATA_TYPE_SHORT, $meta);
     }
 
-    public function getPotionId(): int
-    {
-        return $this->getDataProperty(self::DATA_POTION_AUX_VALUE) ?? 0;
-    }
-
     public function onUpdate($currentTick)
     {
         if ($this->closed) {
@@ -70,8 +65,8 @@ class SplashPotion extends Projectile
         $hasUpdate = parent::onUpdate($currentTick);
 
         if ($this->onGround || $this->hadCollision) {
-            if($this->shootingEntity instanceof Player){
-                $this->shootingEntity->sendSound("SOUND_GLASS", ['x' => $this->getX(), 'y' => $this->getY(), 'z' => $this->getZ()] ,EntityIds::ID_NONE, -1 ,$this->getViewers());
+            if ($this->shootingEntity instanceof Player) {
+                $this->shootingEntity->sendSound("SOUND_GLASS", ['x' => $this->getX(), 'y' => $this->getY(), 'z' => $this->getZ()], EntityIds::ID_NONE, -1, $this->getViewers());
             }
 
             $color = \pocketmine\item\SplashPotion::getColor($this->getPotionId());
@@ -96,6 +91,11 @@ class SplashPotion extends Projectile
         }
 
         return $hasUpdate;
+    }
+
+    public function getPotionId(): int
+    {
+        return $this->getDataProperty(self::DATA_POTION_AUX_VALUE) ?? 0;
     }
 
     public function spawnTo(Player $player)

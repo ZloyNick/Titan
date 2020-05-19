@@ -15,11 +15,12 @@
 
 namespace raklib;
 
-if(!defined("ENDIANNESS")){
+if (!defined("ENDIANNESS")) {
     define("ENDIANNESS", (pack("d", 1) === "\77\360\0\0\0\0\0\0" ? Binary::BIG_ENDIAN : Binary::LITTLE_ENDIAN));
 }
 
-class Binary{
+class Binary
+{
     const BIG_ENDIAN = 0x00;
     const LITTLE_ENDIAN = 0x01;
 
@@ -31,7 +32,8 @@ class Binary{
      *
      * @return mixed
      */
-    public static function readTriad($str){
+    public static function readTriad($str)
+    {
         return unpack("N", "\x00" . $str)[1];
     }
 
@@ -42,31 +44,34 @@ class Binary{
      *
      * @return string
      */
-    public static function writeTriad($value){
+    public static function writeTriad($value)
+    {
         return substr(pack("N", $value), 1);
     }
 
-	/**
-	 * Reads a 3-byte little-endian number
-	 *
-	 * @param $str
-	 *
-	 * @return mixed
-	 */
-	public static function readLTriad($str){
-		return unpack("V", $str . "\x00")[1];
-	}
+    /**
+     * Reads a 3-byte little-endian number
+     *
+     * @param $str
+     *
+     * @return mixed
+     */
+    public static function readLTriad($str)
+    {
+        return unpack("V", $str . "\x00")[1];
+    }
 
-	/**
-	 * Writes a 3-byte little-endian number
-	 *
-	 * @param $value
-	 *
-	 * @return string
-	 */
-	public static function writeLTriad($value){
-		return substr(pack("V", $value), 0, -1);
-	}
+    /**
+     * Writes a 3-byte little-endian number
+     *
+     * @param $value
+     *
+     * @return string
+     */
+    public static function writeLTriad($value)
+    {
+        return substr(pack("V", $value), 0, -1);
+    }
 
     /**
      * Reads a byte boolean
@@ -75,8 +80,32 @@ class Binary{
      *
      * @return bool
      */
-    public static function readBool($b){
+    public static function readBool($b)
+    {
         return self::readByte($b, false) === 0 ? false : true;
+    }
+
+    /**
+     * Reads an unsigned/signed byte
+     *
+     * @param string $c
+     * @param bool $signed
+     *
+     * @return int
+     */
+    public static function readByte($c, $signed = true)
+    {
+        $b = ord($c{0});
+
+        if ($signed) {
+            if (PHP_INT_SIZE === 8) {
+                return $b << 56 >> 56;
+            } else {
+                return $b << 24 >> 24;
+            }
+        } else {
+            return $b;
+        }
     }
 
     /**
@@ -86,30 +115,9 @@ class Binary{
      *
      * @return bool|string
      */
-    public static function writeBool($b){
+    public static function writeBool($b)
+    {
         return self::writeByte($b === true ? 1 : 0);
-    }
-
-    /**
-     * Reads an unsigned/signed byte
-     *
-     * @param string $c
-     * @param bool   $signed
-     *
-     * @return int
-     */
-    public static function readByte($c, $signed = true){
-        $b = ord($c{0});
-
-        if($signed){
-            if(PHP_INT_SIZE === 8){
-                return $b << 56 >> 56;
-            }else{
-                return $b << 24 >> 24;
-            }
-        }else{
-            return $b;
-        }
     }
 
     /**
@@ -119,45 +127,25 @@ class Binary{
      *
      * @return string
      */
-    public static function writeByte($c){
+    public static function writeByte($c)
+    {
         return chr($c);
     }
 
     /**
-     * Reads a 16-bit unsigned big-endian number
+     * Reads a 16-bit signed big-endian number
      *
      * @param $str
      *
      * @return int
      */
-    public static function readShort($str){
-        return unpack("n", $str)[1];
-    }
-
-	/**
-	 * Reads a 16-bit signed big-endian number
-	 *
-	 * @param $str
-	 *
-	 * @return int
-	 */
-	public static function readSignedShort($str){
-		if(PHP_INT_SIZE === 8){
-			return unpack("n", $str)[1] << 48 >> 48;
-		}else{
-			return unpack("n", $str)[1] << 16 >> 16;
-		}
-	}
-
-    /**
-     * Writes a 16-bit signed/unsigned big-endian number
-     *
-     * @param $value
-     *
-     * @return string
-     */
-    public static function writeShort($value){
-        return pack("n", $value);
+    public static function readSignedShort($str)
+    {
+        if (PHP_INT_SIZE === 8) {
+            return unpack("n", $str)[1] << 48 >> 48;
+        } else {
+            return unpack("n", $str)[1] << 16 >> 16;
+        }
     }
 
     /**
@@ -168,16 +156,17 @@ class Binary{
      *
      * @return int
      */
-    public static function readLShort($str, $signed = true){
+    public static function readLShort($str, $signed = true)
+    {
         $unpacked = unpack("v", $str)[1];
 
-        if($signed){
-            if(PHP_INT_SIZE === 8){
+        if ($signed) {
+            if (PHP_INT_SIZE === 8) {
                 return $unpacked << 48 >> 48;
-            }else{
+            } else {
                 return $unpacked << 16 >> 16;
             }
-        }else{
+        } else {
             return $unpacked;
         }
     }
@@ -189,79 +178,98 @@ class Binary{
      *
      * @return string
      */
-    public static function writeLShort($value){
+    public static function writeLShort($value)
+    {
         return pack("v", $value);
     }
 
-    public static function readInt($str){
-        if(PHP_INT_SIZE === 8){
+    public static function readInt($str)
+    {
+        if (PHP_INT_SIZE === 8) {
             return unpack("N", $str)[1] << 32 >> 32;
-        }else{
+        } else {
             return unpack("N", $str)[1];
         }
     }
 
-    public static function writeInt($value){
+    public static function writeInt($value)
+    {
         return pack("N", $value);
     }
 
-    public static function readLInt($str){
-        if(PHP_INT_SIZE === 8){
+    public static function readLInt($str)
+    {
+        if (PHP_INT_SIZE === 8) {
             return unpack("V", $str)[1] << 32 >> 32;
-        }else{
+        } else {
             return unpack("V", $str)[1];
         }
     }
 
-    public static function writeLInt($value){
+    public static function writeLInt($value)
+    {
         return pack("V", $value);
     }
 
-    public static function readFloat($str){
+    public static function readFloat($str)
+    {
         return ENDIANNESS === self::BIG_ENDIAN ? unpack("f", $str)[1] : unpack("f", strrev($str))[1];
     }
 
-    public static function writeFloat($value){
+    public static function writeFloat($value)
+    {
         return ENDIANNESS === self::BIG_ENDIAN ? pack("f", $value) : strrev(pack("f", $value));
     }
 
-    public static function readLFloat($str){
+    public static function readLFloat($str)
+    {
         return ENDIANNESS === self::BIG_ENDIAN ? unpack("f", strrev($str))[1] : unpack("f", $str)[1];
     }
 
-    public static function writeLFloat($value){
+    public static function writeLFloat($value)
+    {
         return ENDIANNESS === self::BIG_ENDIAN ? strrev(pack("f", $value)) : pack("f", $value);
     }
 
-    public static function readDouble($str){
+    public static function readDouble($str)
+    {
         return ENDIANNESS === self::BIG_ENDIAN ? unpack("d", $str)[1] : unpack("d", strrev($str))[1];
     }
 
-    public static function writeDouble($value){
+    public static function writeDouble($value)
+    {
         return ENDIANNESS === self::BIG_ENDIAN ? pack("d", $value) : strrev(pack("d", $value));
     }
 
-    public static function readLDouble($str){
+    public static function readLDouble($str)
+    {
         return ENDIANNESS === self::BIG_ENDIAN ? unpack("d", strrev($str))[1] : unpack("d", $str)[1];
     }
 
-    public static function writeLDouble($value){
+    public static function writeLDouble($value)
+    {
         return ENDIANNESS === self::BIG_ENDIAN ? strrev(pack("d", $value)) : pack("d", $value);
     }
 
-    public static function readLong($x){
-        if(PHP_INT_SIZE === 8){
+    public static function readLLong($str)
+    {
+        return self::readLong(strrev($str));
+    }
+
+    public static function readLong($x)
+    {
+        if (PHP_INT_SIZE === 8) {
             list(, $int1, $int2) = unpack("N*", $x);
 
             return ($int1 << 32) | $int2;
-        }else{
+        } else {
             $value = "0";
-            for($i = 0; $i < 8; $i += 2){
+            for ($i = 0; $i < 8; $i += 2) {
                 $value = bcmul($value, "65536", 0);
                 $value = bcadd($value, self::readShort(substr($x, $i, 2)), 0);
             }
 
-            if(bccomp($value, "9223372036854775807") == 1){
+            if (bccomp($value, "9223372036854775807") == 1) {
                 $value = bcadd($value, "-18446744073709551616");
             }
 
@@ -269,13 +277,31 @@ class Binary{
         }
     }
 
-    public static function writeLong($value){
-        if(PHP_INT_SIZE === 8){
+    /**
+     * Reads a 16-bit unsigned big-endian number
+     *
+     * @param $str
+     *
+     * @return int
+     */
+    public static function readShort($str)
+    {
+        return unpack("n", $str)[1];
+    }
+
+    public static function writeLLong($value)
+    {
+        return strrev(self::writeLong($value));
+    }
+
+    public static function writeLong($value)
+    {
+        if (PHP_INT_SIZE === 8) {
             return pack("NN", $value >> 32, $value & 0xFFFFFFFF);
-        }else{
+        } else {
             $x = "";
 
-            if(bccomp($value, "0") == -1){
+            if (bccomp($value, "0") == -1) {
                 $value = bcadd($value, "18446744073709551616");
             }
 
@@ -288,12 +314,16 @@ class Binary{
         }
     }
 
-    public static function readLLong($str){
-        return self::readLong(strrev($str));
-    }
-
-    public static function writeLLong($value){
-        return strrev(self::writeLong($value));
+    /**
+     * Writes a 16-bit signed/unsigned big-endian number
+     *
+     * @param $value
+     *
+     * @return string
+     */
+    public static function writeShort($value)
+    {
+        return pack("n", $value);
     }
 
 }

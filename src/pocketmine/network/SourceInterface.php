@@ -22,38 +22,39 @@
 /**
  * Network-related classes
  */
+
 namespace pocketmine\network;
 
-use pocketmine\network\protocol\DataPacket;
 use pocketmine\Player;
 
 /**
  * Classes that implement this interface will be able to be attached to players
  */
-interface SourceInterface{
+interface SourceInterface
+{
 
 
-	/**
-	 * Terminates the connection
-	 *
-	 * @param Player $player
-	 * @param string $reason
-	 *
-	 */
-	public function close(Player $player, $reason = "unknown reason");
+    /**
+     * Terminates the connection
+     *
+     * @param Player $player
+     * @param string $reason
+     *
+     */
+    public function close(Player $player, $reason = "unknown reason");
 
-	/**
-	 * @param string $name
-	 */
-	public function setName($name);
+    /**
+     * @param string $name
+     */
+    public function setName($name);
 
-	/**
-	 * @return bool
-	 */
-	public function process();
+    /**
+     * @return bool
+     */
+    public function process();
 
-	public function shutdown();
+    public function shutdown();
 
-	public function emergencyShutdown();
+    public function emergencyShutdown();
 
 }

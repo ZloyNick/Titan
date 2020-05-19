@@ -26,26 +26,30 @@ use pocketmine\utils\Binary;
 
 #include <rules/NBT.h>
 
-class ByteArray extends NamedTag{
+class ByteArray extends NamedTag
+{
 
-	public function getType(){
-		return NBT::TAG_ByteArray;
-	}
+    public function getType()
+    {
+        return NBT::TAG_ByteArray;
+    }
 
-	public function read(NBT $nbt, $new = false){
-		if ($new) {
-			$this->value = $nbt->get($nbt->getNewInt());
-		} else {
-			$this->value = $nbt->get($nbt->endianness === 1 ? Binary::readInt($nbt->get(4)) : Binary::readLInt($nbt->get(4)));
-		}
-	}
+    public function read(NBT $nbt, $new = false)
+    {
+        if ($new) {
+            $this->value = $nbt->get($nbt->getNewInt());
+        } else {
+            $this->value = $nbt->get($nbt->endianness === 1 ? Binary::readInt($nbt->get(4)) : Binary::readLInt($nbt->get(4)));
+        }
+    }
 
-	public function write(NBT $nbt, $old = false){
-		if ($old) {
-			$nbt->buffer .= $nbt->endianness === 1 ? pack("N", strlen($this->value)) : pack("V", strlen($this->value));
-		} else {
-			$nbt->putInt(strlen($this->value));
-		}
-		$nbt->buffer .= $this->value;
-	}
+    public function write(NBT $nbt, $old = false)
+    {
+        if ($old) {
+            $nbt->buffer .= $nbt->endianness === 1 ? pack("N", strlen($this->value)) : pack("V", strlen($this->value));
+        } else {
+            $nbt->putInt(strlen($this->value));
+        }
+        $nbt->buffer .= $this->value;
+    }
 }

@@ -24,29 +24,35 @@ namespace pocketmine\block;
 use pocketmine\item\Item;
 use pocketmine\item\Tool;
 
-class Cauldron extends Solid {
+class Cauldron extends Solid
+{
 
-	protected $id = self::CAULDRON;
-	
-	public function __construct() {
-		
-	}
+    protected $id = self::CAULDRON;
 
-	public function getHardness(){
-		return 2;
-	}
+    public function __construct()
+    {
 
-	public function getName(){
-		return "Cauldron";
-	}
+    }
 
-	public function getToolType() {
-		return Tool::TYPE_PICKAXE;
-	}
+    public function getHardness()
+    {
+        return 2;
+    }
 
-	public function getDrops(Item $item){
-		return [
-			[Item::CAULDRON, 0, 1]
-		];
-	}
+    public function getName()
+    {
+        return "Cauldron";
+    }
+
+    public function getToolType()
+    {
+        return Tool::TYPE_PICKAXE;
+    }
+
+    public function getDrops(Item $item)
+    {
+        return [
+            [Item::CAULDRON, 0, 1]
+        ];
+    }
 }

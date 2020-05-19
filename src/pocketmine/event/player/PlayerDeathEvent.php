@@ -25,43 +25,50 @@ use pocketmine\event\entity\EntityDeathEvent;
 use pocketmine\item\Item;
 use pocketmine\Player;
 
-class PlayerDeathEvent extends EntityDeathEvent{
-	public static $handlerList = null;
+class PlayerDeathEvent extends EntityDeathEvent
+{
+    public static $handlerList = null;
 
-	private $deathMessage;
-	private $keepInventory = false;
+    private $deathMessage;
+    private $keepInventory = false;
 
-	/**
-	 * @param Player $entity
-	 * @param Item[] $drops
-	 * @param string $deathMessage
-	 */
-	public function __construct(Player $entity, array $drops, $deathMessage){
-		parent::__construct($entity, $drops);
-		$this->deathMessage = $deathMessage;
-	}
+    /**
+     * @param Player $entity
+     * @param Item[] $drops
+     * @param string $deathMessage
+     */
+    public function __construct(Player $entity, array $drops, $deathMessage)
+    {
+        parent::__construct($entity, $drops);
+        $this->deathMessage = $deathMessage;
+    }
 
-	/**
-	 * @return Player
-	 */
-	public function getEntity(){
-		return $this->entity;
-	}
+    /**
+     * @return Player
+     */
+    public function getEntity()
+    {
+        return $this->entity;
+    }
 
-	public function getDeathMessage(){
-		return $this->deathMessage;
-	}
+    public function getDeathMessage()
+    {
+        return $this->deathMessage;
+    }
 
-	public function setDeathMessage($deathMessage){
-		$this->deathMessage = $deathMessage;
-	}
+    public function setDeathMessage($deathMessage)
+    {
+        $this->deathMessage = $deathMessage;
+    }
 
-	public function getKeepInventory(){
-		return $this->keepInventory;
-	}
+    public function getKeepInventory()
+    {
+        return $this->keepInventory;
+    }
 
-	public function setKeepInventory($keepInventory){
-		$this->keepInventory = (bool) $keepInventory;
-	}
+    public function setKeepInventory($keepInventory)
+    {
+        $this->keepInventory = (bool)$keepInventory;
+    }
 
 }

@@ -22,15 +22,18 @@
 namespace pocketmine\item;
 
 
-class ChainHelmet extends Armor{
-	
-	const SLOT_NUMBER = 0;
-	
-	public function __construct($meta = 0, $count = 1){
-		parent::__construct(self::CHAIN_HELMET, $meta, $count, "Chainmail Helmet");
-	}
-	
-	public function getMaxDurability() {
-		return 166;
-	}
+class ChainHelmet extends Armor
+{
+
+    const SLOT_NUMBER = 0;
+
+    public function __construct($meta = 0, $count = 1)
+    {
+        parent::__construct(self::CHAIN_HELMET, $meta, $count, "Chainmail Helmet");
+    }
+
+    public function getMaxDurability()
+    {
+        return 166;
+    }
 }

@@ -24,48 +24,51 @@ namespace pocketmine\tile;
 use pocketmine\level\format\FullChunk;
 use pocketmine\nbt\NBT;
 use pocketmine\nbt\tag\Compound;
-use pocketmine\network\Network;
 use pocketmine\network\protocol\TileEntityDataPacket;
 use pocketmine\Player;
 
-abstract class Spawnable extends Tile{
+abstract class Spawnable extends Tile
+{
 
-	public function spawnTo(Player $player){
-		if($this->closed){
-			return false;
-		}
+    public function __construct(FullChunk $chunk, Compound $nbt)
+    {
+        parent::__construct($chunk, $nbt);
+        $this->spawnToAll();
+    }
 
-		$nbt = new NBT(NBT::LITTLE_ENDIAN);
-		$nbt->setData($this->getSpawnCompound());
-		$pk = new TileEntityDataPacket();
-		$pk->x = $this->x;
-		$pk->y = $this->y;
-		$pk->z = $this->z;
-		$pk->namedtag = $nbt->write();
-		$player->dataPacket($pk);
+    public function spawnToAll()
+    {
+        if ($this->closed) {
+            return;
+        }
 
-		return true;
-	}
+        foreach ($this->getLevel()->getUsingChunk($this->chunk->getX(), $this->chunk->getZ()) as $player) {
+            if ($player->spawned === true) {
+                $this->spawnTo($player);
+            }
+        }
+    }
 
-	/**
-	 * @return Compound
-	 */
-	public abstract function getSpawnCompound();
+    public function spawnTo(Player $player)
+    {
+        if ($this->closed) {
+            return false;
+        }
 
-	public function __construct(FullChunk $chunk, Compound $nbt){
-		parent::__construct($chunk, $nbt);
-		$this->spawnToAll();
-	}
+        $nbt = new NBT(NBT::LITTLE_ENDIAN);
+        $nbt->setData($this->getSpawnCompound());
+        $pk = new TileEntityDataPacket();
+        $pk->x = $this->x;
+        $pk->y = $this->y;
+        $pk->z = $this->z;
+        $pk->namedtag = $nbt->write();
+        $player->dataPacket($pk);
 
-	public function spawnToAll(){
-		if($this->closed){
-			return;
-		}
+        return true;
+    }
 
-		foreach($this->getLevel()->getUsingChunk($this->chunk->getX(), $this->chunk->getZ()) as $player){
-			if($player->spawned === true){
-				$this->spawnTo($player);
-			}
-		}
-	}
+    /**
+     * @return Compound
+     */
+    public abstract function getSpawnCompound();
 }

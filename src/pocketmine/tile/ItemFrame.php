@@ -30,29 +30,32 @@ use pocketmine\nbt\tag\FloatTag;
 use pocketmine\nbt\tag\IntTag;
 use pocketmine\nbt\tag\StringTag;
 
-class ItemFrame extends Spawnable {
+class ItemFrame extends Spawnable
+{
 
-	/** @var Item */
-	private $item = null;
+    /** @var Item */
+    private $item = null;
 
-	public function __construct(FullChunk $chunk, Compound $nbt) {
-		parent::__construct($chunk, $nbt);
-		if (isset($this->namedtag->Item)) {
-			$this->item = NBT::getItemHelper($this->namedtag["Item"]);
-		} else {
-			$this->item = Item::get(Item::AIR);
-		}
-	}
+    public function __construct(FullChunk $chunk, Compound $nbt)
+    {
+        parent::__construct($chunk, $nbt);
+        if (isset($this->namedtag->Item)) {
+            $this->item = NBT::getItemHelper($this->namedtag["Item"]);
+        } else {
+            $this->item = Item::get(Item::AIR);
+        }
+    }
 
-	public function getSpawnCompound() {
-		return new Compound("", [
-			new StringTag("id", Tile::ITEM_FRAME),
-			new IntTag("x", (int) $this->x),
-			new IntTag("y", (int) $this->y),
-			new IntTag("z", (int) $this->z),
-			new FloatTag("ItemDropChance", 0),
-			new ByteTag("ItemRotation", 0),
-			NBT::putItemHelper($this->item)
-		]);
-	}
+    public function getSpawnCompound()
+    {
+        return new Compound("", [
+            new StringTag("id", Tile::ITEM_FRAME),
+            new IntTag("x", (int)$this->x),
+            new IntTag("y", (int)$this->y),
+            new IntTag("z", (int)$this->z),
+            new FloatTag("ItemDropChance", 0),
+            new ByteTag("ItemRotation", 0),
+            NBT::putItemHelper($this->item)
+        ]);
+    }
 }

@@ -22,31 +22,36 @@
 namespace pocketmine\block;
 
 
+abstract class Button extends Transparent
+{
 
+    public function canBeFlowedInto()
+    {
+        return true;
+    }
 
-abstract class Button extends Transparent{
+    public function getHardness()
+    {
+        return 1;
+    }
 
-	public function canBeFlowedInto(){
-		return true;
-	}
+    public function canBeActivated()
+    {
+        return true;
+    }
 
-	public function getHardness(){
-		return 1;
-	}
-	
-	public function canBeActivated(){
-		return true;
-	}
+    public function getResistance()
+    {
+        return 0;
+    }
 
-	public function getResistance(){
-		return 0;
-	}
+    public function isSolid()
+    {
+        return false;
+    }
 
-	public function isSolid(){
-		return false;
-	}
-
-	public function getBoundingBox(){
-		return null;
-	}
+    public function getBoundingBox()
+    {
+        return null;
+    }
 }

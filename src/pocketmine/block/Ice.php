@@ -23,24 +23,29 @@ namespace pocketmine\block;
 
 use pocketmine\item\Tool;
 
-class Ice extends Transparent{
+class Ice extends Transparent
+{
 
-	protected $id = self::ICE;
+    protected $id = self::ICE;
 
-	public function __construct(){
+    public function __construct()
+    {
 
-	}
+    }
 
-	public function getName(){
-		return "Ice";
-	}
+    public function getName()
+    {
+        return "Ice";
+    }
 
-	public function getHardness(){
-		return 0.5;
-	}
+    public function getHardness()
+    {
+        return 0.5;
+    }
 
-	public function getToolType(){
-		return Tool::TYPE_PICKAXE;
-	}
+    public function getToolType()
+    {
+        return Tool::TYPE_PICKAXE;
+    }
 
 }

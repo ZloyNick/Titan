@@ -26,126 +26,132 @@ use pocketmine\item\Tool;
 use pocketmine\math\AxisAlignedBB;
 use pocketmine\Player;
 
-class Slab extends Transparent{
+class Slab extends Transparent
+{
 
-	const STONE = 0;
-	const SANDSTONE = 1;
-	const WOODEN = 2;
-	const COBBLESTONE = 3;
-	const BRICK = 4;
-	const STONE_BRICK = 5;
-	const QUARTZ = 6;
-	const NETHER_BRICK = 7;
-	
-	protected $id = self::SLAB;
+    const STONE = 0;
+    const SANDSTONE = 1;
+    const WOODEN = 2;
+    const COBBLESTONE = 3;
+    const BRICK = 4;
+    const STONE_BRICK = 5;
+    const QUARTZ = 6;
+    const NETHER_BRICK = 7;
 
-	public function __construct($meta = 0){
-		$this->meta = $meta;
-	}
+    protected $id = self::SLAB;
 
-	public function getHardness(){
-		return 2;
-	}
+    public function __construct($meta = 0)
+    {
+        $this->meta = $meta;
+    }
 
-	public function getName(){
-		static $names = [
-			0 => "Stone",
-			1 => "Sandstone",
-			2 => "Wooden",
-			3 => "Cobblestone",
-			4 => "Brick",
-			5 => "Stone Brick",
-			6 => "Quartz",
-			7 => "Nether Brick",
-		];
-		return (($this->meta & 0x08) > 0 ? "Upper " : "") . $names[$this->meta & 0x07] . " Slab";
-	}
+    public function getHardness()
+    {
+        return 2;
+    }
 
-	protected function recalculateBoundingBox(){
+    public function getName()
+    {
+        static $names = [
+            0 => "Stone",
+            1 => "Sandstone",
+            2 => "Wooden",
+            3 => "Cobblestone",
+            4 => "Brick",
+            5 => "Stone Brick",
+            6 => "Quartz",
+            7 => "Nether Brick",
+        ];
+        return (($this->meta & 0x08) > 0 ? "Upper " : "") . $names[$this->meta & 0x07] . " Slab";
+    }
 
-		if(($this->meta & 0x08) > 0){
-			return new AxisAlignedBB(
-				$this->x,
-				$this->y + 0.5,
-				$this->z,
-				$this->x + 1,
-				$this->y + 1,
-				$this->z + 1
-			);
-		}else{
-			return new AxisAlignedBB(
-				$this->x,
-				$this->y,
-				$this->z,
-				$this->x + 1,
-				$this->y + 0.5,
-				$this->z + 1
-			);
-		}
-	}
+    public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null)
+    {
+        $this->meta &= 0x07;
+        if ($face === 0) {
+            if ($target->getId() === self::SLAB and ($target->getDamage() & 0x08) === 0x08 and ($target->getDamage() & 0x07) === ($this->meta & 0x07)) {
+                $this->getLevel()->setBlock($target, Block::get(Item::DOUBLE_SLAB, $this->meta), true);
 
-	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
-		$this->meta &= 0x07;
-		if($face === 0){
-			if($target->getId() === self::SLAB and ($target->getDamage() & 0x08) === 0x08 and ($target->getDamage() & 0x07) === ($this->meta & 0x07)){
-				$this->getLevel()->setBlock($target, Block::get(Item::DOUBLE_SLAB, $this->meta), true);
+                return true;
+            } elseif ($block->getId() === self::SLAB and ($block->getDamage() & 0x07) === ($this->meta & 0x07)) {
+                $this->getLevel()->setBlock($block, Block::get(Item::DOUBLE_SLAB, $this->meta), true);
 
-				return true;
-			}elseif($block->getId() === self::SLAB and ($block->getDamage() & 0x07) === ($this->meta & 0x07)){
-				$this->getLevel()->setBlock($block, Block::get(Item::DOUBLE_SLAB, $this->meta), true);
+                return true;
+            } else {
+                $this->meta |= 0x08;
+            }
+        } elseif ($face === 1) {
+            if ($target->getId() === self::SLAB and ($target->getDamage() & 0x08) === 0 and ($target->getDamage() & 0x07) === ($this->meta & 0x07)) {
+                $this->getLevel()->setBlock($target, Block::get(Item::DOUBLE_SLAB, $this->meta), true);
 
-				return true;
-			}else{
-				$this->meta |= 0x08;
-			}
-		}elseif($face === 1){
-			if($target->getId() === self::SLAB and ($target->getDamage() & 0x08) === 0 and ($target->getDamage() & 0x07) === ($this->meta & 0x07)){
-				$this->getLevel()->setBlock($target, Block::get(Item::DOUBLE_SLAB, $this->meta), true);
+                return true;
+            } elseif ($block->getId() === self::SLAB and ($block->getDamage() & 0x07) === ($this->meta & 0x07)) {
+                $this->getLevel()->setBlock($block, Block::get(Item::DOUBLE_SLAB, $this->meta), true);
 
-				return true;
-			}elseif($block->getId() === self::SLAB and ($block->getDamage() & 0x07) === ($this->meta & 0x07)){
-				$this->getLevel()->setBlock($block, Block::get(Item::DOUBLE_SLAB, $this->meta), true);
+                return true;
+            }
+            //TODO: check for collision
+        } else {
+            if ($block->getId() === self::SLAB) {
+                if (($block->getDamage() & 0x07) === ($this->meta & 0x07)) {
+                    $this->getLevel()->setBlock($block, Block::get(Item::DOUBLE_SLAB, $this->meta), true);
 
-				return true;
-			}
-			//TODO: check for collision
-		}else{
-			if($block->getId() === self::SLAB){
-				if(($block->getDamage() & 0x07) === ($this->meta & 0x07)){
-					$this->getLevel()->setBlock($block, Block::get(Item::DOUBLE_SLAB, $this->meta), true);
+                    return true;
+                }
 
-					return true;
-				}
+                return false;
+            } else {
+                if ($fy > 0.5) {
+                    $this->meta |= 0x08;
+                }
+            }
+        }
 
-				return false;
-			}else{
-				if($fy > 0.5){
-					$this->meta |= 0x08;
-				}
-			}
-		}
+        if ($block->getId() === self::SLAB and ($target->getDamage() & 0x07) !== ($this->meta & 0x07)) {
+            return false;
+        }
+        $this->getLevel()->setBlock($block, $this, true, true);
 
-		if($block->getId() === self::SLAB and ($target->getDamage() & 0x07) !== ($this->meta & 0x07)){
-			return false;
-		}
-		$this->getLevel()->setBlock($block, $this, true, true);
+        return true;
+    }
 
-		return true;
-	}
+    public function getDrops(Item $item)
+    {
+        if ($item->isPickaxe() >= 1) {
+            return [
+                [$this->id, $this->meta & 0x07, 1],
+            ];
+        } else {
+            return [];
+        }
+    }
 
-	public function getDrops(Item $item){
-		if($item->isPickaxe() >= 1){
-			return [
-				[$this->id, $this->meta & 0x07, 1],
-			];
-		}else{
-			return [];
-		}
-	}
+    public function getToolType()
+    {
+        return Tool::TYPE_PICKAXE;
+    }
 
+    protected function recalculateBoundingBox()
+    {
 
-
-	public function getToolType(){
-		return Tool::TYPE_PICKAXE;
-	}
+        if (($this->meta & 0x08) > 0) {
+            return new AxisAlignedBB(
+                $this->x,
+                $this->y + 0.5,
+                $this->z,
+                $this->x + 1,
+                $this->y + 1,
+                $this->z + 1
+            );
+        } else {
+            return new AxisAlignedBB(
+                $this->x,
+                $this->y,
+                $this->z,
+                $this->x + 1,
+                $this->y + 0.5,
+                $this->z + 1
+            );
+        }
+    }
 }

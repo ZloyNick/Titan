@@ -23,115 +23,120 @@ namespace pocketmine\scheduler;
 
 use pocketmine\Server;
 
-class AsyncPool{
+class AsyncPool
+{
 
-	/** @var Server */
-	private $server;
+    protected $size;
+    /** @var Server */
+    private $server;
+    /** @var AsyncTask[] */
+    private $tasks = [];
+    /** @var int[] */
+    private $taskWorkers = [];
 
-	protected $size;
+    /** @var AsyncWorker[] */
+    private $workers = [];
+    /** @var int[] */
+    private $workerUsage = [];
 
-	/** @var AsyncTask[] */
-	private $tasks = [];
-	/** @var int[] */
-	private $taskWorkers = [];
+    public function __construct(Server $server, $size)
+    {
+        $this->server = $server;
+        $this->size = (int)$size;
 
-	/** @var AsyncWorker[] */
-	private $workers = [];
-	/** @var int[] */
-	private $workerUsage = [];
+        for ($i = 0; $i < $this->size; ++$i) {
+            $this->workerUsage[$i] = 0;
+            $this->workers[$i] = new AsyncWorker();
+            $this->workers[$i]->setClassLoader($this->server->getLoader());
+            $this->workers[$i]->start();
+        }
+    }
 
-	public function __construct(Server $server, $size){
-		$this->server = $server;
-		$this->size = (int) $size;
+    public function submitTask(AsyncTask $task)
+    {
+        if (isset($this->tasks[$task->getTaskId()]) or $task->isFinished()) {
+            return;
+        }
 
-		for($i = 0; $i < $this->size; ++$i){
-			$this->workerUsage[$i] = 0;
-			$this->workers[$i] = new AsyncWorker();
-			$this->workers[$i]->setClassLoader($this->server->getLoader());
-			$this->workers[$i]->start();
-		}
-	}
+        $this->tasks[$task->getTaskId()] = $task;
 
-	public function submitTask(AsyncTask $task){
-		if(isset($this->tasks[$task->getTaskId()]) or $task->isFinished()){
-			return;
-		}
+        $selectedWorker = mt_rand(0, $this->size - 1);
+        $selectedTasks = $this->workerUsage[$selectedWorker];
+        for ($i = 0; $i < $this->size; ++$i) {
+            if ($this->workerUsage[$i] < $selectedTasks) {
+                $selectedWorker = $i;
+                $selectedTasks = $this->workerUsage[$i];
+            }
+        }
 
-		$this->tasks[$task->getTaskId()] = $task;
+        $this->workers[$selectedWorker]->stack($task);
+        $this->workerUsage[$selectedWorker]++;
+        $this->taskWorkers[$task->getTaskId()] = $selectedWorker;
+    }
 
-		$selectedWorker = mt_rand(0, $this->size - 1);
-		$selectedTasks = $this->workerUsage[$selectedWorker];
-		for($i = 0; $i < $this->size; ++$i){
-			if($this->workerUsage[$i] < $selectedTasks){
-				$selectedWorker = $i;
-				$selectedTasks = $this->workerUsage[$i];
-			}
-		}
-		
-		$this->workers[$selectedWorker]->stack($task);
-		$this->workerUsage[$selectedWorker]++;
-		$this->taskWorkers[$task->getTaskId()] = $selectedWorker;
-	}
+    public function removeTasks()
+    {
+        foreach ($this->tasks as $task) {
+            $this->removeTask($task);
+        }
 
-	private function removeTask(AsyncTask $task){
-		if(!$task->isTerminated() and ($task->isRunning() or !$task->isFinished())){
-			return;
-		}
+        for ($i = 0; $i < $this->size; ++$i) {
+            $this->workerUsage[$i] = 0;
+        }
 
-		if(isset($this->taskWorkers[$task->getTaskId()])){
-			$this->workerUsage[$this->taskWorkers[$task->getTaskId()]]--;
-		}
+        $this->taskWorkers = [];
+        $this->tasks = [];
+    }
 
-		unset($this->tasks[$task->getTaskId()]);
-		unset($this->taskWorkers[$task->getTaskId()]);	
-		$task->cleanObject();
-	}
+    private function removeTask(AsyncTask $task)
+    {
+        if (!$task->isTerminated() and ($task->isRunning() or !$task->isFinished())) {
+            return;
+        }
 
-	public function removeTasks(){
-		foreach($this->tasks as $task){
-			$this->removeTask($task);
-		}
+        if (isset($this->taskWorkers[$task->getTaskId()])) {
+            $this->workerUsage[$this->taskWorkers[$task->getTaskId()]]--;
+        }
 
-		for($i = 0; $i < $this->size; ++$i){
-			$this->workerUsage[$i] = 0;
-		}
+        unset($this->tasks[$task->getTaskId()]);
+        unset($this->taskWorkers[$task->getTaskId()]);
+        $task->cleanObject();
+    }
 
-		$this->taskWorkers = [];
-		$this->tasks = [];
-	}
+    public function collectTasks()
+    {
+        foreach ($this->tasks as $task) {
+            if ($task->isFinished()) {
+                $task->onCompletion($this->server);
+                $this->removeTask($task);
+            } elseif ($task->isTerminated()) {
+                $this->removeTask($task);
+                $this->server->getLogger()->critical("Could not execute asynchronous task " . get_class($task));
+            }
+        }
+    }
 
-	public function collectTasks(){
-		foreach($this->tasks as $task){
-			if($task->isFinished()){
-				$task->onCompletion($this->server);
-				$this->removeTask($task);
-			}elseif($task->isTerminated()){
-				$this->removeTask($task);
-				$this->server->getLogger()->critical("Could not execute asynchronous task " . get_class($task));				
-			}
-		}
-	}
-	
-	
-	
-	public function getSize(){
-		return $this->size;
-	}
-	
-	public function submitTaskToWorker(AsyncTask $task, $worker){
-		if(isset($this->tasks[$task->getTaskId()]) or $task->isFinished()){
-			return;
-		}
 
-		$worker = (int) $worker;
-		if($worker < 0 or $worker >= $this->size){
-			throw new \InvalidArgumentException("Invalid worker $worker");
-		}
+    public function getSize()
+    {
+        return $this->size;
+    }
 
-		$this->tasks[$task->getTaskId()] = $task;
+    public function submitTaskToWorker(AsyncTask $task, $worker)
+    {
+        if (isset($this->tasks[$task->getTaskId()]) or $task->isFinished()) {
+            return;
+        }
 
-		$this->workers[$worker]->stack($task);
-		$this->workerUsage[$worker]++;
-		$this->taskWorkers[$task->getTaskId()] = $worker;
-	}
+        $worker = (int)$worker;
+        if ($worker < 0 or $worker >= $this->size) {
+            throw new \InvalidArgumentException("Invalid worker $worker");
+        }
+
+        $this->tasks[$task->getTaskId()] = $task;
+
+        $this->workers[$worker]->stack($task);
+        $this->workerUsage[$worker]++;
+        $this->taskWorkers[$task->getTaskId()] = $worker;
+    }
 }

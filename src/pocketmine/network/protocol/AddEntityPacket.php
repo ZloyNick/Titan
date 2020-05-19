@@ -24,63 +24,66 @@ namespace pocketmine\network\protocol;
 use pocketmine\network\multiversion\Entity;
 use pocketmine\utils\Binary;
 
-class AddEntityPacket extends PEPacket{
-	const NETWORK_ID = Info::ADD_ENTITY_PACKET;
-	const PACKET_NAME = "ADD_ENTITY_PACKET";
+class AddEntityPacket extends PEPacket
+{
+    const NETWORK_ID = Info::ADD_ENTITY_PACKET;
+    const PACKET_NAME = "ADD_ENTITY_PACKET";
 
-	public $eid;
-	public $type;
-	public $x;
-	public $y;
-	public $z;
-	public $speedX;
-	public $speedY;
-	public $speedZ;
-	public $yaw;
-	public $pitch;
-	public $metadata = [];
-	public $links = [];
-	public $attributes = [];
+    public $eid;
+    public $type;
+    public $x;
+    public $y;
+    public $z;
+    public $speedX;
+    public $speedY;
+    public $speedZ;
+    public $yaw;
+    public $pitch;
+    public $metadata = [];
+    public $links = [];
+    public $attributes = [];
 
-	public function decode($playerProtocol){
-	}
+    public function decode($playerProtocol)
+    {
+    }
 
-	public function encode($playerProtocol){
-		$this->reset($playerProtocol);		
-		$this->putVarInt($this->eid);
-		$this->putVarInt($this->eid);
-		if ($playerProtocol >= Info::PROTOCOL_310) {
-			$this->putString(Entity::getNameByID($this->type));
-		} else {
-			$this->putVarInt($this->type);
-		}
-		$this->putLFloat($this->x);
-		$this->putLFloat($this->y);
-		$this->putLFloat($this->z);
-		$this->putLFloat($this->speedX);
-		$this->putLFloat($this->speedY);
-		$this->putLFloat($this->speedZ);
-		$this->putLFloat($this->pitch);
-		$this->putLFloat($this->yaw);
-		if ($playerProtocol >= Info::PROTOCOL_273) {
-			$this->putLFloat($this->yaw); //headYaw
-		}
-		$this->putVarInt(count($this->attributes));
-		foreach ($this->attributes as $attribute) {
-			$this->putString($attribute['name']);
-			$this->putLFloat($attribute['min']);
-			$this->putLFloat($attribute['default']);
-			$this->putLFloat($attribute['max']);			
-		}
-		$meta = Binary::writeMetadata($this->metadata, $playerProtocol);
-		$this->put($meta);
+    public function encode($playerProtocol)
+    {
+        $this->reset($playerProtocol);
+        $this->putVarInt($this->eid);
+        $this->putVarInt($this->eid);
+        if ($playerProtocol >= Info::PROTOCOL_310) {
+            $this->putString(Entity::getNameByID($this->type));
+        } else {
+            $this->putVarInt($this->type);
+        }
+        $this->putLFloat($this->x);
+        $this->putLFloat($this->y);
+        $this->putLFloat($this->z);
+        $this->putLFloat($this->speedX);
+        $this->putLFloat($this->speedY);
+        $this->putLFloat($this->speedZ);
+        $this->putLFloat($this->pitch);
+        $this->putLFloat($this->yaw);
+        if ($playerProtocol >= Info::PROTOCOL_273) {
+            $this->putLFloat($this->yaw); //headYaw
+        }
+        $this->putVarInt(count($this->attributes));
+        foreach ($this->attributes as $attribute) {
+            $this->putString($attribute['name']);
+            $this->putLFloat($attribute['min']);
+            $this->putLFloat($attribute['default']);
+            $this->putLFloat($attribute['max']);
+        }
+        $meta = Binary::writeMetadata($this->metadata, $playerProtocol);
+        $this->put($meta);
 
-		$this->putVarInt(count($this->links));
-		foreach ($this->links as $link) {
-			$this->putVarInt($link['from']);
-			$this->putVarInt($link['to']);
-			$this->putByte($link['type']);
-			$this->putByte(0);
-		}
-	}
+        $this->putVarInt(count($this->links));
+        foreach ($this->links as $link) {
+            $this->putVarInt($link['from']);
+            $this->putVarInt($link['to']);
+            $this->putByte($link['type']);
+            $this->putByte(0);
+        }
+    }
 }

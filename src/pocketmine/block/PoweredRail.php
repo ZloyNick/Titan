@@ -24,29 +24,35 @@ namespace pocketmine\block;
 use pocketmine\item\Item;
 use pocketmine\item\Tool;
 
-class PoweredRail extends Rail{
+class PoweredRail extends Rail
+{
 
-	protected $id = self::POWERED_RAIL;
+    protected $id = self::POWERED_RAIL;
 
-	public function __construct($meta = 0){
-		$this->meta = $meta;
-	}
+    public function __construct($meta = 0)
+    {
+        $this->meta = $meta;
+    }
 
-	public function getName(){
-		return "Powered Rail";
-	}
+    public function getName()
+    {
+        return "Powered Rail";
+    }
 
-	public function getHardness(){
-		return 2;
-	}
+    public function getHardness()
+    {
+        return 2;
+    }
 
-	public function getToolType(){
-		return Tool::TYPE_PICKAXE;
-	}
+    public function getToolType()
+    {
+        return Tool::TYPE_PICKAXE;
+    }
 
-	public function getDrops(Item $item){
-		return [
-			[Item::POWERED_RAIL, 0, 1],
-		];
-	}
+    public function getDrops(Item $item)
+    {
+        return [
+            [Item::POWERED_RAIL, 0, 1],
+        ];
+    }
 }

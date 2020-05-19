@@ -24,35 +24,38 @@ namespace pocketmine\network\protocol;
 #include <rules/DataPacket.h>
 
 
-class PlayerActionPacket extends PEPacket{
-	const NETWORK_ID = Info::PLAYER_ACTION_PACKET;
-	const PACKET_NAME = "PLAYER_ACTION_PACKET";
+class PlayerActionPacket extends PEPacket
+{
+    const NETWORK_ID = Info::PLAYER_ACTION_PACKET;
+    const PACKET_NAME = "PLAYER_ACTION_PACKET";
 
-	public $eid;
-	public $action;
-	public $x;
-	public $y;
-	public $z;
-	public $face;
+    public $eid;
+    public $action;
+    public $x;
+    public $y;
+    public $z;
+    public $face;
 
-	public function decode($playerProtocol){
-		$this->getHeader($playerProtocol);
-		$this->eid = $this->getVarInt();
-		$this->action = $this->getSignedVarInt();
-		$this->x = $this->getSignedVarInt();
-		$this->y = $this->getVarInt();
-		$this->z = $this->getSignedVarInt();
-		$this->face = $this->getSignedVarInt();
-	}
+    public function decode($playerProtocol)
+    {
+        $this->getHeader($playerProtocol);
+        $this->eid = $this->getVarInt();
+        $this->action = $this->getSignedVarInt();
+        $this->x = $this->getSignedVarInt();
+        $this->y = $this->getVarInt();
+        $this->z = $this->getSignedVarInt();
+        $this->face = $this->getSignedVarInt();
+    }
 
-	public function encode($playerProtocol){
-		$this->reset($playerProtocol);
-		$this->putVarInt($this->eid);
-		$this->putSignedVarInt($this->action);
-		$this->putSignedVarInt($this->x);
-		$this->putVarInt($this->y);
-		$this->putSignedVarInt($this->z);
-		$this->putSignedVarInt($this->face);
-	}
+    public function encode($playerProtocol)
+    {
+        $this->reset($playerProtocol);
+        $this->putVarInt($this->eid);
+        $this->putSignedVarInt($this->action);
+        $this->putSignedVarInt($this->x);
+        $this->putVarInt($this->y);
+        $this->putSignedVarInt($this->z);
+        $this->putSignedVarInt($this->face);
+    }
 
 }

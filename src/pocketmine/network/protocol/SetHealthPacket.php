@@ -22,18 +22,21 @@
 namespace pocketmine\network\protocol;
 
 
-class SetHealthPacket extends PEPacket{	
-	const NETWORK_ID =  Info::SET_HEALTH_PACKET;
-	const PACKET_NAME = "SET_HEALTH_PACKET";
-	
+class SetHealthPacket extends PEPacket
+{
+    const NETWORK_ID = Info::SET_HEALTH_PACKET;
+    const PACKET_NAME = "SET_HEALTH_PACKET";
+
     public $value;
 
-	public function decode($playerProtocol){
+    public function decode($playerProtocol)
+    {
 
-	}
+    }
 
-	public function encode($playerProtocol){
-		$this->reset($playerProtocol);
-		$this->putSignedVarInt($this->value);
-	}
+    public function encode($playerProtocol)
+    {
+        $this->reset($playerProtocol);
+        $this->putSignedVarInt($this->value);
+    }
 }

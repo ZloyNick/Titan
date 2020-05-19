@@ -25,43 +25,51 @@ use pocketmine\entity\Entity;
 use pocketmine\item\Item;
 use pocketmine\item\Tool;
 
-class Cobweb extends Flowable{
+class Cobweb extends Flowable
+{
 
-	protected $id = self::COBWEB;
+    protected $id = self::COBWEB;
 
-	public function __construct(){
+    public function __construct()
+    {
 
-	}
+    }
 
-	public function hasEntityCollision(){
-		return true;
-	}
+    public function hasEntityCollision()
+    {
+        return true;
+    }
 
-	public function getName(){
-		return "Cobweb";
-	}
+    public function getName()
+    {
+        return "Cobweb";
+    }
 
-	public function getHardness(){
-		return 4;
-	}
+    public function getHardness()
+    {
+        return 4;
+    }
 
-	public function getToolType(){
-		return Tool::TYPE_SWORD;
-	}
+    public function getToolType()
+    {
+        return Tool::TYPE_SWORD;
+    }
 
-	public function onEntityCollide(Entity $entity){
-		$entity->resetFallDistance();
-		$entity->onGround = true;
-	}
+    public function onEntityCollide(Entity $entity)
+    {
+        $entity->resetFallDistance();
+        $entity->onGround = true;
+    }
 
-	public function getDrops(Item $item){
-		//TODO: correct drops
-		if ($item->isSword() >= 1) {
-			return [
-				[Item::AIR, 0, 0],
-			];
-		} else {
-			return [];
-		}
-	}
+    public function getDrops(Item $item)
+    {
+        //TODO: correct drops
+        if ($item->isSword() >= 1) {
+            return [
+                [Item::AIR, 0, 0],
+            ];
+        } else {
+            return [];
+        }
+    }
 }

@@ -22,258 +22,272 @@
 namespace pocketmine\network;
 
 use pocketmine\event\player\PlayerCreationEvent;
-use pocketmine\event\server\QueryRegenerateEvent;
-use pocketmine\network\protocol\DataPacket;
-use pocketmine\network\protocol\Info as ProtocolInfo;
 use pocketmine\network\protocol\Info;
 use pocketmine\network\protocol\UnknownPacket;
 use pocketmine\Player;
 use pocketmine\Server;
-use pocketmine\utils\MainLogger;
-use pocketmine\utils\TextFormat;
+use pocketmine\utils\BinaryStream;
 use raklib\protocol\EncapsulatedPacket;
 use raklib\RakLib;
 use raklib\server\RakLibServer;
 use raklib\server\ServerHandler;
 use raklib\server\ServerInstance;
-use pocketmine\utils\Binary;
-use pocketmine\utils\BinaryStream;
 
-class RakLibInterface implements ServerInstance, AdvancedSourceInterface{
-	
-	/** @var Server */
-	private $server;
+class RakLibInterface implements ServerInstance, AdvancedSourceInterface
+{
 
-	/** @var Network */
-	private $network;
+    public $count = 0;
+    public $maxcount = 31360;
+    public $name = "";
+    /** @var Server */
+    private $server;
+    /** @var Network */
+    private $network;
+    /** @var RakLibServer */
+    private $rakLib;
+    /** @var Player[] */
+    private $players = [];
+    /** @var \SplObjectStorage */
+    private $identifiers;
+    /** @var int[] */
+    private $identifiersACK = [];
+    /** @var ServerHandler */
+    private $interface;
 
-	/** @var RakLibServer */
-	private $rakLib;
+    public function __construct(Server $server)
+    {
 
-	/** @var Player[] */
-	private $players = [];
+        $this->server = $server;
+        $this->identifiers = new \SplObjectStorage();
 
-	/** @var \SplObjectStorage */
-	private $identifiers;
+        $this->rakLib = new RakLibServer($this->server->getLogger(), $this->server->getLoader(), $this->server->getPort(), $this->server->getIp() === "" ? "0.0.0.0" : $this->server->getIp());
+        $this->interface = new ServerHandler($this->rakLib, $this);
 
-	/** @var int[] */
-	private $identifiersACK = [];
+        for ($i = 0; $i < 256; ++$i) {
+            $this->channelCounts[$i] = 0;
+        }
 
-	/** @var ServerHandler */
-	private $interface;
+        $this->setCount(count($this->server->getOnlinePlayers()), $this->server->getMaxPlayers());
+    }
 
-	public $count = 0;
-	public $maxcount = 31360;
-	public $name = "";
+    public function setCount($count, $maxcount)
+    {
+        $this->count = $count;
+        $this->maxcount = $maxcount;
 
-	public function setCount($count, $maxcount) {
-		$this->count = $count;
-		$this->maxcount = $maxcount;
-
-		$this->interface->sendOption("name",
-		"MCPE;".addcslashes($this->name, ";") .";".
-		(Info::CURRENT_PROTOCOL).";".
+        $this->interface->sendOption("name",
+            "MCPE;" . addcslashes($this->name, ";") . ";" .
+            (Info::CURRENT_PROTOCOL) . ";" .
 //		\pocketmine\MINECRAFT_VERSION_NETWORK.";".
-		''.";".
-		$this->count.";".$maxcount . ";". Server::getServerId()
-		);
-	}
+            '' . ";" .
+            $this->count . ";" . $maxcount . ";" . Server::getServerId()
+        );
+    }
 
-	public function __construct(Server $server){
+    public function setNetwork(Network $network)
+    {
+        $this->network = $network;
+    }
 
-		$this->server = $server;
-		$this->identifiers = new \SplObjectStorage();
+    public function getUploadUsage()
+    {
+        return $this->network->getUpload();
+    }
 
-		$this->rakLib = new RakLibServer($this->server->getLogger(), $this->server->getLoader(), $this->server->getPort(), $this->server->getIp() === "" ? "0.0.0.0" : $this->server->getIp());
-		$this->interface = new ServerHandler($this->rakLib, $this);
+    public function getDownloadUsage()
+    {
+        return $this->network->getDownload();
+    }
 
-		for($i = 0; $i < 256; ++$i){
-			$this->channelCounts[$i] = 0;
-		}
+    public function doTick()
+    {
+        if (!$this->rakLib->isTerminated()) {
+            $this->interface->sendTick();
+        } else {
+            $info = $this->rakLib->getTerminationInfo();
+            $this->network->unregisterInterface($this);
+            \ExceptionHandler::handler(E_ERROR, "RakLib Thread crashed [" . $info["scope"] . "]: " . (isset($info["message"]) ? $info["message"] : ""), $info["file"], $info["line"]);
+        }
+    }
 
-		$this->setCount(count($this->server->getOnlinePlayers()), $this->server->getMaxPlayers());		
-	}
+    public function process()
+    {
+        $max = $this->interface->getPacketQueueSize();
+        while ($max && $this->interface->handlePacket()) {
+            $max--;
+        }
+        if ($this->rakLib->isTerminated()) {
+            $this->network->unregisterInterface($this);
+            throw new \Exception("RakLib Thread crashed");
+        }
+    }
 
-	public function setNetwork(Network $network){
-		$this->network = $network;
-	}
+    public function closeSession($identifier, $reason)
+    {
+        if (isset($this->players[$identifier])) {
+            $player = $this->players[$identifier];
+            $this->identifiers->detach($player);
+            unset($this->players[$identifier]);
+            unset($this->identifiersACK[$identifier]);
+            if (!$player->closed) {
+                $player->close($player->getLeaveMessage(), $reason);
+            }
+        }
+    }
 
-	public function getUploadUsage() {
-		return $this->network->getUpload();
-	}
+    public function close(Player $player, $reason = "unknown reason")
+    {
+        if (isset($this->identifiers[$player])) {
+            unset($this->players[$this->identifiers[$player]]);
+            unset($this->identifiersACK[$this->identifiers[$player]]);
+            $this->interface->closeSession($this->identifiers[$player], $reason);
+            $this->identifiers->detach($player);
+        }
+    }
 
-	public function getDownloadUsage() {
-		return $this->network->getDownload();
-	}
+    public function shutdown()
+    {
+        $this->interface->shutdown();
+    }
 
-	public function doTick(){
-		if(!$this->rakLib->isTerminated()){
-			$this->interface->sendTick();
-		}else{
-			$info = $this->rakLib->getTerminationInfo();
-			$this->network->unregisterInterface($this);
-			\ExceptionHandler::handler(E_ERROR, "RakLib Thread crashed [".$info["scope"]."]: " . (isset($info["message"]) ? $info["message"] : ""), $info["file"], $info["line"]);
-		}
-	}
+    public function emergencyShutdown()
+    {
+        $this->interface->emergencyShutdown();
+    }
 
-	public function process() {
-		$max = $this->interface->getPacketQueueSize();
-		while ($max && $this->interface->handlePacket()) {
-			$max--;
-		}
-		if ($this->rakLib->isTerminated()) {
-			$this->network->unregisterInterface($this);
-			throw new \Exception("RakLib Thread crashed");
-		}
-	}
+    public function openSession($identifier, $address, $port, $clientID)
+    {
+        $ev = new PlayerCreationEvent($this, Player::class, Player::class, null, $address, $port);
+        $this->server->getPluginManager()->callEvent($ev);
+        $class = $ev->getPlayerClass();
 
-	public function closeSession($identifier, $reason){
-		if(isset($this->players[$identifier])){
-			$player = $this->players[$identifier];
-			$this->identifiers->detach($player);
-			unset($this->players[$identifier]);
-			unset($this->identifiersACK[$identifier]);
-			if(!$player->closed){
-				$player->close($player->getLeaveMessage(), $reason);
-			}
-		}
-	}
+        $player = new $class($this, $ev->getClientId(), $ev->getAddress(), $ev->getPort());
+        $this->players[$identifier] = $player;
+        $this->identifiersACK[$identifier] = 0;
+        $this->identifiers->attach($player, $identifier);
+        $player->setIdentifier($identifier);
+        $this->server->addPlayer($identifier, $player);
+    }
 
-	public function close(Player $player, $reason = "unknown reason"){
-		if(isset($this->identifiers[$player])){
-			unset($this->players[$this->identifiers[$player]]);
-			unset($this->identifiersACK[$this->identifiers[$player]]);
-			$this->interface->closeSession($this->identifiers[$player], $reason);
-			$this->identifiers->detach($player);
-		}
-	}
+    public function handleEncapsulated($identifier, $buffer)
+    {
+        if (isset($this->players[$identifier])) {
+            $player = $this->players[$identifier];
+            try {
+                if ($buffer !== "") {
+                    $pk = $this->getPacket($buffer, $player);
+                    if (!is_null($pk)) {
+                        try {
+                            $pk->decode($player->getPlayerProtocol());
+                        } catch (\Exception $e) {
+                            file_put_contents("logs/" . date('Y.m.d') . "_decode_error.log", $e->getMessage() . "\n", FILE_APPEND | LOCK_EX);
+                            return;
+                        }
+                        $player->handleDataPacket($pk);
+                    }
+                }
+            } catch (\Exception $e) {
+                error_log($e->getMessage());
+            }
+        }
+    }
 
-	public function shutdown(){
-		$this->interface->shutdown();
-	}
+    private function getPacket($buffer, $player)
+    {
+        $tmpStream = new BinaryStream($buffer);
+        $header = $tmpStream->getVarInt();
+        $pid = $header & 0x3FF;
+        if ($pid == 0x13) { //speed hack
+            $player->setLastMovePacket($buffer);
+            return null;
+        }
+        if (($data = $this->network->getPacket($pid, $player->getPlayerProtocol())) === null) {
+            return null;
+        }
+        $data->setBuffer($buffer);
+        return $data;
+    }
 
-	public function emergencyShutdown(){
-		$this->interface->emergencyShutdown();
-	}
+    public function handlePing($identifier, $ping)
+    {
+        if (isset($this->players[$identifier])) {
+            $player = $this->players[$identifier];
+            $player->setPing($ping);
+        }
+    }
 
-	public function openSession($identifier, $address, $port, $clientID){
-		$ev = new PlayerCreationEvent($this, Player::class, Player::class, null, $address, $port);
-		$this->server->getPluginManager()->callEvent($ev);
-		$class = $ev->getPlayerClass();
+    public function handleKick($identifier, $reason)
+    {
+        if (isset($this->players[$identifier])) {
+            $player = $this->players[$identifier];
+            $player->kick($reason);
+        }
+    }
 
-		$player = new $class($this, $ev->getClientId(), $ev->getAddress(), $ev->getPort());
-		$this->players[$identifier] = $player;
-		$this->identifiersACK[$identifier] = 0;
-		$this->identifiers->attach($player, $identifier);
-		$player->setIdentifier($identifier);
-		$this->server->addPlayer($identifier, $player);
-	}
+    public function blockAddress($address, $timeout = 300)
+    {
+        $this->interface->blockAddress($address, $timeout);
+    }
 
-	public function handleEncapsulated($identifier, $buffer){
-		if(isset($this->players[$identifier])){
-			$player = $this->players[$identifier];
-			try{
-				if($buffer !== ""){
-					$pk = $this->getPacket($buffer, $player);			
-					if (!is_null($pk)) {
-						try {
-							$pk->decode($player->getPlayerProtocol());
-						}catch(\Exception $e){
-							file_put_contents("logs/" . date('Y.m.d') . "_decode_error.log", $e->getMessage() . "\n", FILE_APPEND | LOCK_EX);
-							return;
-						}
-						$player->handleDataPacket($pk);
-					}
-				}
-			}catch(\Exception $e){
-				error_log($e->getMessage());
-			}
-		}
-	}
-	
-	public function handlePing($identifier, $ping){
-		if(isset($this->players[$identifier])){
-			$player = $this->players[$identifier];
-			$player->setPing($ping);
-		}
-	}
-	
-	public function handleKick($identifier, $reason){
-		if(isset($this->players[$identifier])){
-			$player = $this->players[$identifier];
-			$player->kick($reason);
-		}
-	}
+    public function handleRaw($address, $port, $payload)
+    {
+        $this->server->handlePacket($address, $port, $payload);
+    }
 
-	public function blockAddress($address, $timeout = 300){
-		$this->interface->blockAddress($address, $timeout);
-	}
+    public function sendRawPacket($address, $port, $payload)
+    {
+        $this->interface->sendRaw($address, $port, $payload);
+    }
 
-	public function handleRaw($address, $port, $payload){
-		$this->server->handlePacket($address, $port, $payload);
-	}
+    public function setName($name)
+    {
+        if (strlen($name) > 1) {
+            $this->name = $name;
+        }
+    }
 
-	public function sendRawPacket($address, $port, $payload){
-		$this->interface->sendRaw($address, $port, $payload);
-	}
+    public function setPortCheck($name)
+    {
+        $this->interface->sendOption("portChecking", (bool)$name);
+    }
 
-	public function setName($name){
-		if(strlen($name) > 1) {
-			$this->name = $name;
-		}
-	}
+    public function handleOption($name, $value)
+    {
+        if ($name === "bandwidth") {
+            $v = unserialize($value);
+            $this->network->addStatistics($v["up"], $v["down"]);
+        }
+    }
 
-	public function setPortCheck($name){
-		$this->interface->sendOption("portChecking", (bool) $name);
-	}
+    public function putReadyPacket($player, $buffer)
+    {
+        if (isset($this->identifiers[$player])) {
+            $pk = new EncapsulatedPacket();
+            $pk->buffer = $buffer;
+            $pk->reliability = 3;
+            $this->interface->sendEncapsulated($player->getIdentifier(), $pk, RakLib::PRIORITY_NORMAL);
+        }
+    }
 
-	public function handleOption($name, $value){
-		if($name === "bandwidth"){
-			$v = unserialize($value);
-			$this->network->addStatistics($v["up"], $v["down"]);
-		}
-	}
+    public function putPacket($player, $buffer)
+    {
+        if (isset($this->identifiers[$player])) {
+            $pk = new EncapsulatedPacket();
+            $pk->buffer = $buffer;
+            $pk->reliability = 3;
+            $this->interface->sendEncapsulated($player->getIdentifier(), $pk, RakLib::PRIORITY_NORMAL | RakLib::FLAG_NEED_ZLIB);
+        }
+    }
 
-	private function getPacket($buffer, $player){	
-		$tmpStream = new BinaryStream($buffer);
-		$header = $tmpStream->getVarInt();
-		$pid = $header & 0x3FF;		
-		if ($pid == 0x13) { //speed hack
-			$player->setLastMovePacket($buffer);
-			return null;
-		}
-		if (($data = $this->network->getPacket($pid, $player->getPlayerProtocol())) === null) {
-			return null;
-		}
-		$data->setBuffer($buffer);
-		return $data;
-	}
+    public function enableEncryptForPlayer(Player $player, $token, $privateKey, $publicKey)
+    {
+        $identifier = $this->identifiers[$player];
+        $this->interface->enableEncrypt($identifier, $token, $privateKey, $publicKey);
+    }
 
-	public function putReadyPacket($player, $buffer) {
-		if (isset($this->identifiers[$player])) {	
-			$pk = new EncapsulatedPacket();
-			$pk->buffer = $buffer;
-			$pk->reliability = 3;	
-			$this->interface->sendEncapsulated($player->getIdentifier(), $pk, RakLib::PRIORITY_NORMAL);			
-		}
-	}
-	
-	public function putPacket($player, $buffer) {
-		if (isset($this->identifiers[$player])) {
-			$pk = new EncapsulatedPacket();
-			$pk->buffer = $buffer;
-			$pk->reliability = 3;
-			$this->interface->sendEncapsulated($player->getIdentifier(), $pk,  RakLib::PRIORITY_NORMAL | RakLib::FLAG_NEED_ZLIB);
-		}
-	}
-	
-	public function enableEncryptForPlayer(Player $player, $token, $privateKey, $publicKey){
-		$identifier = $this->identifiers[$player];	
-		$this->interface->enableEncrypt($identifier, $token, $privateKey, $publicKey);
-	}
-	
-	public function getRakLib() {
-		return $this->rakLib;
-	}
+    public function getRakLib()
+    {
+        return $this->rakLib;
+    }
 
 }

@@ -24,29 +24,35 @@ namespace pocketmine\block;
 use pocketmine\item\Item;
 use pocketmine\item\Tool;
 
-class DetectorRail extends Rail{
+class DetectorRail extends Rail
+{
 
-	protected $id = self::DETECTOR_RAIL;
+    protected $id = self::DETECTOR_RAIL;
 
-	public function __construct($meta = 0){
-		$this->meta = $meta;
-	}
+    public function __construct($meta = 0)
+    {
+        $this->meta = $meta;
+    }
 
-	public function getName(){
-		return "Detector Rail";
-	}
+    public function getName()
+    {
+        return "Detector Rail";
+    }
 
-	public function getHardness(){
-		return 2;
-	}
+    public function getHardness()
+    {
+        return 2;
+    }
 
-	public function getToolType(){
-		return Tool::TYPE_PICKAXE;
-	}
+    public function getToolType()
+    {
+        return Tool::TYPE_PICKAXE;
+    }
 
-	public function getDrops(Item $item){
-		return [
-			[Item::DETECTOR_RAIL, 0, 1],
-		];
-	}
+    public function getDrops(Item $item)
+    {
+        return [
+            [Item::DETECTOR_RAIL, 0, 1],
+        ];
+    }
 }

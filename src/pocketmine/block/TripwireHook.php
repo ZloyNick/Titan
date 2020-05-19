@@ -24,49 +24,60 @@ namespace pocketmine\block;
 use pocketmine\item\Item;
 use pocketmine\item\Tool;
 
-class TripwireHook extends Transparent{
+class TripwireHook extends Transparent
+{
 
-	protected $id = self::TRIPWIRE_HOOK;
+    protected $id = self::TRIPWIRE_HOOK;
 
-	public function __construct($meta = 0){
-		$this->meta = $meta;
-	}
+    public function __construct($meta = 0)
+    {
+        $this->meta = $meta;
+    }
 
-	public function getName(){
-		return "Tripwire Hook";
-	}
+    public function getName()
+    {
+        return "Tripwire Hook";
+    }
 
-	public function canBeActivated(){
-		return true;
-	}
+    public function canBeActivated()
+    {
+        return true;
+    }
 
-	public function getHardness(){
-		return 1;
-	}
+    public function getHardness()
+    {
+        return 1;
+    }
 
-	public function getToolType(){
-		return Tool::TYPE_PICKAXE;
-	}
+    public function getToolType()
+    {
+        return Tool::TYPE_PICKAXE;
+    }
 
-	public function getDrops(Item $item){
-		return [
-			[Item::TRIPWIRE_HOOK, 0, 1],
-		];
-	}
-	
-	public function canBeFlowedInto(){
-		return true;
-	}
-	
-	public function getResistance(){
-		return 0;
-	}
+    public function getDrops(Item $item)
+    {
+        return [
+            [Item::TRIPWIRE_HOOK, 0, 1],
+        ];
+    }
 
-	public function isSolid(){
-		return false;
-	}
+    public function canBeFlowedInto()
+    {
+        return true;
+    }
 
-	public function getBoundingBox(){
-		return null;
-	}
+    public function getResistance()
+    {
+        return 0;
+    }
+
+    public function isSolid()
+    {
+        return false;
+    }
+
+    public function getBoundingBox()
+    {
+        return null;
+    }
 }

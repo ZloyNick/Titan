@@ -23,17 +23,20 @@ namespace pocketmine\block;
 
 use pocketmine\item\Item;
 
-class RedstoneRepeaterActive extends RedstoneRepeater{
-	
-	protected $id = self::REDSTONE_REPEATER_BLOCK_ACTIVE;
+class RedstoneRepeaterActive extends RedstoneRepeater
+{
 
-	public function __construct($meta = 0){
-		$this->meta = $meta;
-	}
+    protected $id = self::REDSTONE_REPEATER_BLOCK_ACTIVE;
 
-	public function getDrops(Item $item){
-		return [
-			[Item::REDSTONE_REPEATER, 0, 1],
-		];
-	}
+    public function __construct($meta = 0)
+    {
+        $this->meta = $meta;
+    }
+
+    public function getDrops(Item $item)
+    {
+        return [
+            [Item::REDSTONE_REPEATER, 0, 1],
+        ];
+    }
 }

@@ -23,63 +23,70 @@ namespace pocketmine\block;
 
 use pocketmine\item\Item;
 use pocketmine\Player;
-use pocketmine\utils\Random;
 
-class Sapling extends Flowable{
-	const OAK = 0;
-	const SPRUCE = 1;
-	const BIRCH = 2;
-	const JUNGLE = 3;
-	const ACACIA = 4;
-	const DARK_OAK = 5;
+class Sapling extends Flowable
+{
+    const OAK = 0;
+    const SPRUCE = 1;
+    const BIRCH = 2;
+    const JUNGLE = 3;
+    const ACACIA = 4;
+    const DARK_OAK = 5;
 
-	protected $id = self::SAPLING;
+    protected $id = self::SAPLING;
 
-	public function __construct($meta = 0){
-		$this->meta = $meta;
-	}
+    public function __construct($meta = 0)
+    {
+        $this->meta = $meta;
+    }
 
-	public function canBeActivated(){
-		return true;
-	}
+    public function canBeActivated()
+    {
+        return true;
+    }
 
-	public function getName(){
-		static $names = [
-			0 => "Oak Sapling",
-			1 => "Spruce Sapling",
-			2 => "Birch Sapling",
-			3 => "Jungle Sapling",
-			4 => "Acacia Sapling",
-			5 => "Dark Oak Sapling",
-			6 => "",
-			7 => "",
-		];
-		return $names[$this->meta & 0x07];
-	}
+    public function getName()
+    {
+        static $names = [
+            0 => "Oak Sapling",
+            1 => "Spruce Sapling",
+            2 => "Birch Sapling",
+            3 => "Jungle Sapling",
+            4 => "Acacia Sapling",
+            5 => "Dark Oak Sapling",
+            6 => "",
+            7 => "",
+        ];
+        return $names[$this->meta & 0x07];
+    }
 
 
-	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
-		$down = $this->getSide(0);
-		if($down->getId() === self::GRASS or $down->getId() === self::DIRT or $down->getId() === self::FARMLAND){
-			$this->getLevel()->setBlock($block, $this, true, true);
+    public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null)
+    {
+        $down = $this->getSide(0);
+        if ($down->getId() === self::GRASS or $down->getId() === self::DIRT or $down->getId() === self::FARMLAND) {
+            $this->getLevel()->setBlock($block, $this, true, true);
 
-			return true;
-		}
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	public function onActivate(Item $item, Player $player = null){
-		return false;
-	}
+    public function onActivate(Item $item, Player $player = null)
+    {
+        return false;
+    }
 
-	public function onUpdate($type){
-		return false;
-	}
+    public function onUpdate($type)
+    {
+        return false;
+    }
 
-	public function getDrops(Item $item){
-		return [
-			[$this->id, $this->meta & 0x07, 1],
-		];
-	}
+    public function getDrops(Item $item)
+    {
+        return [
+            [$this->id, $this->meta & 0x07, 1],
+        ];
+    }
 }

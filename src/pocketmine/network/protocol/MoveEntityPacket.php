@@ -24,53 +24,57 @@ namespace pocketmine\network\protocol;
 #include <rules/DataPacket.h>
 
 
-class MoveEntityPacket extends PEPacket{
-	const NETWORK_ID = Info::MOVE_ENTITY_PACKET;
-	const PACKET_NAME = "MOVE_ENTITY_PACKET";
+class MoveEntityPacket extends PEPacket
+{
+    const NETWORK_ID = Info::MOVE_ENTITY_PACKET;
+    const PACKET_NAME = "MOVE_ENTITY_PACKET";
 
 
-	// eid, x, y, z, yaw, pitch
-	/** @var array[] */
-	public $entities = [];
+    // eid, x, y, z, yaw, pitch
+    /** @var array[] */
+    public $entities = [];
 
-	public function clean(){
-		$this->entities = [];
-		return parent::clean();
-	}
+    public function clean()
+    {
+        $this->entities = [];
+        return parent::clean();
+    }
 
-	public function decode($playerProtocol){
+    public function decode($playerProtocol)
+    {
 
-	}
+    }
 
-	public function encode($playerProtocol){
-		$this->reset($playerProtocol);
-		$data = array_shift($this->entities);
-		if ($playerProtocol >= Info::PROTOCOL_273) {
-			$this->putVarInt($data[0]); //eid
-			$flags = 0;
-			$flags |= 1 << 7;// is on ground?
+    public function encode($playerProtocol)
+    {
+        $this->reset($playerProtocol);
+        $data = array_shift($this->entities);
+        if ($playerProtocol >= Info::PROTOCOL_273) {
+            $this->putVarInt($data[0]); //eid
+            $flags = 0;
+            $flags |= 1 << 7;// is on ground?
 //			$flags |= 0 << 6;// has teleported?
-			if ($playerProtocol >= Info::PROTOCOL_274) {
-				$this->putByte($flags);
-			} else {
-				$this->putLShort($flags);
-			}
-			$this->putLFloat($data[1]); //x
-			$this->putLFloat($data[2]); //y
-			$this->putLFloat($data[3]); //z
-			$this->putByte($data[6] * 0.71111); //pitch
-			$this->putByte($data[4] * 0.71111); //yaw
-			$this->putByte($data[5] * 0.71111); //headYaw	
-		} else {
-			$this->putVarInt($data[0]); //eid
-			$this->putLFloat($data[1]); //x
-			$this->putLFloat($data[2]); //y
-			$this->putLFloat($data[3]); //z
-			$this->putByte($data[6] * 0.71111); //pitch
-			$this->putByte($data[5] * 0.71111); //headYaw
-			$this->putByte($data[4] * 0.71111); //yaw
-			$this->putByte(true); // is on ground?
-			$this->putByte(false); // has teleported?
-		}
-	}
+            if ($playerProtocol >= Info::PROTOCOL_274) {
+                $this->putByte($flags);
+            } else {
+                $this->putLShort($flags);
+            }
+            $this->putLFloat($data[1]); //x
+            $this->putLFloat($data[2]); //y
+            $this->putLFloat($data[3]); //z
+            $this->putByte($data[6] * 0.71111); //pitch
+            $this->putByte($data[4] * 0.71111); //yaw
+            $this->putByte($data[5] * 0.71111); //headYaw
+        } else {
+            $this->putVarInt($data[0]); //eid
+            $this->putLFloat($data[1]); //x
+            $this->putLFloat($data[2]); //y
+            $this->putLFloat($data[3]); //z
+            $this->putByte($data[6] * 0.71111); //pitch
+            $this->putByte($data[5] * 0.71111); //headYaw
+            $this->putByte($data[4] * 0.71111); //yaw
+            $this->putByte(true); // is on ground?
+            $this->putByte(false); // has teleported?
+        }
+    }
 }

@@ -20,19 +20,23 @@ namespace raklib\protocol;
 
 use raklib\RakLib;
 
-class UNCONNECTED_PING extends Packet{
+class UNCONNECTED_PING extends Packet
+{
     public static $ID = 0x01;
     public $pingID;
+
 //    public $GUID;
 
-    public function encode(){
+    public function encode()
+    {
         parent::encode();
         $this->putLong($this->pingID);
         $this->put(RakLib::MAGIC);
 //        $this->putLong($this->GUID);
     }
 
-    public function decode(){
+    public function decode()
+    {
         parent::decode();
         $this->pingID = $this->getLong();
 //        $this->offset += 16; //magic

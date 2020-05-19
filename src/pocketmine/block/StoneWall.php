@@ -26,69 +26,77 @@ use pocketmine\item\Tool;
 use pocketmine\math\AxisAlignedBB;
 use pocketmine\math\Vector3;
 
-class StoneWall extends Transparent{
-	
-	const NONE_MOSSY_WALL = 0;
-	const MOSSY_WALL = 1;
+class StoneWall extends Transparent
+{
 
-	protected $id = self::STONE_WALL;
+    const NONE_MOSSY_WALL = 0;
+    const MOSSY_WALL = 1;
 
-	public function __construct($meta = 0){
-		$this->meta = $meta;
-	}
+    protected $id = self::STONE_WALL;
 
-	public function isSolid(){
-		return false;
-	}
+    public function __construct($meta = 0)
+    {
+        $this->meta = $meta;
+    }
 
-	public function getToolType(){
-		return Tool::TYPE_PICKAXE;
-	}
+    public function isSolid()
+    {
+        return false;
+    }
 
-	public function getHardness(){
-		return 2;
-	}
+    public function getToolType()
+    {
+        return Tool::TYPE_PICKAXE;
+    }
 
-	public function getName(){
-		if($this->meta === 0x01){
-			return "Mossy Cobblestone Wall";
-		}
+    public function getHardness()
+    {
+        return 2;
+    }
 
-		return "Cobblestone Wall";
-	}
+    public function getName()
+    {
+        if ($this->meta === 0x01) {
+            return "Mossy Cobblestone Wall";
+        }
 
-	protected function recalculateBoundingBox(){
+        return "Cobblestone Wall";
+    }
 
-		$north = $this->canConnect($this->getSide(Vector3::SIDE_NORTH));
-		$south = $this->canConnect($this->getSide(Vector3::SIDE_SOUTH));
-		$west = $this->canConnect($this->getSide(Vector3::SIDE_WEST));
-		$east = $this->canConnect($this->getSide(Vector3::SIDE_EAST));
+    protected function recalculateBoundingBox()
+    {
 
-		$n = $north ? 0 : 0.25;
-		$s = $south ? 1 : 0.75;
-		$w = $west ? 0 : 0.25;
-		$e = $east ? 1 : 0.75;
+        $north = $this->canConnect($this->getSide(Vector3::SIDE_NORTH));
+        $south = $this->canConnect($this->getSide(Vector3::SIDE_SOUTH));
+        $west = $this->canConnect($this->getSide(Vector3::SIDE_WEST));
+        $east = $this->canConnect($this->getSide(Vector3::SIDE_EAST));
 
-		if($north and $south and !$west and !$east){
-			$w = 0.3125;
-			$e = 0.6875;
-		}elseif(!$north and !$south and $west and $east){
-			$n = 0.3125;
-			$s = 0.6875;
-		}
+        $n = $north ? 0 : 0.25;
+        $s = $south ? 1 : 0.75;
+        $w = $west ? 0 : 0.25;
+        $e = $east ? 1 : 0.75;
 
-		return new AxisAlignedBB(
-			$this->x + $w,
-			$this->y,
-			$this->z + $n,
-			$this->x + $e,
-			$this->y + 1.5,
-			$this->z + $s
-		);
-	}
+        if ($north and $south and !$west and !$east) {
+            $w = 0.3125;
+            $e = 0.6875;
+        } elseif (!$north and !$south and $west and $east) {
+            $n = 0.3125;
+            $s = 0.6875;
+        }
 
-	public function canConnect(Block $block){
-		return ($block->getId() !== self::COBBLE_WALL and $block->getId() !== self::FENCE_GATE) ? $block->isSolid() and !$block->isTransparent() : true;
-	}
+        return new AxisAlignedBB(
+            $this->x + $w,
+            $this->y,
+            $this->z + $n,
+            $this->x + $e,
+            $this->y + 1.5,
+            $this->z + $s
+        );
+    }
+
+    public function canConnect(Block $block)
+    {
+        return ($block->getId() !== self::COBBLE_WALL and $block->getId() !== self::FENCE_GATE) ? $block->isSolid() and !$block->isTransparent() : true;
+    }
 
 }

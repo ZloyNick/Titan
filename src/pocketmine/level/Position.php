@@ -24,107 +24,118 @@ namespace pocketmine\level;
 use pocketmine\math\Vector3;
 use pocketmine\utils\LevelException;
 
-class Position extends Vector3{
+class Position extends Vector3
+{
 
-	/** @var Level */
-	public $level = null;
+    /** @var Level */
+    public $level = null;
 
-	/**
-	 * @param int   $x
-	 * @param int   $y
-	 * @param int   $z
-	 * @param Level $level
-	 */
-	public function __construct($x = 0, $y = 0, $z = 0, Level $level = null){
-		$this->x = $x;
-		$this->y = $y;
-		$this->z = $z;
-		$this->level = $level;
-	}
+    /**
+     * @param int $x
+     * @param int $y
+     * @param int $z
+     * @param Level $level
+     */
+    public function __construct($x = 0, $y = 0, $z = 0, Level $level = null)
+    {
+        $this->x = $x;
+        $this->y = $y;
+        $this->z = $z;
+        $this->level = $level;
+    }
 
-	public static function fromObject(Vector3 $pos, Level $level = null){
-		return new Position($pos->x, $pos->y, $pos->z, $level);
-	}
+    /**
+     * Marks the level reference as strong so it won't be collected
+     * by the garbage collector.
+     *
+     * @return bool
+     * @deprecated
+     *
+     */
+    public function setStrong()
+    {
+        return false;
+    }
 
-	/**
-	 * @return Level
-	 */
-	public function getLevel(){
-		return $this->level;
-	}
+    /**
+     * Marks the level reference as weak so it won't have effect against
+     * the garbage collector decision.
+     *
+     * @return bool
+     * @deprecated
+     *
+     */
+    public function setWeak()
+    {
+        return false;
+    }
 
-	public function setLevel(Level $level){
-		$this->level = $level;
-		return $this;
-	}
+    /**
+     * Returns a side Vector
+     *
+     * @param int $side
+     * @param int $step
+     *
+     * @return Position
+     *
+     * @throws LevelException
+     */
+    public function getSide($side, $step = 1)
+    {
+        if (!$this->isValid()) {
+            throw new LevelException("Undefined Level reference");
+        }
 
-	/**
-	 * Checks if this object has a valid reference to a Level
-	 *
-	 * @return bool
-	 */
-	public function isValid(){
-		return $this->level !== null;
-	}
+        return Position::fromObject(parent::getSide($side, $step), $this->level);
+    }
 
-	/**
-	 * Marks the level reference as strong so it won't be collected
-	 * by the garbage collector.
-	 *
-	 * @deprecated
-	 *
-	 * @return bool
-	 */
-	public function setStrong(){
-		return false;
-	}
+    /**
+     * Checks if this object has a valid reference to a Level
+     *
+     * @return bool
+     */
+    public function isValid()
+    {
+        return $this->level !== null;
+    }
 
-	/**
-	 * Marks the level reference as weak so it won't have effect against
-	 * the garbage collector decision.
-	 *
-	 * @deprecated
-	 *
-	 * @return bool
-	 */
-	public function setWeak(){
-		return false;
-	}
+    public static function fromObject(Vector3 $pos, Level $level = null)
+    {
+        return new Position($pos->x, $pos->y, $pos->z, $level);
+    }
 
-	/**
-	 * Returns a side Vector
-	 *
-	 * @param int $side
-	 * @param int $step
-	 *
-	 * @return Position
-	 *
-	 * @throws LevelException
-	 */
-	public function getSide($side, $step = 1){
-		if(!$this->isValid()){
-			throw new LevelException("Undefined Level reference");
-		}
+    public function __toString()
+    {
+        return "Position(level=" . ($this->isValid() ? $this->getLevel()->getName() : "null") . ",x=" . $this->x . ",y=" . $this->y . ",z=" . $this->z . ")";
+    }
 
-		return Position::fromObject(parent::getSide($side, $step), $this->level);
-	}
+    /**
+     * @return Level
+     */
+    public function getLevel()
+    {
+        return $this->level;
+    }
 
-	public function __toString(){
-		return "Position(level=" . ($this->isValid() ? $this->getLevel()->getName() : "null") . ",x=" . $this->x . ",y=" . $this->y . ",z=" . $this->z . ")";
-	}
+    public function setLevel(Level $level)
+    {
+        $this->level = $level;
+        return $this;
+    }
 
-	/**
-	 * @param $x
-	 * @param $y
-	 * @param $z
-	 *
-	 * @return Position
-	 */
-	public function setComponents($x, $y, $z){
-		$this->x = $x;
-		$this->y = $y;
-		$this->z = $z;
-		return $this;
-	}
+    /**
+     * @param $x
+     * @param $y
+     * @param $z
+     *
+     * @return Position
+     */
+    public function setComponents($x, $y, $z)
+    {
+        $this->x = $x;
+        $this->y = $y;
+        $this->z = $z;
+        return $this;
+    }
 
 }

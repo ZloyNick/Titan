@@ -23,18 +23,21 @@ namespace pocketmine\block;
 
 use pocketmine\item\Item;
 
-class WallBanner extends StandingBanner {
+class WallBanner extends StandingBanner
+{
 
-	protected $id = self::WALL_BANNER;
+    protected $id = self::WALL_BANNER;
 
-	public function getName(){
-		return "Wall Banner";
-	}
-	
-	public function getDrops(Item $item) {
-		return [
-			[Item::WALL_BANNER, 0, 1]
-		];
-	}
+    public function getName()
+    {
+        return "Wall Banner";
+    }
+
+    public function getDrops(Item $item)
+    {
+        return [
+            [Item::WALL_BANNER, 0, 1]
+        ];
+    }
 
 }

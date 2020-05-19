@@ -25,40 +25,43 @@ namespace pocketmine\network\protocol;
 
 use pocketmine\utils\Binary;
 
-class AddItemEntityPacket extends PEPacket{
-	const NETWORK_ID = Info::ADD_ITEM_ENTITY_PACKET;
-	const PACKET_NAME = "ADD_ITEM_ENTITY_PACKET";
+class AddItemEntityPacket extends PEPacket
+{
+    const NETWORK_ID = Info::ADD_ITEM_ENTITY_PACKET;
+    const PACKET_NAME = "ADD_ITEM_ENTITY_PACKET";
 
-	public $eid;
-	public $item;
-	public $x;
-	public $y;
-	public $z;
-	public $speedX;
-	public $speedY;
-	public $speedZ;
-	public $metadata = [];
+    public $eid;
+    public $item;
+    public $x;
+    public $y;
+    public $z;
+    public $speedX;
+    public $speedY;
+    public $speedZ;
+    public $metadata = [];
 
-	public function decode($playerProtocol){
+    public function decode($playerProtocol)
+    {
 
-	}
+    }
 
-	public function encode($playerProtocol){
-		$this->reset($playerProtocol);
-		$this->putVarInt($this->eid);
-		$this->putVarInt($this->eid);
-		$this->putSlot($this->item, $playerProtocol);
-		$this->putLFloat($this->x);
-		$this->putLFloat($this->y);
-		$this->putLFloat($this->z);
-		$this->putLFloat($this->speedX);
-		$this->putLFloat($this->speedY);
-		$this->putLFloat($this->speedZ);
-		$meta = Binary::writeMetadata($this->metadata, $playerProtocol);
-		$this->put($meta);
-		if ($playerProtocol >= Info::PROTOCOL_200) {
-			$this->putByte(0); // isFromFishing
-		}
-	}
+    public function encode($playerProtocol)
+    {
+        $this->reset($playerProtocol);
+        $this->putVarInt($this->eid);
+        $this->putVarInt($this->eid);
+        $this->putSlot($this->item, $playerProtocol);
+        $this->putLFloat($this->x);
+        $this->putLFloat($this->y);
+        $this->putLFloat($this->z);
+        $this->putLFloat($this->speedX);
+        $this->putLFloat($this->speedY);
+        $this->putLFloat($this->speedZ);
+        $meta = Binary::writeMetadata($this->metadata, $playerProtocol);
+        $this->put($meta);
+        if ($playerProtocol >= Info::PROTOCOL_200) {
+            $this->putByte(0); // isFromFishing
+        }
+    }
 
 }

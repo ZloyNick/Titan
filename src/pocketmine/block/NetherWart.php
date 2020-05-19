@@ -23,21 +23,25 @@ namespace pocketmine\block;
 
 use pocketmine\item\Item;
 
-class NetherWart extends Flowable{
+class NetherWart extends Flowable
+{
 
-	protected $id = self::NETHER_WART;
+    protected $id = self::NETHER_WART;
 
-	public function __construct(){
+    public function __construct()
+    {
 
-	}
+    }
 
-	public function getName(){
-		return "Nether Wart";
-	}
+    public function getName()
+    {
+        return "Nether Wart";
+    }
 
-	public function getDrops(Item $item) {
-		return [
-			[Item::NETHER_WART, 0 , 1]
-		];
-	}
+    public function getDrops(Item $item)
+    {
+        return [
+            [Item::NETHER_WART, 0, 1]
+        ];
+    }
 }

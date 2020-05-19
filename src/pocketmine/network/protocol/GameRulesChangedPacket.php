@@ -24,47 +24,52 @@ namespace pocketmine\network\protocol;
 #include <rules/DataPacket.h>
 
 
-class GameRulesChangedPacket extends PEPacket{
-	const NETWORK_ID = Info::GAME_RULES_CHANGED_PACKET;
-	const PACKET_NAME = "GAME_RULES_CHANGED_PACKET";
+class GameRulesChangedPacket extends PEPacket
+{
+    const NETWORK_ID = Info::GAME_RULES_CHANGED_PACKET;
+    const PACKET_NAME = "GAME_RULES_CHANGED_PACKET";
 
-	/** @var array */
-	public $gameRules = [];
+    /** @var array */
+    public $gameRules = [];
 
-	public function decode($playerProtocol){
-		$this->getHeader($playerProtocol);
-		$this->gameRules = $this->getGameRules();
-	}
+    public function decode($playerProtocol)
+    {
+        $this->getHeader($playerProtocol);
+        $this->gameRules = $this->getGameRules();
+    }
 
-	public function encode($playerProtocol){
-		$this->reset($playerProtocol);
-		$this->putGameRules($this->gameRules);
-	}
-		/**
-	 * Writes a gamerule array, members should be in the structure [name => [type, value]]
-	 * TODO: implement this properly
-	 *
-	 * @param array $rules
-	 */
-	public function putGameRules(array $rules) {
-		$this->putVarInt(count($rules));
-		foreach($rules as $name => $rule){
-			$this->putString($name);
-			$this->putVarInt($rule[0]);
-			switch($rule[0]){
-				case 1:
-					$this->putByte($rule[1]);
-					break;
-				case 2:
-					$this->putVarInt($rule[1]);
-					break;
-				case 3:
-					$this->putLFloat($rule[1]);
-					break;
-				default:
-					throw new \InvalidArgumentException("Invalid gamerule type " . $rule[0]);
-			}
-			
-		}
-	}
+    public function encode($playerProtocol)
+    {
+        $this->reset($playerProtocol);
+        $this->putGameRules($this->gameRules);
+    }
+
+    /**
+     * Writes a gamerule array, members should be in the structure [name => [type, value]]
+     * TODO: implement this properly
+     *
+     * @param array $rules
+     */
+    public function putGameRules(array $rules)
+    {
+        $this->putVarInt(count($rules));
+        foreach ($rules as $name => $rule) {
+            $this->putString($name);
+            $this->putVarInt($rule[0]);
+            switch ($rule[0]) {
+                case 1:
+                    $this->putByte($rule[1]);
+                    break;
+                case 2:
+                    $this->putVarInt($rule[1]);
+                    break;
+                case 3:
+                    $this->putLFloat($rule[1]);
+                    break;
+                default:
+                    throw new \InvalidArgumentException("Invalid gamerule type " . $rule[0]);
+            }
+
+        }
+    }
 }

@@ -22,15 +22,18 @@
 namespace pocketmine\item;
 
 
-class ChainBoots extends Armor{
-	
-	const SLOT_NUMBER = 3;
-	
-	public function __construct($meta = 0, $count = 1){
-		parent::__construct(self::CHAIN_BOOTS, $meta, $count, "Chainmail Boots");
-	}
-	
-	public function getMaxDurability() {
-		return 196;
-	}
+class ChainBoots extends Armor
+{
+
+    const SLOT_NUMBER = 3;
+
+    public function __construct($meta = 0, $count = 1)
+    {
+        parent::__construct(self::CHAIN_BOOTS, $meta, $count, "Chainmail Boots");
+    }
+
+    public function getMaxDurability()
+    {
+        return 196;
+    }
 }

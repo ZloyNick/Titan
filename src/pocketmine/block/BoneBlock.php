@@ -24,30 +24,36 @@ namespace pocketmine\block;
 use pocketmine\item\Item;
 use pocketmine\item\Tool;
 
-class BoneBlock extends Solid {
+class BoneBlock extends Solid
+{
 
-	protected $id = self::BONE_BLOCK;
+    protected $id = self::BONE_BLOCK;
 
-	public function __construct($meta = 0){
-		$this->meta = $meta;
-	}
+    public function __construct($meta = 0)
+    {
+        $this->meta = $meta;
+    }
 
-	public function getName(){
-		return "Bone Block";
-	}
+    public function getName()
+    {
+        return "Bone Block";
+    }
 
-	public function getHardness(){
-		return 2;
-	}
-	
-	public function getToolType() {
-		return Tool::TYPE_PICKAXE;
-	}
+    public function getHardness()
+    {
+        return 2;
+    }
 
-	public function getDrops(Item $item) {
-		return [
-			[Item::BONE_BLOCK, 0, 1]
-		];
-	}
+    public function getToolType()
+    {
+        return Tool::TYPE_PICKAXE;
+    }
+
+    public function getDrops(Item $item)
+    {
+        return [
+            [Item::BONE_BLOCK, 0, 1]
+        ];
+    }
 
 }

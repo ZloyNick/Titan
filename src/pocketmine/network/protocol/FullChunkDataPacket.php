@@ -24,29 +24,32 @@ namespace pocketmine\network\protocol;
 #include <rules/DataPacket.h>
 
 
-class FullChunkDataPacket extends PEPacket{
-	const NETWORK_ID = Info::FULL_CHUNK_DATA_PACKET;
-	const PACKET_NAME = "FULL_CHUNK_DATA_PACKET";
-	
-	public $chunkX;
-	public $chunkZ;
-	public $data;
+class FullChunkDataPacket extends PEPacket
+{
+    const NETWORK_ID = Info::FULL_CHUNK_DATA_PACKET;
+    const PACKET_NAME = "FULL_CHUNK_DATA_PACKET";
 
-	public function decode($playerProtocol){
+    public $chunkX;
+    public $chunkZ;
+    public $data;
 
-	}
+    public function decode($playerProtocol)
+    {
 
-	public function encode($playerProtocol){
-		$this->reset($playerProtocol);
-		$this->putSignedVarInt($this->chunkX);
-		$this->putSignedVarInt($this->chunkZ);
-		if ($playerProtocol >= Info::PROTOCOL_360) {
-			$this->putVarInt(ord($this->data[0]));
-			$this->putByte(0);
-			$this->putString(substr($this->data, 1));
-		} else {
-			$this->putString($this->data);
-		}
-	}
+    }
+
+    public function encode($playerProtocol)
+    {
+        $this->reset($playerProtocol);
+        $this->putSignedVarInt($this->chunkX);
+        $this->putSignedVarInt($this->chunkZ);
+        if ($playerProtocol >= Info::PROTOCOL_360) {
+            $this->putVarInt(ord($this->data[0]));
+            $this->putByte(0);
+            $this->putString(substr($this->data, 1));
+        } else {
+            $this->putString($this->data);
+        }
+    }
 
 }

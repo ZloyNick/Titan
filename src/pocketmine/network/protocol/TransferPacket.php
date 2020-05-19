@@ -23,22 +23,25 @@ namespace pocketmine\network\protocol;
 
 #include <rules/DataPacket.h>
 
-class TransferPacket extends PEPacket {
+class TransferPacket extends PEPacket
+{
 
-	const NETWORK_ID = Info::TRANSFER_PACKET;
-	const PACKET_NAME = "TRANSFER_PACKET";
+    const NETWORK_ID = Info::TRANSFER_PACKET;
+    const PACKET_NAME = "TRANSFER_PACKET";
 
-	public $ip;
-	public $port = 19132;
+    public $ip;
+    public $port = 19132;
 
-	public function decode($playerProtocol) {
-		
-	}
+    public function decode($playerProtocol)
+    {
 
-	public function encode($playerProtocol) {
-		$this->reset($playerProtocol);
-		$this->putString($this->ip);
-		$this->putLShort($this->port);
-	}
+    }
+
+    public function encode($playerProtocol)
+    {
+        $this->reset($playerProtocol);
+        $this->putString($this->ip);
+        $this->putLShort($this->port);
+    }
 
 }

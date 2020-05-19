@@ -24,190 +24,191 @@ namespace pocketmine\level\format;
 use pocketmine\level\Level;
 use pocketmine\math\Vector3;
 
-interface LevelProvider{
+interface LevelProvider
+{
 
-	/**
-	 * @param Level  $level
-	 * @param string $path
-	 */
-	public function __construct(Level $level, $path);
+    /**
+     * @param Level $level
+     * @param string $path
+     */
+    public function __construct(Level $level, $path);
 
-	/**
-	 * Returns the full provider name, like "anvil" or "mcregion", will be used to find the correct format.
-	 *
-	 * @return string
-	 */
-	public static function getProviderName();
+    /**
+     * Returns the full provider name, like "anvil" or "mcregion", will be used to find the correct format.
+     *
+     * @return string
+     */
+    public static function getProviderName();
 
-	/**
-	 * @return bool
-	 */
-	public static function usesChunkSection();
+    /**
+     * @return bool
+     */
+    public static function usesChunkSection();
 
-	/**
-	 * Requests a MC: PE network chunk to be sent
-	 *
-	 * @param int $x
-	 * @param int $z
-	 *
-	 * @return \pocketmine\scheduler\AsyncTask|null
-	 */
-	public function requestChunkTask($x, $z);
+    /**
+     * Tells if the path is a valid level.
+     * This must tell if the current format supports opening the files in the directory
+     *
+     * @param string $path
+     *
+     * @return true
+     */
+    public static function isValid($path);
 
-	/** @return string */
-	public function getPath();
+    /**
+     * Generate the needed files in the path given
+     *
+     * @param string $path
+     * @param string $name
+     * @param int $seed
+     * @param array[] $options
+     */
+    public static function generate($path, $name, $seed, array $options = []);
 
-	/**
-	 * Tells if the path is a valid level.
-	 * This must tell if the current format supports opening the files in the directory
-	 *
-	 * @param string $path
-	 *
-	 * @return true
-	 */
-	public static function isValid($path);
+    /**
+     * @param $Y 0-7
+     *
+     * @return ChunkSection
+     */
+    public static function createChunkSection($Y);
 
-	/**
-	 * Generate the needed files in the path given
-	 *
-	 * @param string  $path
-	 * @param string  $name
-	 * @param int     $seed
-	 * @param array[] $options
-	 */
-	public static function generate($path, $name, $seed, array $options = []);
+    public static function getMaxY();
 
-	/**
-	 * Gets the Chunk object
-	 * This method must be implemented by all the level formats.
-	 *
-	 * @param int  $X      absolute Chunk X value
-	 * @param int  $Z      absolute Chunk Z value
-	 * @param bool $create Whether to generate the chunk if it does not exist
-	 *
-	 * @return FullChunk|Chunk
-	 */
-	public function getChunk($X, $Z, $create = false);
+    public static function getYMask();
 
-	/**
-	 * @param $Y 0-7
-	 *
-	 * @return ChunkSection
-	 */
-	public static function createChunkSection($Y);
+    /**
+     * Requests a MC: PE network chunk to be sent
+     *
+     * @param int $x
+     * @param int $z
+     *
+     * @return \pocketmine\scheduler\AsyncTask|null
+     */
+    public function requestChunkTask($x, $z);
 
-	public function saveChunks();
+    /** @return string */
+    public function getPath();
 
-	/**
-	 * @param int $X
-	 * @param int $Z
-	 */
-	public function saveChunk($X, $Z);
+    /**
+     * Gets the Chunk object
+     * This method must be implemented by all the level formats.
+     *
+     * @param int $X absolute Chunk X value
+     * @param int $Z absolute Chunk Z value
+     * @param bool $create Whether to generate the chunk if it does not exist
+     *
+     * @return FullChunk|Chunk
+     */
+    public function getChunk($X, $Z, $create = false);
 
-	public function unloadChunks();
+    public function saveChunks();
 
-	/**
-	 * @param int  $X
-	 * @param int  $Z
-	 * @param bool $create
-	 *
-	 * @return bool
-	 */
-	public function loadChunk($X, $Z, $create = false);
+    /**
+     * @param int $X
+     * @param int $Z
+     */
+    public function saveChunk($X, $Z);
 
-	/**
-	 * @param int  $X
-	 * @param int  $Z
-	 * @param bool $safe
-	 *
-	 * @return bool
-	 */
-	public function unloadChunk($X, $Z, $safe = true);
+    public function unloadChunks();
 
-	/**
-	 * @param int $X
-	 * @param int $Z
-	 *
-	 * @return bool
-	 */
-	public function isChunkGenerated($X, $Z);
+    /**
+     * @param int $X
+     * @param int $Z
+     * @param bool $create
+     *
+     * @return bool
+     */
+    public function loadChunk($X, $Z, $create = false);
 
-	/**
-	 * @param int $X
-	 * @param int $Z
-	 *
-	 * @return bool
-	 */
-	public function isChunkPopulated($X, $Z);
+    /**
+     * @param int $X
+     * @param int $Z
+     * @param bool $safe
+     *
+     * @return bool
+     */
+    public function unloadChunk($X, $Z, $safe = true);
 
-	/**
-	 * @param int $X
-	 * @param int $Z
-	 *
-	 * @return bool
-	 */
-	public function isChunkLoaded($X, $Z);
+    /**
+     * @param int $X
+     * @param int $Z
+     *
+     * @return bool
+     */
+    public function isChunkGenerated($X, $Z);
 
-	/**
-	 * @param int       $chunkX
-	 * @param int       $chunkZ
-	 * @param FullChunk $chunk
-	 *
-	 * @return mixed
-	 */
-	public function setChunk($chunkX, $chunkZ, FullChunk $chunk);
+    /**
+     * @param int $X
+     * @param int $Z
+     *
+     * @return bool
+     */
+    public function isChunkPopulated($X, $Z);
 
-	/**
-	 * @return string
-	 */
-	public function getName();
+    /**
+     * @param int $X
+     * @param int $Z
+     *
+     * @return bool
+     */
+    public function isChunkLoaded($X, $Z);
 
-	/**
-	 * @return int
-	 */
-	public function getTime();
+    /**
+     * @param int $chunkX
+     * @param int $chunkZ
+     * @param FullChunk $chunk
+     *
+     * @return mixed
+     */
+    public function setChunk($chunkX, $chunkZ, FullChunk $chunk);
 
-	/**
-	 * @param int $value
-	 */
-	public function setTime($value);
+    /**
+     * @return string
+     */
+    public function getName();
 
-	/**
-	 * @return int
-	 */
-	public function getSeed();
+    /**
+     * @return int
+     */
+    public function getTime();
 
-	/**
-	 * @param int $value
-	 */
-	public function setSeed($value);
+    /**
+     * @param int $value
+     */
+    public function setTime($value);
 
-	/**
-	 * @return Vector3
-	 */
-	public function getSpawn();
+    /**
+     * @return int
+     */
+    public function getSeed();
 
-	/**
-	 * @param Vector3 $pos
-	 */
-	public function setSpawn(Vector3 $pos);
+    /**
+     * @param int $value
+     */
+    public function setSeed($value);
 
-	/**
-	 * @return FullChunk|Chunk[]
-	 */
-	public function getLoadedChunks();
+    /**
+     * @return Vector3
+     */
+    public function getSpawn();
 
-	public function doGarbageCollection();
+    /**
+     * @param Vector3 $pos
+     */
+    public function setSpawn(Vector3 $pos);
 
-	/**
-	 * @return Level
-	 */
-	public function getLevel();
+    /**
+     * @return FullChunk|Chunk[]
+     */
+    public function getLoadedChunks();
 
-	public function close();
-	
-	public static function getMaxY();
-	
-	public static function getYMask();
+    public function doGarbageCollection();
+
+    /**
+     * @return Level
+     */
+    public function getLevel();
+
+    public function close();
 
 }

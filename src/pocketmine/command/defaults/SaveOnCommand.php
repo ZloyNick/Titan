@@ -25,26 +25,29 @@ use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 
 
-class SaveOnCommand extends VanillaCommand{
+class SaveOnCommand extends VanillaCommand
+{
 
-	public function __construct($name){
-		parent::__construct(
-			$name,
-			"Enables server autosaving",
-			"/save-on"
-		);
-		$this->setPermission("pocketmine.command.save.enable");
-	}
+    public function __construct($name)
+    {
+        parent::__construct(
+            $name,
+            "Enables server autosaving",
+            "/save-on"
+        );
+        $this->setPermission("pocketmine.command.save.enable");
+    }
 
-	public function execute(CommandSender $sender, $currentAlias, array $args){
-		if(!$this->testPermission($sender)){
-			return true;
-		}
+    public function execute(CommandSender $sender, $currentAlias, array $args)
+    {
+        if (!$this->testPermission($sender)) {
+            return true;
+        }
 
-		$sender->getServer()->setAutoSave(true);
+        $sender->getServer()->setAutoSave(true);
 
-		Command::broadcastCommandMessage($sender, "Enabled level saving");
+        Command::broadcastCommandMessage($sender, "Enabled level saving");
 
-		return true;
-	}
+        return true;
+    }
 }

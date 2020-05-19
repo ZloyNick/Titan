@@ -24,33 +24,36 @@ namespace pocketmine\network\protocol;
 #include <rules/DataPacket.h>
 
 
-class MobEffectPacket extends PEPacket{
-	const NETWORK_ID = Info::MOB_EFFECT_PACKET;
-	const PACKET_NAME = "MOB_EFFECT_PACKET";
+class MobEffectPacket extends PEPacket
+{
+    const NETWORK_ID = Info::MOB_EFFECT_PACKET;
+    const PACKET_NAME = "MOB_EFFECT_PACKET";
 
-	const EVENT_ADD = 1;
-	const EVENT_MODIFY = 2;
-	const EVENT_REMOVE = 3;
+    const EVENT_ADD = 1;
+    const EVENT_MODIFY = 2;
+    const EVENT_REMOVE = 3;
 
-	public $eid;
-	public $eventId;
-	public $effectId;
-	public $amplifier;
-	public $particles = true;
-	public $duration;
+    public $eid;
+    public $eventId;
+    public $effectId;
+    public $amplifier;
+    public $particles = true;
+    public $duration;
 
-	public function decode($playerProtocol){
+    public function decode($playerProtocol)
+    {
 
-	}
+    }
 
-	public function encode($playerProtocol){
-		$this->reset($playerProtocol);
-		$this->putVarInt($this->eid);
-		$this->putByte($this->eventId);
-		$this->putSignedVarInt($this->effectId);
-		$this->putSignedVarInt($this->amplifier);
-		$this->putByte($this->particles ? 1 : 0);
-		$this->putSignedVarInt($this->duration);
-	}
+    public function encode($playerProtocol)
+    {
+        $this->reset($playerProtocol);
+        $this->putVarInt($this->eid);
+        $this->putByte($this->eventId);
+        $this->putSignedVarInt($this->effectId);
+        $this->putSignedVarInt($this->amplifier);
+        $this->putByte($this->particles ? 1 : 0);
+        $this->putSignedVarInt($this->duration);
+    }
 
 }

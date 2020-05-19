@@ -24,29 +24,35 @@ namespace pocketmine\block;
 use pocketmine\item\Item;
 use pocketmine\item\Tool;
 
-class Jukebox extends Solid {
+class Jukebox extends Solid
+{
 
-	protected $id = self::JUKEBOX;
+    protected $id = self::JUKEBOX;
 
-	public function __construct(){
+    public function __construct()
+    {
 
-	}
+    }
 
-	public function getName(){
-		return "Jukebox";
-	}
+    public function getName()
+    {
+        return "Jukebox";
+    }
 
-	public function getHardness(){
-		return 2;
-	}
+    public function getHardness()
+    {
+        return 2;
+    }
 
-	public function getToolType(){
-		return Tool::TYPE_AXE;
-	}
+    public function getToolType()
+    {
+        return Tool::TYPE_AXE;
+    }
 
-	public function getDrops(Item $item){
-		return [
-			[Item::JUKEBOX, 0, 1]
-		];
-	}
+    public function getDrops(Item $item)
+    {
+        return [
+            [Item::JUKEBOX, 0, 1]
+        ];
+    }
 }

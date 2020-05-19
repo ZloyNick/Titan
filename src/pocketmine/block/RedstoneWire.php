@@ -22,27 +22,31 @@
 namespace pocketmine\block;
 
 use pocketmine\item\Item;
-use pocketmine\item\Tool;
 
-class RedstoneWire extends Transparent{
+class RedstoneWire extends Transparent
+{
 
-	protected $id = self::REDSTONE_WIRE;
+    protected $id = self::REDSTONE_WIRE;
 
-	public function __construct(){
+    public function __construct()
+    {
 
-	}
+    }
 
-	public function getHardness(){
-		return 1;
-	}
-	
-	public function getName(){
-		return "Redstone Wire";
-	}
+    public function getHardness()
+    {
+        return 1;
+    }
 
-	public function getDrops(Item $item){
-		return [
-			[Item::REDSTONE_WIRE, 0, 1],
-		];
-	}
+    public function getName()
+    {
+        return "Redstone Wire";
+    }
+
+    public function getDrops(Item $item)
+    {
+        return [
+            [Item::REDSTONE_WIRE, 0, 1],
+        ];
+    }
 }

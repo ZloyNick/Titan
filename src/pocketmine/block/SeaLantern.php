@@ -23,26 +23,31 @@ namespace pocketmine\block;
 
 use pocketmine\item\Item;
 
-class SeaLantern extends Solid {
+class SeaLantern extends Solid
+{
 
-	protected $id = self::SEA_LANTERN;
+    protected $id = self::SEA_LANTERN;
 
-	public function __construct(){
+    public function __construct()
+    {
 
-	}
+    }
 
-	public function getName(){
-		return "Sea Lantern";
-	}
+    public function getName()
+    {
+        return "Sea Lantern";
+    }
 
-	public function getHardness(){
-		return 0.3;
-	}
-	
-	public function getDrops(Item $item) {
-		return [
-			[Item::SEA_LANTERN, 0, 1]
-		];
-	}
+    public function getHardness()
+    {
+        return 0.3;
+    }
+
+    public function getDrops(Item $item)
+    {
+        return [
+            [Item::SEA_LANTERN, 0, 1]
+        ];
+    }
 
 }

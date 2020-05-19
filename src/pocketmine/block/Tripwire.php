@@ -23,41 +23,50 @@ namespace pocketmine\block;
 
 use pocketmine\item\Item;
 
-class Tripwire extends Transparent{
+class Tripwire extends Transparent
+{
 
-	protected $id = self::TRIPWIRE;
+    protected $id = self::TRIPWIRE;
 
-	public function __construct($meta = 0){
-		$this->meta = $meta;
-	}
+    public function __construct($meta = 0)
+    {
+        $this->meta = $meta;
+    }
 
-	public function getName(){
-		return "Tripwire";
-	}
+    public function getName()
+    {
+        return "Tripwire";
+    }
 
-	public function getHardness(){
-		return 0;
-	}
+    public function getHardness()
+    {
+        return 0;
+    }
 
-	public function getDrops(Item $item){
-		return [
-			[Item::TRIPWIRE, 0, 1],
-		];
-	}
-	
-	public function canBeFlowedInto(){
-		return true;
-	}
-	
-	public function getResistance(){
-		return 0;
-	}
+    public function getDrops(Item $item)
+    {
+        return [
+            [Item::TRIPWIRE, 0, 1],
+        ];
+    }
 
-	public function isSolid(){
-		return false;
-	}
+    public function canBeFlowedInto()
+    {
+        return true;
+    }
 
-	public function getBoundingBox(){
-		return null;
-	}
+    public function getResistance()
+    {
+        return 0;
+    }
+
+    public function isSolid()
+    {
+        return false;
+    }
+
+    public function getBoundingBox()
+    {
+        return null;
+    }
 }

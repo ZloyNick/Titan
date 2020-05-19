@@ -27,35 +27,40 @@ use pocketmine\level\format\FullChunk;
 /**
  * Called when a Chunk is unloaded
  */
-class ChunkUnloadEvent extends ChunkEvent implements Cancellable{
-	public static $handlerList = null;
+class ChunkUnloadEvent extends ChunkEvent implements Cancellable
+{
+    public static $handlerList = null;
 
-	private $safe;
-	private $shouldSave = true;
+    private $safe;
+    private $shouldSave = true;
 
-	public function __construct(FullChunk $chunk, bool $safe) {
-		parent::__construct($chunk);
-		$this->safe = $safe;
-	}
+    public function __construct(FullChunk $chunk, bool $safe)
+    {
+        parent::__construct($chunk);
+        $this->safe = $safe;
+    }
 
-	/**
-	 * @return bool
-	 */
-	public function isSafe(){
-		return $this->safe;
-	}
+    /**
+     * @return bool
+     */
+    public function isSafe()
+    {
+        return $this->safe;
+    }
 
-	/**
-	 * @return bool
-	 */
-	public function shouldSave(){
-		return $this->shouldSave;
-	}
+    /**
+     * @return bool
+     */
+    public function shouldSave()
+    {
+        return $this->shouldSave;
+    }
 
-	/**
-	 * @param bool $shouldSave
-	 */
-	public function setShouldSave(bool $shouldSave){
-		$this->shouldSave = $shouldSave;
-	}
+    /**
+     * @param bool $shouldSave
+     */
+    public function setShouldSave(bool $shouldSave)
+    {
+        $this->shouldSave = $shouldSave;
+    }
 }

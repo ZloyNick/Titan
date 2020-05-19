@@ -28,81 +28,91 @@ use pocketmine\math\AxisAlignedBB;
 use pocketmine\Player;
 
 
-class Cake extends Transparent{
+class Cake extends Transparent
+{
 
-	protected $id = self::CAKE_BLOCK;
+    protected $id = self::CAKE_BLOCK;
 
-	public function __construct($meta = 0){
-		$this->meta = $meta;
-	}
+    public function __construct($meta = 0)
+    {
+        $this->meta = $meta;
+    }
 
-	public function canBeActivated(){
-		return true;
-	}
+    public function canBeActivated()
+    {
+        return true;
+    }
 
-	public function getHardness(){
-		return 0.5;
-	}
+    public function getHardness()
+    {
+        return 0.5;
+    }
 
-	public function getName(){
-		return "Cake Block";
-	}
+    public function getName()
+    {
+        return "Cake Block";
+    }
 
-	protected function recalculateBoundingBox(){
+    public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null)
+    {
+        $down = $this->getSide(0);
+        if ($down->getId() !== self::AIR) {
+            $this->getLevel()->setBlock($block, $this, true, true);
 
-		$f = (1 + $this->getDamage() * 2) / 16;
+            return true;
+        }
 
-		return new AxisAlignedBB(
-			$this->x + $f,
-			$this->y,
-			$this->z + 0.0625,
-			$this->x + 1 - 0.0625,
-			$this->y + 0.5,
-			$this->z + 1 - 0.0625
-		);
-	}
+        return false;
+    }
 
-	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
-		$down = $this->getSide(0);
-		if($down->getId() !== self::AIR){
-			$this->getLevel()->setBlock($block, $this, true, true);
+    public function onUpdate($type)
+    {
+        if ($type === Level::BLOCK_UPDATE_NORMAL) {
+            if ($this->getSide(0)->getId() === self::AIR) { //Replace with common break method
+                $this->getLevel()->setBlock($this, new Air(), true);
 
-			return true;
-		}
+                return Level::BLOCK_UPDATE_NORMAL;
+            }
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	public function onUpdate($type){
-		if($type === Level::BLOCK_UPDATE_NORMAL){
-			if($this->getSide(0)->getId() === self::AIR){ //Replace with common break method
-				$this->getLevel()->setBlock($this, new Air(), true);
+    public function getDrops(Item $item)
+    {
+        return [];
+    }
 
-				return Level::BLOCK_UPDATE_NORMAL;
-			}
-		}
+    public function onActivate(Item $item, Player $player = null)
+    {
+        if ($player instanceof Player and $player->getHealth() < $player->getMaxHealth()) {
+            $ev = new EntityRegainHealthEvent($player, 3, EntityRegainHealthEvent::CAUSE_EATING);
+            $player->heal($ev->getAmount(), $ev);
+        }
+        ++$this->meta;
+        $player->setFood($player->getFood());
+        if ($this->meta >= 0x06) {
+            $this->getLevel()->setBlock($this, new Air(), true);
+        } else {
+            $this->getLevel()->setBlock($this, $this, true);
+        }
 
-		return false;
-	}
+        return true;
+    }
 
-	public function getDrops(Item $item){
-		return [];
-	}
+    protected function recalculateBoundingBox()
+    {
 
-	public function onActivate(Item $item, Player $player = null) {
-		if ($player instanceof Player and $player->getHealth() < $player->getMaxHealth()) {		
-			$ev = new EntityRegainHealthEvent($player, 3, EntityRegainHealthEvent::CAUSE_EATING);
-			$player->heal($ev->getAmount(), $ev);
-		}
-		++$this->meta;
-		$player->setFood($player->getFood());
-		if ($this->meta >= 0x06) {
-			$this->getLevel()->setBlock($this, new Air(), true);
-		} else {
-			$this->getLevel()->setBlock($this, $this, true);
-		}
+        $f = (1 + $this->getDamage() * 2) / 16;
 
-		return true;
-	}
+        return new AxisAlignedBB(
+            $this->x + $f,
+            $this->y,
+            $this->z + 0.0625,
+            $this->x + 1 - 0.0625,
+            $this->y + 0.5,
+            $this->z + 1 - 0.0625
+        );
+    }
 
 }

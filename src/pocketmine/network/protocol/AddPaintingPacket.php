@@ -21,37 +21,40 @@
 
 namespace pocketmine\network\protocol;
 
-class AddPaintingPacket extends PEPacket {
+class AddPaintingPacket extends PEPacket
+{
 
-	const NETWORK_ID = Info::ADD_PAINTING_PACKET;
-	const PACKET_NAME = "ADD_PAINTING_PACKET";
+    const NETWORK_ID = Info::ADD_PAINTING_PACKET;
+    const PACKET_NAME = "ADD_PAINTING_PACKET";
 
-	public $eid;
-	public $x;
-	public $y;
-	public $z;
-	public $direction;
-	public $title;
+    public $eid;
+    public $x;
+    public $y;
+    public $z;
+    public $direction;
+    public $title;
 
-	public function decode($playerProtocol) {
+    public function decode($playerProtocol)
+    {
 
-	}
+    }
 
-	public function encode($playerProtocol) {
-		$this->reset($playerProtocol);
-		$this->putVarInt($this->eid);
-		$this->putVarInt($this->eid);
-		if ($playerProtocol >= Info::PROTOCOL_360) {
-			$this->putLFloat($this->x);
-			$this->putLFloat($this->y);
-			$this->putLFloat($this->z);
-		} else {
-			$this->putSignedVarInt($this->x);
-			$this->putVarInt($this->y);
-			$this->putSignedVarInt($this->z);
-		}
-		$this->putSignedVarInt($this->direction);
-		$this->putString($this->title);
-	}
+    public function encode($playerProtocol)
+    {
+        $this->reset($playerProtocol);
+        $this->putVarInt($this->eid);
+        $this->putVarInt($this->eid);
+        if ($playerProtocol >= Info::PROTOCOL_360) {
+            $this->putLFloat($this->x);
+            $this->putLFloat($this->y);
+            $this->putLFloat($this->z);
+        } else {
+            $this->putSignedVarInt($this->x);
+            $this->putVarInt($this->y);
+            $this->putSignedVarInt($this->z);
+        }
+        $this->putSignedVarInt($this->direction);
+        $this->putString($this->title);
+    }
 
 }

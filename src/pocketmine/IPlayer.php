@@ -23,56 +23,57 @@ namespace pocketmine;
 
 use pocketmine\permission\ServerOperator;
 
-interface IPlayer extends ServerOperator{
+interface IPlayer extends ServerOperator
+{
 
-	/**
-	 * @return bool
-	 */
-	public function isOnline() : bool;
+    /**
+     * @return bool
+     */
+    public function isOnline(): bool;
 
-	/**
-	 * @return string
-	 */
-	public function getName() : string;
+    /**
+     * @return string
+     */
+    public function getName(): string;
 
-	/**
-	 * @return bool
-	 */
-	public function isBanned() : bool;
+    /**
+     * @return bool
+     */
+    public function isBanned(): bool;
 
-	/**
-	 * @param bool $banned
-	 */
-	public function setBanned(bool $banned = true);
+    /**
+     * @param bool $banned
+     */
+    public function setBanned(bool $banned = true);
 
-	/**
-	 * @return bool
-	 */
-	public function isWhitelisted() : bool;
+    /**
+     * @return bool
+     */
+    public function isWhitelisted(): bool;
 
-	/**
-	 * @param bool $value
-	 */
-	public function setWhitelisted(bool $value = true);
+    /**
+     * @param bool $value
+     */
+    public function setWhitelisted(bool $value = true);
 
-	/**
-	 * @return Player|null
-	 */
-	public function getPlayer() : IPlayer;
+    /**
+     * @return Player|null
+     */
+    public function getPlayer(): IPlayer;
 
-	/**
-	 * @return int|double
-	 */
-	public function getFirstPlayed() : float;
+    /**
+     * @return int|double
+     */
+    public function getFirstPlayed(): float;
 
-	/**
-	 * @return int|double
-	 */
-	public function getLastPlayed() : float;
+    /**
+     * @return int|double
+     */
+    public function getLastPlayed(): float;
 
-	/**
-	 * @return mixed
-	 */
-	public function hasPlayedBefore();
+    /**
+     * @return mixed
+     */
+    public function hasPlayedBefore();
 
 }

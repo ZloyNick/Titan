@@ -31,58 +31,64 @@ use pocketmine\nbt\tag\FloatTag;
 use pocketmine\Player;
 use pocketmine\utils\Random;
 
-class TNT extends Solid{
+class TNT extends Solid
+{
 
-	protected $id = self::TNT;
+    protected $id = self::TNT;
 
-	public function __construct(){
+    public function __construct()
+    {
 
-	}
+    }
 
-	public function getName(){
-		return "TNT";
-	}
+    public function getName()
+    {
+        return "TNT";
+    }
 
-	public function getHardness(){
-		return 0;
-	}
+    public function getHardness()
+    {
+        return 0;
+    }
 
-	public function canBeActivated(){
-		return true;
-	}
+    public function canBeActivated()
+    {
+        return true;
+    }
 
-	public function onActivate(Item $item, Player $player = null){
-		if($item->getId() === Item::FLINT_STEEL){
-			$item->useOn($this);
-			$this->getLevel()->setBlock($this, new Air());
+    public function onActivate(Item $item, Player $player = null)
+    {
+        if ($item->getId() === Item::FLINT_STEEL) {
+            $item->useOn($this);
+            $this->getLevel()->setBlock($this, new Air());
 
-			$mot = (new Random())->nextSignedFloat() * M_PI * 2;
-			$tnt = Entity::createEntity("PrimedTNT", $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), new Compound("", [
-				"Pos" => new Enum("Pos", [
-					new DoubleTag("", $this->x + 0.5),
-					new DoubleTag("", $this->y),
-					new DoubleTag("", $this->z + 0.5)
-				]),
-				"Motion" => new Enum("Motion", [
-					new DoubleTag("", -sin($mot) * 0.02),
-					new DoubleTag("", 0.2),
-					new DoubleTag("", -cos($mot) * 0.02)
-				]),
-				"Rotation" => new Enum("Rotation", [
-					new FloatTag("", 0),
-					new FloatTag("", 0)
-				]),
-				"Fuse" => new ByteTag("Fuse", 80)
-			]));
+            $mot = (new Random())->nextSignedFloat() * M_PI * 2;
+            $tnt = Entity::createEntity("PrimedTNT", $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), new Compound("", [
+                "Pos" => new Enum("Pos", [
+                    new DoubleTag("", $this->x + 0.5),
+                    new DoubleTag("", $this->y),
+                    new DoubleTag("", $this->z + 0.5)
+                ]),
+                "Motion" => new Enum("Motion", [
+                    new DoubleTag("", -sin($mot) * 0.02),
+                    new DoubleTag("", 0.2),
+                    new DoubleTag("", -cos($mot) * 0.02)
+                ]),
+                "Rotation" => new Enum("Rotation", [
+                    new FloatTag("", 0),
+                    new FloatTag("", 0)
+                ]),
+                "Fuse" => new ByteTag("Fuse", 80)
+            ]));
 
-			if($player != null){
-				$tnt->setOwner($player);
-			}
-			$tnt->spawnToAll();
+            if ($player != null) {
+                $tnt->setOwner($player);
+            }
+            $tnt->spawnToAll();
 
-			return true;
-		}
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 }

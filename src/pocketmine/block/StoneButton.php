@@ -24,29 +24,35 @@ namespace pocketmine\block;
 use pocketmine\item\Item;
 use pocketmine\item\Tool;
 
-class StoneButton extends Button{
+class StoneButton extends Button
+{
 
-	protected $id = self::STONE_BUTTON;
+    protected $id = self::STONE_BUTTON;
 
-	public function __construct($meta = 0){
-		$this->meta = $meta;
-	}
+    public function __construct($meta = 0)
+    {
+        $this->meta = $meta;
+    }
 
-	public function getName(){
-		return "Stone Button";
-	}
+    public function getName()
+    {
+        return "Stone Button";
+    }
 
-	public function getHardness(){
-		return 1;
-	}
+    public function getHardness()
+    {
+        return 1;
+    }
 
-	public function getToolType(){
-		return Tool::TYPE_PICKAXE;
-	}
+    public function getToolType()
+    {
+        return Tool::TYPE_PICKAXE;
+    }
 
-	public function getDrops(Item $item){
-		return [
-			[Item::STONE_BUTTON, 0, 1],
-		];
-	}
+    public function getDrops(Item $item)
+    {
+        return [
+            [Item::STONE_BUTTON, 0, 1],
+        ];
+    }
 }

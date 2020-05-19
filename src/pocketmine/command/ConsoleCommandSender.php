@@ -27,42 +27,47 @@ use pocketmine\plugin\Plugin;
 use pocketmine\Server;
 use pocketmine\utils\MainLogger;
 
-class ConsoleCommandSender implements CommandSender{
+class ConsoleCommandSender implements CommandSender
+{
 
-	private $perm;
+    private $perm;
 
-	public function __construct(){
-		$this->perm = new PermissibleBase($this);
-	}
+    public function __construct()
+    {
+        $this->perm = new PermissibleBase($this);
+    }
 
-	/**
-	 * @param \pocketmine\permission\Permission|string $name
-	 *
-	 * @return bool
-	 */
-	public function isPermissionSet($name) : bool{
-		return $this->perm->isPermissionSet($name);
-	}
+    /**
+     * @param \pocketmine\permission\Permission|string $name
+     *
+     * @return bool
+     */
+    public function isPermissionSet($name): bool
+    {
+        return $this->perm->isPermissionSet($name);
+    }
 
-	/**
-	 * @param \pocketmine\permission\Permission|string $name
-	 *
-	 * @return bool
-	 */
-	public function hasPermission($name) : bool{
-		return $this->perm->hasPermission($name);
-	}
+    /**
+     * @param \pocketmine\permission\Permission|string $name
+     *
+     * @return bool
+     */
+    public function hasPermission($name): bool
+    {
+        return $this->perm->hasPermission($name);
+    }
 
-	/**
-	 * @param Plugin $plugin
-	 * @param string $name
-	 * @param bool   $value
-	 *
-	 * @return \pocketmine\permission\PermissionAttachment
-	 */
-	public function addAttachment(Plugin $plugin, $name = null, $value = null) : PermissionAttachment{
-		return $this->perm->addAttachment($plugin, $name, $value);
-	}
+    /**
+     * @param Plugin $plugin
+     * @param string $name
+     * @param bool $value
+     *
+     * @return \pocketmine\permission\PermissionAttachment
+     */
+    public function addAttachment(Plugin $plugin, $name = null, $value = null): PermissionAttachment
+    {
+        return $this->perm->addAttachment($plugin, $name, $value);
+    }
 
     /**
      * @param PermissionAttachment $attachment
@@ -70,63 +75,72 @@ class ConsoleCommandSender implements CommandSender{
      * @return void
      * @throws \Exception
      */
-	public function removeAttachment(PermissionAttachment $attachment) : void{
-		$this->perm->removeAttachment($attachment);
-	}
+    public function removeAttachment(PermissionAttachment $attachment): void
+    {
+        $this->perm->removeAttachment($attachment);
+    }
 
-	public function recalculatePermissions() : void{
-		$this->perm->recalculatePermissions();
-	}
+    public function recalculatePermissions(): void
+    {
+        $this->perm->recalculatePermissions();
+    }
 
-	/**
-	 * @return \pocketmine\permission\PermissionAttachmentInfo[]
-	 */
-	public function getEffectivePermissions() : array{
-		return $this->perm->getEffectivePermissions();
-	}
+    /**
+     * @return \pocketmine\permission\PermissionAttachmentInfo[]
+     */
+    public function getEffectivePermissions(): array
+    {
+        return $this->perm->getEffectivePermissions();
+    }
 
-	/**
-	 * @return bool
-	 */
-	public function isPlayer() : bool{
-		return false;
-	}
+    /**
+     * @return bool
+     */
+    public function isPlayer(): bool
+    {
+        return false;
+    }
 
-	/**
-	 * @return \pocketmine\Server
-	 */
-	public function getServer() : Server{
-		return Server::getInstance();
-	}
+    /**
+     * @return \pocketmine\Server
+     */
+    public function getServer(): Server
+    {
+        return Server::getInstance();
+    }
 
-	/**
-	 * @param string $message
-	 */
-	public function sendMessage(string $message) : void{
-		foreach(explode("\n", trim($message)) as $line){
-			MainLogger::getLogger()->info($line);
-		}
-	}
+    /**
+     * @param string $message
+     */
+    public function sendMessage(string $message): void
+    {
+        foreach (explode("\n", trim($message)) as $line) {
+            MainLogger::getLogger()->info($line);
+        }
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getName() : string{
-		return "CONSOLE";
-	}
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return "CONSOLE";
+    }
 
-	/**
-	 * @return bool
-	 */
-	public function isOp() : bool{
-		return true;
-	}
+    /**
+     * @return bool
+     */
+    public function isOp(): bool
+    {
+        return true;
+    }
 
-	/**
-	 * @param bool $value
-	 */
-	public function setOp(bool $value = true) : void{
+    /**
+     * @param bool $value
+     */
+    public function setOp(bool $value = true): void
+    {
 
-	}
+    }
 
 }

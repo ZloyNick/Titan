@@ -21,44 +21,45 @@
 
 namespace pocketmine\level\format;
 
-interface Chunk extends FullChunk{
-	const SECTION_COUNT = 8;
+interface Chunk extends FullChunk
+{
+    const SECTION_COUNT = 8;
 
-	/**
-	 * Tests whether a section (mini-chunk) is empty
-	 *
-	 * @param $fY 0-7, (Y / 16)
-	 *
-	 * @return bool
-	 */
-	public function isSectionEmpty($fY);
+    /**
+     * @param int $chunkX
+     * @param int $chunkZ
+     * @param LevelProvider $provider
+     *
+     * @return FullChunk
+     */
+    public static function getEmptyChunk($chunkX, $chunkZ, LevelProvider $provider = null);
 
-	/**
-	 * @param int $fY 0-7
-	 *
-	 * @return ChunkSection
-	 */
-	public function getSection($fY);
+    /**
+     * Tests whether a section (mini-chunk) is empty
+     *
+     * @param $fY 0-7, (Y / 16)
+     *
+     * @return bool
+     */
+    public function isSectionEmpty($fY);
 
-	/**
-	 * @param int          $fY 0-7
-	 * @param ChunkSection $section
-	 *
-	 * @return boolean
-	 */
-	public function setSection($fY, ChunkSection $section);
+    /**
+     * @param int $fY 0-7
+     *
+     * @return ChunkSection
+     */
+    public function getSection($fY);
 
-	/**
-	 * @return ChunkSection[]
-	 */
-	public function getSections();
+    /**
+     * @param int $fY 0-7
+     * @param ChunkSection $section
+     *
+     * @return boolean
+     */
+    public function setSection($fY, ChunkSection $section);
 
-	/**
-	 * @param int           $chunkX
-	 * @param int           $chunkZ
-	 * @param LevelProvider $provider
-	 *
-	 * @return FullChunk
-	 */
-	public static function getEmptyChunk($chunkX, $chunkZ, LevelProvider $provider = null);
+    /**
+     * @return ChunkSection[]
+     */
+    public function getSections();
 }

@@ -21,15 +21,16 @@
 
 namespace pocketmine\network\protocol;
 
-class UpdateAttributesPacket extends PEPacket{
-	const NETWORK_ID = Info::UPDATE_ATTRIBUTES_PACKET;
-	const PACKET_NAME = "UPDATE_ATTRIBUTES_PACKET";
+class UpdateAttributesPacket extends PEPacket
+{
+    const NETWORK_ID = Info::UPDATE_ATTRIBUTES_PACKET;
+    const PACKET_NAME = "UPDATE_ATTRIBUTES_PACKET";
 
     const HEALTH = "minecraft:health";
     const HUNGER = "minecraft:player.hunger";
     const EXPERIENCE = "minecraft:player.experience";
     const EXPERIENCE_LEVEL = "minecraft:player.level";
-	const SPEED = "minecraft:movement";
+    const SPEED = "minecraft:movement";
 
     public $entityId;
 
@@ -37,33 +38,35 @@ class UpdateAttributesPacket extends PEPacket{
     public $maxValue;
     public $value;
     public $name;
-	public $defaultValue;
-	public $attributes = [];
+    public $defaultValue;
+    public $attributes = [];
 
-	public function decode($playerProtocol){
+    public function decode($playerProtocol)
+    {
 
-	}
+    }
 
-	public function encode($playerProtocol) {
-		$this->reset($playerProtocol);
-		$this->putVarInt($this->entityId);
-		if (empty($this->attributes)) {
-			$this->putVarInt(1);
-			$this->putLFloat($this->minValue);
-			$this->putLFloat($this->maxValue);
-			$this->putLFloat($this->value);
-			$this->putLFloat($this->defaultValue);
-			$this->putString($this->name);
-		} else {
-			$this->putVarInt(count($this->attributes));
-			foreach ($this->attributes as $attribute) {
-				$this->putLFloat($attribute['min']);
-				$this->putLFloat($attribute['max']);
-				$this->putLFloat(isset($attribute['value']) ? $attribute['value'] : $attribute['default']);
-				$this->putLFloat($attribute['default']);
-				$this->putString($attribute['name']);
-			}
-		}
-	}
+    public function encode($playerProtocol)
+    {
+        $this->reset($playerProtocol);
+        $this->putVarInt($this->entityId);
+        if (empty($this->attributes)) {
+            $this->putVarInt(1);
+            $this->putLFloat($this->minValue);
+            $this->putLFloat($this->maxValue);
+            $this->putLFloat($this->value);
+            $this->putLFloat($this->defaultValue);
+            $this->putString($this->name);
+        } else {
+            $this->putVarInt(count($this->attributes));
+            foreach ($this->attributes as $attribute) {
+                $this->putLFloat($attribute['min']);
+                $this->putLFloat($attribute['max']);
+                $this->putLFloat(isset($attribute['value']) ? $attribute['value'] : $attribute['default']);
+                $this->putLFloat($attribute['default']);
+                $this->putString($attribute['name']);
+            }
+        }
+    }
 
 }

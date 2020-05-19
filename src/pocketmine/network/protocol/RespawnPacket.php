@@ -24,34 +24,37 @@ namespace pocketmine\network\protocol;
 #include <rules/DataPacket.h>
 
 
-class RespawnPacket extends PEPacket{
-	const NETWORK_ID = Info::RESPAWN_PACKET;
-	const PACKET_NAME = "RESPAWN_PACKET";
+class RespawnPacket extends PEPacket
+{
+    const NETWORK_ID = Info::RESPAWN_PACKET;
+    const PACKET_NAME = "RESPAWN_PACKET";
 
-	public $x;
-	public $y;
-	public $z;
+    public $x;
+    public $y;
+    public $z;
 
-	public function decode($playerProtocol){
-		$this->getHeader($playerProtocol);
-		$this->x = $this->getLFloat();
-		$this->y = $this->getLFloat();
-		$this->z = $this->getLFloat();
-		if ($playerProtocol >= Info::PROTOCOL_385) {
-			$this->getByte();
-			$this->getByte();
-		}
-	}
+    public function decode($playerProtocol)
+    {
+        $this->getHeader($playerProtocol);
+        $this->x = $this->getLFloat();
+        $this->y = $this->getLFloat();
+        $this->z = $this->getLFloat();
+        if ($playerProtocol >= Info::PROTOCOL_385) {
+            $this->getByte();
+            $this->getByte();
+        }
+    }
 
-	public function encode($playerProtocol){
-		$this->reset($playerProtocol);
-		$this->putLFloat($this->x);
-		$this->putLFloat($this->y);
-		$this->putLFloat($this->z);
-		if ($playerProtocol >= Info::PROTOCOL_385) {
-			$this->putByte(1);
-			$this->putByte(0);
-		}
-	}
+    public function encode($playerProtocol)
+    {
+        $this->reset($playerProtocol);
+        $this->putLFloat($this->x);
+        $this->putLFloat($this->y);
+        $this->putLFloat($this->z);
+        if ($playerProtocol >= Info::PROTOCOL_385) {
+            $this->putByte(1);
+            $this->putByte(0);
+        }
+    }
 
 }

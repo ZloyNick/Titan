@@ -24,29 +24,35 @@ namespace pocketmine\block;
 use pocketmine\item\Item;
 use pocketmine\item\Tool;
 
-class ShulkerBox extends Solid{
+class ShulkerBox extends Solid
+{
 
-	protected $id = self::SHULKER_BOX;
+    protected $id = self::SHULKER_BOX;
 
-	public function __construct(){
+    public function __construct()
+    {
 
-	}
+    }
 
-	public function getName(){
-		return "Shulker Box";
-	}
+    public function getName()
+    {
+        return "Shulker Box";
+    }
 
-	public function getToolType(){
-		return Tool::TYPE_PICKAXE;
-	}
+    public function getToolType()
+    {
+        return Tool::TYPE_PICKAXE;
+    }
 
-	public function getHardness(){
-		return 5;
-	}
+    public function getHardness()
+    {
+        return 5;
+    }
 
-	public function getDrops(Item $item){
-		return [
-			
-		];
-	}
+    public function getDrops(Item $item)
+    {
+        return [
+
+        ];
+    }
 } 

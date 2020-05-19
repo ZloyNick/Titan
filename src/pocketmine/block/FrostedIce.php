@@ -24,28 +24,34 @@ namespace pocketmine\block;
 use pocketmine\item\Item;
 use pocketmine\item\Tool;
 
-class FrostedIce extends Solid {
+class FrostedIce extends Solid
+{
 
-	protected $id = self::FROSTED_ICE;
+    protected $id = self::FROSTED_ICE;
 
-	public function __construct(){
+    public function __construct()
+    {
 
-	}
+    }
 
-	public function getName(){
-		return "Frosted Ice";
-	}
+    public function getName()
+    {
+        return "Frosted Ice";
+    }
 
-	public function getHardness(){
-		return 0.5;
-	}
-	
-	public function getToolType() {
-		return Tool::TYPE_PICKAXE;
-	}
-	
-	public function getDrops(Item $item) {
-		return [];
-	}
+    public function getHardness()
+    {
+        return 0.5;
+    }
+
+    public function getToolType()
+    {
+        return Tool::TYPE_PICKAXE;
+    }
+
+    public function getDrops(Item $item)
+    {
+        return [];
+    }
 
 }

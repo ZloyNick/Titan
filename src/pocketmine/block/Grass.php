@@ -21,49 +21,53 @@
 
 namespace pocketmine\block;
 
-use pocketmine\event\block\BlockSpreadEvent;
 use pocketmine\item\Item;
 use pocketmine\item\Tool;
-use pocketmine\level\Level;
-use pocketmine\math\Vector3;
 use pocketmine\Player;
-use pocketmine\Server;
-use pocketmine\utils\Random;
 
-class Grass extends Solid{
+class Grass extends Solid
+{
 
-	protected $id = self::GRASS;
+    protected $id = self::GRASS;
 
-	public function __construct(){
+    public function __construct()
+    {
 
-	}
+    }
 
-	public function canBeActivated(){
-		return true;
-	}
+    public function canBeActivated()
+    {
+        return true;
+    }
 
-	public function getName(){
-		return "Grass";
-	}
+    public function getName()
+    {
+        return "Grass";
+    }
 
-	public function getHardness(){
-		return 0.6;
-	}
+    public function getHardness()
+    {
+        return 0.6;
+    }
 
-	public function getToolType(){
-		return Tool::TYPE_SHOVEL;
-	}
+    public function getToolType()
+    {
+        return Tool::TYPE_SHOVEL;
+    }
 
-	public function getDrops(Item $item){
-		return [
-			[Item::DIRT, 0, 1],
-		];
-	}
+    public function getDrops(Item $item)
+    {
+        return [
+            [Item::DIRT, 0, 1],
+        ];
+    }
 
-	public function onUpdate($type){
-	}
+    public function onUpdate($type)
+    {
+    }
 
-	public function onActivate(Item $item, Player $player = null){
-		return false;
-	}
+    public function onActivate(Item $item, Player $player = null)
+    {
+        return false;
+    }
 }

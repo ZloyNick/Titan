@@ -21,165 +21,178 @@
 
 namespace pocketmine\scheduler;
 
-use pocketmine\Server;
 use pocketmine\Collectable;
+use pocketmine\Server;
 
 /**
  * Class used to run async tasks in other threads.
  *
  * WARNING: Do not call PocketMine-MP API methods, or save objects from/on other Threads!!
  */
-abstract class AsyncTask extends Collectable{
+abstract class AsyncTask extends Collectable
+{
 
-	private $result = null;
-	/** @var int */
-	private $taskId = null;
-	
-	protected $isFinished = false;
+    protected $isFinished = false;
+    private $result = null;
+    /** @var int */
+    private $taskId = null;
 
-	public function run(){		
-		$this->result = null;
+    /**
+     * GETs an URL using cURL
+     *
+     * @param     $page
+     * @param int $timeout default 10
+     *
+     * @return bool|mixed
+     */
+    public static function getURL($page, $timeout = 10)
+    {
+        $ch = curl_init($page);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ["User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:12.0) Gecko/20100101 Firefox/12.0 PocketMine-MP"]);
+        curl_setopt($ch, CURLOPT_AUTOREFERER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+        curl_setopt($ch, CURLOPT_FORBID_REUSE, 1);
+        curl_setopt($ch, CURLOPT_FRESH_CONNECT, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, (int)$timeout);
+        $ret = curl_exec($ch);
+        curl_close($ch);
 
-		$this->onRun();
-		$this->isFinished = true;
-		//$this->setGarbage();
-	}
+        return $ret;
+    }
 
-	/**
-	 * @deprecated
-	 *
-	 * @return bool
-	 */
-	public function isFinished(){
-		return $this->isFinished;
-	}
+    /**
+     * POSTs data to an URL
+     *
+     * @param              $page
+     * @param array|string $args
+     * @param int $timeout
+     *
+     * @return bool|mixed
+     */
+    public static function postURL($page, $args, $timeout = 10)
+    {
+        $ch = curl_init($page);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+        curl_setopt($ch, CURLOPT_FORBID_REUSE, 1);
+        curl_setopt($ch, CURLOPT_FRESH_CONNECT, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $args);
+        curl_setopt($ch, CURLOPT_AUTOREFERER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ["User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:12.0) Gecko/20100101 Firefox/12.0 PocketMine-MP"]);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, (int)$timeout);
+        $ret = curl_exec($ch);
+        curl_close($ch);
 
-	/**
-	 * GETs an URL using cURL
-	 *
-	 * @param     $page
-	 * @param int $timeout default 10
-	 *
-	 * @return bool|mixed
-	 */
-	public static function getURL($page, $timeout = 10){
-		$ch = curl_init($page);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, ["User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:12.0) Gecko/20100101 Firefox/12.0 PocketMine-MP"]);
-		curl_setopt($ch, CURLOPT_AUTOREFERER, true);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-		curl_setopt($ch, CURLOPT_FORBID_REUSE, 1);
-		curl_setopt($ch, CURLOPT_FRESH_CONNECT, 1);
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, (int) $timeout);
-		$ret = curl_exec($ch);
-		curl_close($ch);
+        return $ret;
+    }
 
-		return $ret;
-	}
+    public function run()
+    {
+        $this->result = null;
 
-	/**
-	 * POSTs data to an URL
-	 *
-	 * @param              $page
-	 * @param array|string $args
-	 * @param int          $timeout
-	 *
-	 * @return bool|mixed
-	 */
-	public static function postURL($page, $args, $timeout = 10){
-		$ch = curl_init($page);
-		curl_setopt($ch, CURLOPT_POST, 1);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-		curl_setopt($ch, CURLOPT_FORBID_REUSE, 1);
-		curl_setopt($ch, CURLOPT_FRESH_CONNECT, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $args);
-		curl_setopt($ch, CURLOPT_AUTOREFERER, true);
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, ["User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:12.0) Gecko/20100101 Firefox/12.0 PocketMine-MP"]);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, (int) $timeout);
-		$ret = curl_exec($ch);
-		curl_close($ch);
+        $this->onRun();
+        $this->isFinished = true;
+        //$this->setGarbage();
+    }
 
-		return $ret;
-	}
+    /**
+     * Actions to execute when run
+     *
+     * @return void
+     */
+    public abstract function onRun();
 
-	/**
-	 * @return mixed
-	 */
-	public function getResult(){
-		return unserialize($this->result);
-	}
+    /**
+     * @return mixed
+     */
+    public function getResult()
+    {
+        return unserialize($this->result);
+    }
 
-	/**
-	 * Gets something into the local thread store.
-	 * You have to initialize this in some way from the task on run
-	 *
-	 * @param string $identifier
-	 * @return mixed
-	 */
-	public function getFromThreadStore($identifier){
-		global $store;
-		return $this->isFinished() ? null : $store[$identifier];
-	}
-	
-	/**
-	 * @return bool
-	 */
-	public function hasResult(){
-		return $this->result !== null;
-	}
+    /**
+     * @param mixed $result
+     */
+    public function setResult($result)
+    {
+        $this->result = serialize($result);
+    }
 
-	/**
-	 * @param mixed $result
-	 */
-	public function setResult($result){
-		$this->result = serialize($result);
-	}
+    /**
+     * Gets something into the local thread store.
+     * You have to initialize this in some way from the task on run
+     *
+     * @param string $identifier
+     * @return mixed
+     */
+    public function getFromThreadStore($identifier)
+    {
+        global $store;
+        return $this->isFinished() ? null : $store[$identifier];
+    }
 
-	public function setTaskId($taskId){
-		$this->taskId = $taskId;
-	}
+    /**
+     * @return bool
+     * @deprecated
+     *
+     */
+    public function isFinished()
+    {
+        return $this->isFinished;
+    }
 
-	public function getTaskId(){
-		return $this->taskId;
-	}
+    /**
+     * @return bool
+     */
+    public function hasResult()
+    {
+        return $this->result !== null;
+    }
 
-	/**
-	 * Actions to execute when run
-	 *
-	 * @return void
-	 */
-	public abstract function onRun();
+    public function getTaskId()
+    {
+        return $this->taskId;
+    }
 
-	/**
-	 * Actions to execute when completed (on main thread)
-	 * Implement this if you want to handle the data in your AsyncTask after it has been processed
-	 *
-	 * @param Server $server
-	 *
-	 * @return void
-	 */
-	public function onCompletion(Server $server){
+    public function setTaskId($taskId)
+    {
+        $this->taskId = $taskId;
+    }
 
-	}
-	
-	public function cleanObject(){
-		foreach($this as $p => $v){
-			if(!($v instanceof \Threaded)){
-				$this->{$p} = null;
-			}
-		}
-	}
+    /**
+     * Actions to execute when completed (on main thread)
+     * Implement this if you want to handle the data in your AsyncTask after it has been processed
+     *
+     * @param Server $server
+     *
+     * @return void
+     */
+    public function onCompletion(Server $server)
+    {
 
-	public function saveToThreadStore($identifier, $value){
-		global $store;
-		if(!$this->isFinished()){
-			$store[$identifier] = $value;
-		}
-	}
-	
+    }
+
+    public function cleanObject()
+    {
+        foreach ($this as $p => $v) {
+            if (!($v instanceof \Threaded)) {
+                $this->{$p} = null;
+            }
+        }
+    }
+
+    public function saveToThreadStore($identifier, $value)
+    {
+        global $store;
+        if (!$this->isFinished()) {
+            $store[$identifier] = $value;
+        }
+    }
+
 }

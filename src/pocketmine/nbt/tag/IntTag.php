@@ -25,25 +25,29 @@ use pocketmine\nbt\NBT;
 
 #include <rules/NBT.h>
 
-class IntTag extends NamedTag{
+class IntTag extends NamedTag
+{
 
-	public function getType(){
-		return NBT::TAG_Int;
-	}
+    public function getType()
+    {
+        return NBT::TAG_Int;
+    }
 
-	public function read(NBT $nbt, $new = false){
-		if ($new) {
-			$this->value = $nbt->getNewInt();
-		} else {
-			$this->value = $nbt->getInt();
-		}
-	}
+    public function read(NBT $nbt, $new = false)
+    {
+        if ($new) {
+            $this->value = $nbt->getNewInt();
+        } else {
+            $this->value = $nbt->getInt();
+        }
+    }
 
-	public function write(NBT $nbt, $old = false){
-		if ($old) {
-			$nbt->putOldInt($this->value);
-		} else {
-			$nbt->putInt($this->value);
-		}
-	}
+    public function write(NBT $nbt, $old = false)
+    {
+        if ($old) {
+            $nbt->putOldInt($this->value);
+        } else {
+            $nbt->putInt($this->value);
+        }
+    }
 }

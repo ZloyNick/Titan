@@ -2,20 +2,23 @@
 
 namespace pocketmine\network\protocol;
 
-class MapInfoRequestPacket extends PEPacket {
+class MapInfoRequestPacket extends PEPacket
+{
 
-	const NETWORK_ID = Info::MAP_INFO_REQUEST_PACKET;
-	const PACKET_NAME = "MAP_INFO_REQUEST_PACKET";
-	
-	public $mapId;
+    const NETWORK_ID = Info::MAP_INFO_REQUEST_PACKET;
+    const PACKET_NAME = "MAP_INFO_REQUEST_PACKET";
 
-	public function decode($playerProtocol) {
-		$this->getHeader($playerProtocol);
-		$this->mapId = $this->getSignedVarInt();
-	}
+    public $mapId;
 
-	public function encode($playerProtocol) {
-		
-	}
+    public function decode($playerProtocol)
+    {
+        $this->getHeader($playerProtocol);
+        $this->mapId = $this->getSignedVarInt();
+    }
+
+    public function encode($playerProtocol)
+    {
+
+    }
 
 }

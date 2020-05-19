@@ -26,57 +26,63 @@ use pocketmine\nbt\tag\Compound;
 use pocketmine\nbt\tag\IntTag;
 use pocketmine\nbt\tag\StringTag;
 
-class Sign extends Spawnable{
-	
-	public function __construct(FullChunk $chunk, Compound $nbt){
-		if(!isset($nbt->Text1)){
-			$nbt->Text1 = new StringTag("Text1", "");
-		}
-		if(!isset($nbt->Text2)){
-			$nbt->Text2 = new StringTag("Text2", "");
-		}
-		if(!isset($nbt->Text3)){
-			$nbt->Text3 = new StringTag("Text3", "");
-		}
-		if(!isset($nbt->Text4)){
-			$nbt->Text4 = new StringTag("Text4", "");
-		}
+class Sign extends Spawnable
+{
 
-		parent::__construct($chunk, $nbt);
-	}
+    public function __construct(FullChunk $chunk, Compound $nbt)
+    {
+        if (!isset($nbt->Text1)) {
+            $nbt->Text1 = new StringTag("Text1", "");
+        }
+        if (!isset($nbt->Text2)) {
+            $nbt->Text2 = new StringTag("Text2", "");
+        }
+        if (!isset($nbt->Text3)) {
+            $nbt->Text3 = new StringTag("Text3", "");
+        }
+        if (!isset($nbt->Text4)) {
+            $nbt->Text4 = new StringTag("Text4", "");
+        }
 
-	public function saveNBT(){
-		parent::saveNBT();
-		unset($this->namedtag->Creator);
-	}
+        parent::__construct($chunk, $nbt);
+    }
 
-	public function setText($line1 = "", $line2 = "", $line3 = "", $line4 = ""){
-		$this->namedtag->Text1 = new StringTag("Text1", $line1);
-		$this->namedtag->Text2 = new StringTag("Text2", $line2);
-		$this->namedtag->Text3 = new StringTag("Text3", $line3);
-		$this->namedtag->Text4 = new StringTag("Text4", $line4);
-		$this->spawnToAll();
-		$this->getLevel()->chunkCacheClear($this->x >> 4, $this->z >> 4);
-		return true;
-	}
+    public function saveNBT()
+    {
+        parent::saveNBT();
+        unset($this->namedtag->Creator);
+    }
 
-	public function getText(){
-		return [
-			$this->namedtag["Text1"],
-			$this->namedtag["Text2"],
-			$this->namedtag["Text3"],
-			$this->namedtag["Text4"]
-		];
-	}
+    public function setText($line1 = "", $line2 = "", $line3 = "", $line4 = "")
+    {
+        $this->namedtag->Text1 = new StringTag("Text1", $line1);
+        $this->namedtag->Text2 = new StringTag("Text2", $line2);
+        $this->namedtag->Text3 = new StringTag("Text3", $line3);
+        $this->namedtag->Text4 = new StringTag("Text4", $line4);
+        $this->spawnToAll();
+        $this->getLevel()->chunkCacheClear($this->x >> 4, $this->z >> 4);
+        return true;
+    }
 
-	public function getSpawnCompound(){
-		return new Compound("", [
-			new StringTag("id", Tile::SIGN),
-			new StringTag("Text", $this->namedtag->Text1 . "\n" . $this->namedtag->Text2 . "\n" . $this->namedtag->Text3 . "\n" . $this->namedtag->Text4),
-			new IntTag("x", (int) $this->x),
-			new IntTag("y", (int) $this->y),
-			new IntTag("z", (int) $this->z)
-		]);
-	}
+    public function getText()
+    {
+        return [
+            $this->namedtag["Text1"],
+            $this->namedtag["Text2"],
+            $this->namedtag["Text3"],
+            $this->namedtag["Text4"]
+        ];
+    }
+
+    public function getSpawnCompound()
+    {
+        return new Compound("", [
+            new StringTag("id", Tile::SIGN),
+            new StringTag("Text", $this->namedtag->Text1 . "\n" . $this->namedtag->Text2 . "\n" . $this->namedtag->Text3 . "\n" . $this->namedtag->Text4),
+            new IntTag("x", (int)$this->x),
+            new IntTag("y", (int)$this->y),
+            new IntTag("z", (int)$this->z)
+        ]);
+    }
 
 }

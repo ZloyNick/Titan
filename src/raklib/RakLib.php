@@ -18,37 +18,38 @@ namespace raklib;
 
 //Dependencies check
 $errors = 0;
-if(version_compare("7.0", PHP_VERSION) > 0){
+if (version_compare("7.0", PHP_VERSION) > 0) {
     echo "[CRITICAL] Use PHP >= 7.0" . PHP_EOL;
     ++$errors;
 }
 
-if(!extension_loaded("sockets")){
+if (!extension_loaded("sockets")) {
     echo "[CRITICAL] Unable to find the Socket extension." . PHP_EOL;
     ++$errors;
 }
 
-if(!extension_loaded("pthreads")){
+if (!extension_loaded("pthreads")) {
     echo "[CRITICAL] Unable to find the pthreads extension." . PHP_EOL;
     ++$errors;
-}else{
+} else {
     $pthreads_version = phpversion("pthreads");
-    if(substr_count($pthreads_version, ".") < 2){
+    if (substr_count($pthreads_version, ".") < 2) {
         $pthreads_version = "0.$pthreads_version";
     }
 
-    if(version_compare($pthreads_version, "3.0.0") < 0){
+    if (version_compare($pthreads_version, "3.0.0") < 0) {
         echo "[CRITICAL] pthreads >= 3.0.0 is required, while you have $pthreads_version.";
         ++$errors;
     }
 }
 
-if($errors > 0){
+if ($errors > 0) {
     exit(1); //Exit with error
 }
 unset($errors);
 
-abstract class RakLib{
+abstract class RakLib
+{
     const VERSION = "0.8.0";
     const PROTOCOL = 6;
     const MAGIC = "\x00\xff\xff\x00\xfe\xfe\xfe\xfe\xfd\xfd\xfd\xfd\x12\x34\x56\x78";
@@ -56,7 +57,7 @@ abstract class RakLib{
     const PRIORITY_NORMAL = 0;
     const PRIORITY_IMMEDIATE = 1;
 
-	const FLAG_NEED_ZLIB = 0b10;
+    const FLAG_NEED_ZLIB = 0b10;
     /*
      * Internal Packet:
      * int32 (length without this field)
@@ -130,12 +131,12 @@ abstract class RakLib{
      * int (timeout)
      */
     const PACKET_BLOCK_ADDRESS = 0x09;
-	
-	const PACKET_PING = 0x0a;
-	
-	const PACKET_ENABLE_ENCRYPT = 0x0b;
-	
-	const PACKET_KICK = 0x0c;
+
+    const PACKET_PING = 0x0a;
+
+    const PACKET_ENABLE_ENCRYPT = 0x0b;
+
+    const PACKET_KICK = 0x0c;
 
     /*
      * No payload
@@ -151,7 +152,8 @@ abstract class RakLib{
      */
     const PACKET_EMERGENCY_SHUTDOWN = 0x7f;
 
-    public static function bootstrap(\ClassLoader $loader){
+    public static function bootstrap(\ClassLoader $loader)
+    {
         $loader->addPath(dirname(__FILE__) . DIRECTORY_SEPARATOR . "..");
     }
 }

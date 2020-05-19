@@ -21,34 +21,38 @@
 
 namespace pocketmine\level;
 
-class Location extends Position{
+class Location extends Position
+{
 
-	public $yaw;
-	public $pitch;
+    public $yaw;
+    public $pitch;
 
-	/**
-	 * @param int   $x
-	 * @param int   $y
-	 * @param int   $z
-	 * @param float $yaw
-	 * @param float $pitch
-	 * @param Level $level
-	 */
-	public function __construct($x = 0, $y = 0, $z = 0, $yaw = 0.0, $pitch = 0.0, Level $level = null){
-		$this->x = $x;
-		$this->y = $y;
-		$this->z = $z;
-		$this->yaw = $yaw;
-		$this->pitch = $pitch;
-		$this->level = $level;
-	}
+    /**
+     * @param int $x
+     * @param int $y
+     * @param int $z
+     * @param float $yaw
+     * @param float $pitch
+     * @param Level $level
+     */
+    public function __construct($x = 0, $y = 0, $z = 0, $yaw = 0.0, $pitch = 0.0, Level $level = null)
+    {
+        $this->x = $x;
+        $this->y = $y;
+        $this->z = $z;
+        $this->yaw = $yaw;
+        $this->pitch = $pitch;
+        $this->level = $level;
+    }
 
-	public function getYaw(){
-		return $this->yaw;
-	}
+    public function getYaw()
+    {
+        return $this->yaw;
+    }
 
-	public function getPitch(){
-		return $this->pitch;
-	}
+    public function getPitch()
+    {
+        return $this->pitch;
+    }
 
 }

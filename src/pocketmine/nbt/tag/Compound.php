@@ -25,98 +25,111 @@ use pocketmine\nbt\NBT;
 
 #include <rules/NBT.h>
 
-class Compound extends NamedTag implements \ArrayAccess{
-	
-	private $customCompoudTagName;
+class Compound extends NamedTag implements \ArrayAccess
+{
 
-	/**
-	 * @param string     $name
-	 * @param NamedTag[] $value
-	 */
-	public function __construct($name = "", $value = []){
-		$this->customCompoudTagName = $name;
-		foreach($value as $tag){
-			$this->{$tag->getName()} = $tag;
-		}
-	}
-	
-	public function getName(){
-		return $this->customCompoudTagName === false ? "" : $this->customCompoudTagName;
-	}
+    private $customCompoudTagName;
 
-	public function setName($name){
-		$this->customCompoudTagName = $name;
-	}
+    /**
+     * @param string $name
+     * @param NamedTag[] $value
+     */
+    public function __construct($name = "", $value = [])
+    {
+        $this->customCompoudTagName = $name;
+        foreach ($value as $tag) {
+            $this->{$tag->getName()} = $tag;
+        }
+    }
 
-	public function getCount(){
-		$count = 0;
-		foreach($this as $tag){
-			if($tag instanceof Tag){
-				++$count;
-			}
-		}
+    public function getName()
+    {
+        return $this->customCompoudTagName === false ? "" : $this->customCompoudTagName;
+    }
 
-		return $count;
-	}
+    public function setName($name)
+    {
+        $this->customCompoudTagName = $name;
+    }
 
-	public function offsetExists($offset){
-		return isset($this->{$offset}) and $this->{$offset} instanceof Tag;
-	}
+    public function getCount()
+    {
+        $count = 0;
+        foreach ($this as $tag) {
+            if ($tag instanceof Tag) {
+                ++$count;
+            }
+        }
 
-	public function offsetGet($offset){
-		if(isset($this->{$offset}) and $this->{$offset} instanceof Tag){
-			if($this->{$offset} instanceof \ArrayAccess){
-				return $this->{$offset};
-			}else{
-				return $this->{$offset}->getValue();
-			}
-		}
+        return $count;
+    }
 
-		return null;
-	}
+    public function offsetExists($offset)
+    {
+        return isset($this->{$offset}) and $this->{$offset} instanceof Tag;
+    }
 
-	public function offsetSet($offset, $value){
-		if($value instanceof Tag){
-			$this->{$offset} = $value;
-		}elseif(isset($this->{$offset}) and $this->{$offset} instanceof Tag){
-			$this->{$offset}->setValue($value);
-		}
-	}
+    public function offsetGet($offset)
+    {
+        if (isset($this->{$offset}) and $this->{$offset} instanceof Tag) {
+            if ($this->{$offset} instanceof \ArrayAccess) {
+                return $this->{$offset};
+            } else {
+                return $this->{$offset}->getValue();
+            }
+        }
 
-	public function offsetUnset($offset){
-		unset($this->{$offset});
-	}
+        return null;
+    }
 
-	public function getType(){
-		return NBT::TAG_Compound;
-	}
+    public function offsetSet($offset, $value)
+    {
+        if ($value instanceof Tag) {
+            $this->{$offset} = $value;
+        } elseif (isset($this->{$offset}) and $this->{$offset} instanceof Tag) {
+            $this->{$offset}->setValue($value);
+        }
+    }
 
-	public function read(NBT $nbt, $new = false){
-		$this->value = [];
-		do{
-			$tag = $nbt->readTag($new);
-			if($tag instanceof NamedTag and $tag->getName() !== ""){
-				$this->{$tag->getName()} = $tag;
-			}
-		}while(!($tag instanceof End) and !$nbt->feof());
-	}
+    public function offsetUnset($offset)
+    {
+        unset($this->{$offset});
+    }
 
-	public function write(NBT $nbt, $old = false){
-		foreach($this as $tag){
-			if($tag instanceof Tag and !($tag instanceof End)){
-				$nbt->writeTag($tag, $old);
-			}
-		}
-		$nbt->writeTag(new End, $old);
-	}
+    public function getType()
+    {
+        return NBT::TAG_Compound;
+    }
 
-	public function __toString(){
-		$str = get_class($this) . "{\n";
-		foreach($this as $tag){
-			if($tag instanceof Tag){
-				$str .= get_class($tag) . ":" . $tag->__toString() . "\n";
-			}
-		}
-		return $str . "}";
-	}
+    public function read(NBT $nbt, $new = false)
+    {
+        $this->value = [];
+        do {
+            $tag = $nbt->readTag($new);
+            if ($tag instanceof NamedTag and $tag->getName() !== "") {
+                $this->{$tag->getName()} = $tag;
+            }
+        } while (!($tag instanceof End) and !$nbt->feof());
+    }
+
+    public function write(NBT $nbt, $old = false)
+    {
+        foreach ($this as $tag) {
+            if ($tag instanceof Tag and !($tag instanceof End)) {
+                $nbt->writeTag($tag, $old);
+            }
+        }
+        $nbt->writeTag(new End, $old);
+    }
+
+    public function __toString()
+    {
+        $str = get_class($this) . "{\n";
+        foreach ($this as $tag) {
+            if ($tag instanceof Tag) {
+                $str .= get_class($tag) . ":" . $tag->__toString() . "\n";
+            }
+        }
+        return $str . "}";
+    }
 }

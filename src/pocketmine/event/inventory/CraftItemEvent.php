@@ -27,46 +27,52 @@ use pocketmine\inventory\Recipe;
 use pocketmine\item\Item;
 use pocketmine\Player;
 
-class CraftItemEvent extends Event implements Cancellable{
-	public static $handlerList = null;
+class CraftItemEvent extends Event implements Cancellable
+{
+    public static $handlerList = null;
 
-	/** @var Item[] */
-	private $input = [];
-	/** @var Recipe */
-	private $recipe;
-		/** @var Player */
-		private $player;
-	/**
-	 * @param Item[] $input
-	 * @param Recipe $recipe
-	 */
-	public function __construct(array $input, Recipe $recipe, Player $player){
-		$this->input = $input;
-		$this->recipe = $recipe;
-				$this->player = $player;
-	}
+    /** @var Item[] */
+    private $input = [];
+    /** @var Recipe */
+    private $recipe;
+    /** @var Player */
+    private $player;
 
-	/**
-	 * @return Item[]
-	 */
-	public function getInput(){
-		$items = [];
-		foreach($items as $i => $item){
-			$items[$i] = clone $item;
-		}
+    /**
+     * @param Item[] $input
+     * @param Recipe $recipe
+     */
+    public function __construct(array $input, Recipe $recipe, Player $player)
+    {
+        $this->input = $input;
+        $this->recipe = $recipe;
+        $this->player = $player;
+    }
 
-		return $items;
-	}
-		
-		public function getPlayer(){
-		return $this->player;
-	}
+    /**
+     * @return Item[]
+     */
+    public function getInput()
+    {
+        $items = [];
+        foreach ($items as $i => $item) {
+            $items[$i] = clone $item;
+        }
 
-	/**
-	 * @return Recipe
-	 */
-	public function getRecipe(){
-		return $this->recipe;
-	}
+        return $items;
+    }
+
+    public function getPlayer()
+    {
+        return $this->player;
+    }
+
+    /**
+     * @return Recipe
+     */
+    public function getRecipe()
+    {
+        return $this->recipe;
+    }
 
 }

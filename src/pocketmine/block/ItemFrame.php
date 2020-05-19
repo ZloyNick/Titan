@@ -23,22 +23,26 @@ namespace pocketmine\block;
 
 use pocketmine\item\Item;
 
-class ItemFrame extends Transparent {
+class ItemFrame extends Transparent
+{
 
-	protected $id = self::ITEM_FRAME;
+    protected $id = self::ITEM_FRAME;
 
-	public function __construct($meta = 0) {
-		$this->meta = $meta;
-	}
-	
-	public function getName(){
-		return "Item Frame";
-	}
-	
-	public function getDrops(Item $item) {
-		return [
-			[Item::ITEM_FRAME, 0, 1]
-		];
-	}
+    public function __construct($meta = 0)
+    {
+        $this->meta = $meta;
+    }
+
+    public function getName()
+    {
+        return "Item Frame";
+    }
+
+    public function getDrops(Item $item)
+    {
+        return [
+            [Item::ITEM_FRAME, 0, 1]
+        ];
+    }
 
 }

@@ -24,276 +24,276 @@ namespace pocketmine\level\format;
 use pocketmine\entity\Entity;
 use pocketmine\tile\Tile;
 
-interface FullChunk{
+interface FullChunk
+{
 
-	/**
-	 * @return int
-	 */
-	public function getX();
+    /**
+     * @param string $data
+     * @param LevelProvider $provider
+     *
+     * @return FullChunk
+     */
+    public static function fromBinary($data, LevelProvider $provider = null);
 
-	/**
-	 * @return int
-	 */
-	public function getZ();
+    public static function getEmptyChunk($chunkX, $chunkZ, LevelProvider $provider = null);
 
-	public function setX($x);
+    /**
+     * @return int
+     */
+    public function getX();
 
-	public function setZ($z);
+    /**
+     * @return int
+     */
+    public function getZ();
 
-	/**
-	 * @return LevelProvider
-	 */
-	public function getProvider();
+    public function setX($x);
 
-	/**
-	 * @param LevelProvider $provider
-	 */
-	public function setProvider(LevelProvider $provider);
+    public function setZ($z);
 
+    /**
+     * @return LevelProvider
+     */
+    public function getProvider();
 
-	/**
-	 * Modifies $blockId and $meta
-	 *
-	 * @deprecated
-	 *
-	 * @param int $x 0-15
-	 * @param int $y 0-127
-	 * @param int $z 0-15
-	 * @param int &$blockId
-	 * @param int &$meta
-	 */
-	public function getBlock($x, $y, $z, &$blockId, &$meta = null);
+    /**
+     * @param LevelProvider $provider
+     */
+    public function setProvider(LevelProvider $provider);
 
-	/**
-	 * Gets block and meta in one go
-	 *
-	 * @param int $x 0-15
-	 * @param int $y 0-15
-	 * @param int $z 0-15
-	 *
-	 * @return int bitmap, (id << 4) | data
-	 */
-	public function getFullBlock($x, $y, $z);
+    /**
+     * Modifies $blockId and $meta
+     *
+     * @param int $x 0-15
+     * @param int $y 0-127
+     * @param int $z 0-15
+     * @param int &$blockId
+     * @param int &$meta
+     * @deprecated
+     *
+     */
+    public function getBlock($x, $y, $z, &$blockId, &$meta = null);
 
-	/**
-	 * @param int $x       0-15
-	 * @param int $y       0-127
-	 * @param int $z       0-15
-	 * @param int $blockId , if null, do not change
-	 * @param int $meta    0-15, if null, do not change
-	 *
-	 */
-	public function setBlock($x, $y, $z, $blockId = null, $meta = null);
+    /**
+     * Gets block and meta in one go
+     *
+     * @param int $x 0-15
+     * @param int $y 0-15
+     * @param int $z 0-15
+     *
+     * @return int bitmap, (id << 4) | data
+     */
+    public function getFullBlock($x, $y, $z);
 
-	/**
-	 * @param int $x 0-15
-	 * @param int $y 0-127
-	 * @param int $z 0-15
-	 *
-	 * @return int 0-255
-	 */
-	public function getBlockId($x, $y, $z);
+    /**
+     * @param int $x 0-15
+     * @param int $y 0-127
+     * @param int $z 0-15
+     * @param int $blockId , if null, do not change
+     * @param int $meta 0-15, if null, do not change
+     *
+     */
+    public function setBlock($x, $y, $z, $blockId = null, $meta = null);
 
-	/**
-	 * @param int $x  0-15
-	 * @param int $y  0-127
-	 * @param int $z  0-15
-	 * @param int $id 0-255
-	 */
-	public function setBlockId($x, $y, $z, $id);
+    /**
+     * @param int $x 0-15
+     * @param int $y 0-127
+     * @param int $z 0-15
+     *
+     * @return int 0-255
+     */
+    public function getBlockId($x, $y, $z);
 
-	/**
-	 * @param int $x 0-15
-	 * @param int $y 0-127
-	 * @param int $z 0-15
-	 *
-	 * @return int 0-15
-	 */
-	public function getBlockData($x, $y, $z);
+    /**
+     * @param int $x 0-15
+     * @param int $y 0-127
+     * @param int $z 0-15
+     * @param int $id 0-255
+     */
+    public function setBlockId($x, $y, $z, $id);
 
-	/**
-	 * @param int $x    0-15
-	 * @param int $y    0-127
-	 * @param int $z    0-15
-	 * @param int $data 0-15
-	 */
-	public function setBlockData($x, $y, $z, $data);
+    /**
+     * @param int $x 0-15
+     * @param int $y 0-127
+     * @param int $z 0-15
+     *
+     * @return int 0-15
+     */
+    public function getBlockData($x, $y, $z);
 
-	/**
-	 * @param int $x 0-15
-	 * @param int $z 0-15
-	 *
-	 * @return int 0-127
-	 */
-	public function getHighestBlockAt($x, $z);
+    /**
+     * @param int $x 0-15
+     * @param int $y 0-127
+     * @param int $z 0-15
+     * @param int $data 0-15
+     */
+    public function setBlockData($x, $y, $z, $data);
 
-	/**
-	 * @param int $x 0-15
-	 * @param int $z 0-15
-	 *
-	 * @return int 0-255
-	 */
-	public function getHeightMap($x, $z);
+    /**
+     * @param int $x 0-15
+     * @param int $z 0-15
+     *
+     * @return int 0-127
+     */
+    public function getHighestBlockAt($x, $z);
 
-	/**
-	 * @param int $x 0-15
-	 * @param int $z 0-15
-	 * @param $value 0-255
-	 */
-	public function setHeightMap($x, $z, $value);
+    /**
+     * @param int $x 0-15
+     * @param int $z 0-15
+     *
+     * @return int 0-255
+     */
+    public function getHeightMap($x, $z);
 
-	/**
-	 * @param int $x 0-15
-	 * @param int $z 0-15
-	 *
-	 * @return int 0-255
-	 */
-	public function getBiomeId($x, $z);
+    /**
+     * @param int $x 0-15
+     * @param int $z 0-15
+     * @param $value 0-255
+     */
+    public function setHeightMap($x, $z, $value);
 
-	/**
-	 * @param int $x       0-15
-	 * @param int $z       0-15
-	 * @param int $biomeId 0-255
-	 */
-	public function setBiomeId($x, $z, $biomeId);
+    /**
+     * @param int $x 0-15
+     * @param int $z 0-15
+     *
+     * @return int 0-255
+     */
+    public function getBiomeId($x, $z);
 
-	/**
-	 * @param int $x
-	 * @param int $z
-	 *
-	 * @return int[] RGB bytes
-	 */
-	public function getBiomeColor($x, $z);
+    /**
+     * @param int $x 0-15
+     * @param int $z 0-15
+     * @param int $biomeId 0-255
+     */
+    public function setBiomeId($x, $z, $biomeId);
 
-	public function getBlockIdColumn($x, $z);
+    /**
+     * @param int $x
+     * @param int $z
+     *
+     * @return int[] RGB bytes
+     */
+    public function getBiomeColor($x, $z);
 
-	public function getBlockDataColumn($x, $z);
+    public function getBlockIdColumn($x, $z);
 
-	/**
-	 * @param int $x 0-15
-	 * @param int $z 0-15
-	 * @param int $R 0-255
-	 * @param int $G 0-255
-	 * @param int $B 0-255
-	 */
-	public function setBiomeColor($x, $z, $R, $G, $B);
+    public function getBlockDataColumn($x, $z);
 
-	public function isPopulated();
+    /**
+     * @param int $x 0-15
+     * @param int $z 0-15
+     * @param int $R 0-255
+     * @param int $G 0-255
+     * @param int $B 0-255
+     */
+    public function setBiomeColor($x, $z, $R, $G, $B);
 
-	public function setPopulated($value = 1);
+    public function isPopulated();
 
-	public function isGenerated();
+    public function setPopulated($value = 1);
 
-	public function setGenerated($value = 1);
+    public function isGenerated();
 
-	/**
-	 * @param Entity $entity
-	 */
-	public function addEntity(Entity $entity);
+    public function setGenerated($value = 1);
 
-	/**
-	 * @param Entity $entity
-	 */
-	public function removeEntity(Entity $entity);
+    /**
+     * @param Entity $entity
+     */
+    public function addEntity(Entity $entity);
 
-	/**
-	 * @param Tile $tile
-	 */
-	public function addTile(Tile $tile);
+    /**
+     * @param Entity $entity
+     */
+    public function removeEntity(Entity $entity);
 
-	/**
-	 * @param Tile $tile
-	 */
-	public function removeTile(Tile $tile);
+    /**
+     * @param Tile $tile
+     */
+    public function addTile(Tile $tile);
 
-	/**
-	 * @return \pocketmine\entity\Entity[]
-	 */
-	public function getEntities();
+    /**
+     * @param Tile $tile
+     */
+    public function removeTile(Tile $tile);
 
-	/**
-	 * @return \pocketmine\tile\Tile[]
-	 */
-	public function getTiles();
+    /**
+     * @return \pocketmine\entity\Entity[]
+     */
+    public function getEntities();
 
-	/**
-	 * @param int $x 0-15
-	 * @param int $y 0-127
-	 * @param int $z 0-15
-	 */
-	public function getTile($x, $y, $z);
+    /**
+     * @return \pocketmine\tile\Tile[]
+     */
+    public function getTiles();
 
-	/**
-	 * @return bool
-	 */
-	public function isLoaded();
+    /**
+     * @param int $x 0-15
+     * @param int $y 0-127
+     * @param int $z 0-15
+     */
+    public function getTile($x, $y, $z);
 
-	/**
-	 * Loads the chunk
-	 *
-	 * @param bool $generate If the chunk does not exist, generate it
-	 *
-	 * @return bool
-	 */
-	public function load($generate = true);
+    /**
+     * @return bool
+     */
+    public function isLoaded();
 
-	/**
-	 * @param bool $save
-	 * @param bool $safe If false, unload the chunk even if players are nearby
-	 *
-	 * @return bool
-	 */
-	public function unload($save = true, $safe = true);
+    /**
+     * Loads the chunk
+     *
+     * @param bool $generate If the chunk does not exist, generate it
+     *
+     * @return bool
+     */
+    public function load($generate = true);
 
-	public function initChunk();
+    /**
+     * @param bool $save
+     * @param bool $safe If false, unload the chunk even if players are nearby
+     *
+     * @return bool
+     */
+    public function unload($save = true, $safe = true);
 
-	/**
-	 * @return string[]
-	 */
-	public function getBiomeIdArray();
+    public function initChunk();
 
-	/**
-	 * @return int[]
-	 */
-	public function getBiomeColorArray();
+    /**
+     * @return string[]
+     */
+    public function getBiomeIdArray();
 
-	/**
-	 * @return int[]
-	 */
-	public function getHeightMapArray();
+    /**
+     * @return int[]
+     */
+    public function getBiomeColorArray();
 
-	public function getBlockIdArray();
+    /**
+     * @return int[]
+     */
+    public function getHeightMapArray();
 
-	public function getBlockDataArray();
+    public function getBlockIdArray();
 
-	public function getBlockExtraDataArray();
+    public function getBlockDataArray();
 
-	public function getBlockSkyLightArray();
+    public function getBlockExtraDataArray();
 
-	public function getBlockLightArray();
+    public function getBlockSkyLightArray();
 
-	public function toBinary();
+    public function getBlockLightArray();
 
-	/**
-	 * @return boolean
-	 */
-	public function hasChanged();
+    public function toBinary();
 
-	/**
-	 * @param bool $changed
-	 */
-	public function setChanged($changed = true);
+    /**
+     * @return boolean
+     */
+    public function hasChanged();
 
-	/**
-	 * @param string        $data
-	 * @param LevelProvider $provider
-	 *
-	 * @return FullChunk
-	 */
-	public static function fromBinary($data, LevelProvider $provider = null);
-	
-	public static function getEmptyChunk($chunkX, $chunkZ, LevelProvider $provider = null);
-	
-	public function recalculateHeightMap();
-	
+    /**
+     * @param bool $changed
+     */
+    public function setChanged($changed = true);
+
+    public function recalculateHeightMap();
+
 }

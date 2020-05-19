@@ -23,41 +23,50 @@ namespace pocketmine\block;
 
 use pocketmine\item\Item;
 
-class RedstoneRepeater extends Transparent{
-	
-	protected $id = self::REDSTONE_REPEATER_BLOCK;
+class RedstoneRepeater extends Transparent
+{
 
-	public function __construct($meta = 0){
-		$this->meta = $meta;
-	}
+    protected $id = self::REDSTONE_REPEATER_BLOCK;
 
-	public function canBeFlowedInto(){
-		return true;
-	}
-	
-	public function canBeActivated(){
-		return true;
-	}
+    public function __construct($meta = 0)
+    {
+        $this->meta = $meta;
+    }
 
-	public function getHardness(){
-		return 1;
-	}
+    public function canBeFlowedInto()
+    {
+        return true;
+    }
 
-	public function getResistance(){
-		return 0;
-	}
+    public function canBeActivated()
+    {
+        return true;
+    }
 
-	public function isSolid(){
-		return false;
-	}
+    public function getHardness()
+    {
+        return 1;
+    }
 
-	public function getBoundingBox(){
-		return null;
-	}
-	
-	public function getDrops(Item $item){
-		return [
-			[Item::REDSTONE_REPEATER, 0, 1],
-		];
-	}
+    public function getResistance()
+    {
+        return 0;
+    }
+
+    public function isSolid()
+    {
+        return false;
+    }
+
+    public function getBoundingBox()
+    {
+        return null;
+    }
+
+    public function getDrops(Item $item)
+    {
+        return [
+            [Item::REDSTONE_REPEATER, 0, 1],
+        ];
+    }
 }
