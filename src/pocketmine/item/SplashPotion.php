@@ -9,7 +9,7 @@ class SplashPotion extends Item
 {
     public function __construct($meta = 0, $count = 1)
     {
-        parent::__construct(self::SPLASH_POTION, $meta, $count, "Splash Potion"); //Custom naming could be handled by the client itself
+        parent::__construct(ItemIds::SPLASH_POTION, $meta, $count, "Splash Potion"); //Custom naming could be handled by the client itItemIds
     }
 
     public static function getColor(int $meta): array

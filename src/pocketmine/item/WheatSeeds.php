@@ -28,6 +28,6 @@ class WheatSeeds extends Item
     public function __construct($meta = 0, $count = 1)
     {
         $this->block = Block::get(ItemIds::WHEAT_BLOCK);
-        parent::__construct(self::WHEAT_SEEDS, 0, $count, "Wheat Seeds");
+        parent::__construct(ItemIds::WHEAT_SEEDS, 0, $count, "Wheat Seeds");
     }
 }

@@ -28,6 +28,6 @@ class Potato extends Item
     public function __construct($meta = 0, $count = 1)
     {
         $this->block = Block::get(ItemIds::POTATO_BLOCK);
-        parent::__construct(self::POTATO, 0, $count, "Potato");
+        parent::__construct(ItemIds::POTATO, 0, $count, "Potato");
     }
 }

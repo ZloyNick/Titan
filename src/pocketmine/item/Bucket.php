@@ -35,7 +35,7 @@ class Bucket extends Item
 {
     public function __construct($meta = 0, $count = 1)
     {
-        parent::__construct(self::BUCKET, $meta, $count, "Bucket");
+        parent::__construct(ItemIds::BUCKET, $meta, $count, "Bucket");
     }
 
     public function getMaxStackSize()
@@ -65,7 +65,7 @@ class Bucket extends Item
                     $player->getLevel()->setBlock($target, new Air(), true, true);
                     if ($player->isSurvival()) {
                         if ($this->count <= 1) {
-                            $player->getInventory()->setItemInHand($ev->getItem(), $player);
+                            $player->getInventory()->setItemInHand($ev->getItem());
                         } else {
                             $this->count--;
                             $player->getInventory()->addItem($ev->getItem());

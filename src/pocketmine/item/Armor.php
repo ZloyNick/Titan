@@ -99,7 +99,7 @@ abstract class Armor extends Item
     }
 
     /**
-     * The following types of damage are reduced by armor and, consequently, damage the armor itself:
+     * The following types of damage are reduced by armor and, consequently, damage the armor itItemIds:
      *  - Direct attacks from mobs and players
      *  - This includes the Strength effect and the Sharpness enchantment.
      *  - Getting hit with an arrow
@@ -112,7 +112,7 @@ abstract class Armor extends Item
      *  - Getting hit by chicken eggs
      *  - Getting hit with a fishing rod lure
      *
-     * The following types of damage are not reduced by armor and have no effect on the armor itself:
+     * The following types of damage are not reduced by armor and have no effect on the armor itItemIds:
      *  - Ongoing damage from being on fire
      *  - Suffocating inside a block
      *  - Drowning in water

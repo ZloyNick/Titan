@@ -31,7 +31,7 @@ class FlintSteel extends Tool
 {
     public function __construct($meta = 0, $count = 1)
     {
-        parent::__construct(self::FLINT_STEEL, $meta, $count, "Flint and Steel");
+        parent::__construct(ItemIds::FLINT_STEEL, $meta, $count, "Flint and Steel");
     }
 
     public function canBeActivated()
@@ -41,7 +41,7 @@ class FlintSteel extends Tool
 
     public function onActivate(Level $level, Player $player, Block $block, Block $target, $face, $fx, $fy, $fz)
     {
-        if ($block->getId() === self::AIR and ($target instanceof Solid)) {
+        if ($block->getId() === ItemIds::AIR and ($target instanceof Solid)) {
             $level->setBlock($block, new Fire(), true);
             if (($player->gamemode & 0x01) === 0 and $this->useOn($block)) {
                 if ($this->getDamage() >= $this->getMaxDurability()) {

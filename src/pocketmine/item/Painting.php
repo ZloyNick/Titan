@@ -30,7 +30,7 @@ class Painting extends Item
 {
     public function __construct($meta = 0, $count = 1)
     {
-        parent::__construct(self::PAINTING, 0, $count, "Painting");
+        parent::__construct(ItemIds::PAINTING, 0, $count, "Painting");
     }
 
     public function canBeActivated()

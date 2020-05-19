@@ -9,7 +9,7 @@ class Elytra extends Armor
 
     public function __construct($meta = 0, $count = 1)
     {
-        parent::__construct(self::ELYTRA, $meta, $count, "Elytra");
+        parent::__construct(ItemIds::ELYTRA, $meta, $count, "Elytra");
     }
 
 }

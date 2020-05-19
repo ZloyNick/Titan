@@ -28,6 +28,6 @@ class PumpkinSeeds extends Item
     public function __construct($meta = 0, $count = 1)
     {
         $this->block = Block::get(ItemIds::PUMPKIN_STEM);
-        parent::__construct(self::PUMPKIN_SEEDS, 0, $count, "Pumpkin Seeds");
+        parent::__construct(ItemIds::PUMPKIN_SEEDS, 0, $count, "Pumpkin Seeds");
     }
 }

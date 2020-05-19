@@ -28,6 +28,6 @@ class Carrot extends Item
     public function __construct($meta = 0, $count = 1)
     {
         $this->block = Block::get(ItemIds::CARROT_BLOCK);
-        parent::__construct(self::CARROT, 0, $count, "Carrot");
+        parent::__construct(ItemIds::CARROT, 0, $count, "Carrot");
     }
 }

@@ -36,7 +36,7 @@ class SpawnEgg extends Item
 {
     public function __construct($meta = 0, $count = 1)
     {
-        parent::__construct(self::SPAWN_EGG, $meta, $count, "Spawn Egg");
+        parent::__construct(ItemIds::SPAWN_EGG, $meta, $count, "Spawn Egg");
     }
 
     public function canBeActivated()

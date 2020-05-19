@@ -28,7 +28,7 @@ class Bed extends Item
     public function __construct($meta = 0, $count = 1)
     {
         $this->block = Block::get(ItemIds::BED_BLOCK);
-        parent::__construct(self::BED, $meta, $count, "Bed");
+        parent::__construct(ItemIds::BED, $meta, $count, "Bed");
     }
 
     public function getMaxStackSize()

@@ -28,7 +28,7 @@ class DiamondHelmet extends Armor
 
     public function __construct($meta = 0, $count = 1)
     {
-        parent::__construct(self::DIAMOND_HELMET, $meta, $count, "Diamond Helmet");
+        parent::__construct(ItemIds::DIAMOND_HELMET, $meta, $count, "Diamond Helmet");
     }
 
     public function getMaxDurability()

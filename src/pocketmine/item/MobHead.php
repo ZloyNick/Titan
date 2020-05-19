@@ -28,7 +28,7 @@ class MobHead extends Item
     public function __construct($meta = 0, $count = 1)
     {
         $this->block = Block::get(Block::MOB_HEAD_BLOCK);
-        parent::__construct(self::MOB_HEAD, $meta, $count, self::$names[$meta]);
+        parent::__construct(ItemIds::MOB_HEAD, $meta, $count, ItemIds::$names[$meta]);
     }
 
     public function getMaxStackSize()

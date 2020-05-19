@@ -94,7 +94,7 @@ class Item
         }
 
         $this->cachedNBT = $tag;
-        $this->tags = self::writeCompound($tag);
+        $this->tags = ItemIds::writeCompound($tag);
 
         return $this;
     }
@@ -110,12 +110,12 @@ class Item
      */
     private static function writeCompound(Compound $tag)
     {
-        if (self::$cachedParser === null) {
-            self::$cachedParser = new NBT(NBT::LITTLE_ENDIAN);
+        if (ItemIds::$cachedParser === null) {
+            ItemIds::$cachedParser = new NBT(NBT::LITTLE_ENDIAN);
         }
 
-        self::$cachedParser->setData($tag);
-        return self::$cachedParser->write(true);
+        ItemIds::$cachedParser->setData($tag);
+        return ItemIds::$cachedParser->write(true);
     }
 
     final public function getId()
@@ -174,7 +174,7 @@ class Item
         if ($multiple === true) {
             $blocks = [];
             foreach (explode(",", $str) as $b) {
-                $blocks[] = self::fromString($b, false);
+                $blocks[] = ItemIds::fromString($b, false);
             }
 
             return $blocks;
@@ -187,12 +187,12 @@ class Item
             }
 
             if (defined(ItemIds::class . "::" . strtoupper($b[0]))) {
-                $item = self::get(constant(ItemIds::class . "::" . strtoupper($b[0])), $meta);
-                if ($item->getId() === self::AIR and strtoupper($b[0]) !== "AIR") {
-                    $item = self::get($b[0] & 0xFFFF, $meta);
+                $item = ItemIds::get(constant(ItemIds::class . "::" . strtoupper($b[0])), $meta);
+                if ($item->getId() === ItemIds::AIR and strtoupper($b[0]) !== "AIR") {
+                    $item = ItemIds::get($b[0] & 0xFFFF, $meta);
                 }
             } else {
-                $item = self::get($b[0] & 0xFFFF, $meta);
+                $item = ItemIds::get($b[0] & 0xFFFF, $meta);
             }
 
             return $item;
@@ -202,7 +202,7 @@ class Item
     public static function registerItemBlock($className)
     {
         if (is_a($className, ItemBlock::class, true)) {
-            self::$itemBlockClass = $className;
+            ItemIds::$itemBlockClass = $className;
         }
     }
 
@@ -237,7 +237,7 @@ class Item
         } elseif ($this->cachedNBT !== null) {
             return $this->cachedNBT;
         }
-        return $this->cachedNBT = self::parseCompound($this->tags);
+        return $this->cachedNBT = ItemIds::parseCompound($this->tags);
     }
 
     /**
@@ -246,12 +246,12 @@ class Item
      */
     private static function parseCompound($tag)
     {
-        if (self::$cachedParser === null) {
-            self::$cachedParser = new NBT(NBT::LITTLE_ENDIAN);
+        if (ItemIds::$cachedParser === null) {
+            ItemIds::$cachedParser = new NBT(NBT::LITTLE_ENDIAN);
         }
 
-        self::$cachedParser->read($tag);
-        return self::$cachedParser->getData();
+        ItemIds::$cachedParser->read($tag);
+        return ItemIds::$cachedParser->getData();
     }
 
     public function clearCustomBlockData()

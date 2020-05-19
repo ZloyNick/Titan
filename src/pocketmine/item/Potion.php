@@ -88,8 +88,8 @@ class Potion extends Item
         self::HEALING => [Effect::HEALING, (1), 0],
         self::HEALING_TWO => [Effect::HEALING, (1), 1],
 
-//		self::HARMING => [Effect::HARMING, (1), 0],
-//		self::HARMING_TWO => [Effect::HARMING, (1), 1],
+//		ItemIds::HARMING => [Effect::HARMING, (1), 0],
+//		ItemIds::HARMING_TWO => [Effect::HARMING, (1), 1],
 
         self::POISON => [Effect::POISON, (45 * 20), 0],
         self::POISON_T => [Effect::POISON, (120 * 20), 0],
@@ -109,7 +109,7 @@ class Potion extends Item
 
     public function __construct($meta = 0, $count = 1)
     {
-        parent::__construct(self::POTION, $meta, $count, self::getNameByMeta($meta));
+        parent::__construct(ItemIds::POTION, $meta, $count, self::getNameByMeta($meta));
     }
 
     public static function getNameByMeta(int $meta): string
@@ -146,9 +146,9 @@ class Potion extends Item
             case self::WATER_BREATHING:
             case self::WATER_BREATHING_T:
                 return "Potion of Water Breathing";
-//			case self::HARMING:
+//			case ItemIds::HARMING:
 //				return "Potion of Harming";
-//			case self::HARMING_TWO:
+//			case ItemIds::HARMING_TWO:
 //				return "Potion of Harming II";
             case self::POISON:
             case self::POISON_T:
@@ -222,7 +222,7 @@ class Potion extends Item
         if ($human instanceof Player && $human->getGamemode() === 1) {
             return;
         }
-        $human->getInventory()->setItemInHand(ItemIds::get(self::AIR));
+        $human->getInventory()->setItemInHand(ItemIds::get(ItemIds::AIR));
     }
 
     public function getEffects(): array

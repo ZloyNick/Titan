@@ -98,7 +98,7 @@ abstract class Tool extends Item
                 }
             }
             if ($this->isHoe()) {
-                if (($object instanceof Block) and ($object->getId() === self::GRASS or $object->getId() === self::DIRT)) {
+                if (($object instanceof Block) and ($object->getId() === ItemIds::GRASS or $object->getId() === ItemIds::DIRT)) {
                     $this->meta++;
                     $this->checkDamage();
                 }
@@ -137,9 +137,9 @@ abstract class Tool extends Item
             3 => 132,
             4 => 251,
             5 => 1562,
-            self::FLINT_STEEL => 65,
-            self::SHEARS => 239,
-            self::BOW => 385,
+            ItemIds::FLINT_STEEL => 65,
+            ItemIds::SHEARS => 239,
+            ItemIds::BOW => 385,
         ];
 
         if (($type = $this->isPickaxe()) === false) {
@@ -174,12 +174,12 @@ abstract class Tool extends Item
 
     public function isShears()
     {
-        return ($this->id === self::SHEARS);
+        return ($this->id === ItemIds::SHEARS);
     }
 
     public function isTool()
     {
-        return ($this->id === self::FLINT_STEEL or $this->id === self::SHEARS or $this->id === self::BOW or $this->isPickaxe() !== false or $this->isAxe() !== false or $this->isShovel() !== false or $this->isSword() !== false);
+        return ($this->id === ItemIds::FLINT_STEEL or $this->id === ItemIds::SHEARS or $this->id === ItemIds::BOW or $this->isPickaxe() !== false or $this->isAxe() !== false or $this->isShovel() !== false or $this->isSword() !== false);
     }
 
     public function setDamage($meta)

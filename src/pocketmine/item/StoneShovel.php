@@ -26,7 +26,7 @@ class StoneShovel extends Tool
 {
     public function __construct($meta = 0, $count = 1)
     {
-        parent::__construct(self::STONE_SHOVEL, $meta, $count, "Stone Shovel");
+        parent::__construct(ItemIds::STONE_SHOVEL, $meta, $count, "Stone Shovel");
     }
 
     public function isShovel()
