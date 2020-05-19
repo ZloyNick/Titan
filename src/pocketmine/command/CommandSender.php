@@ -22,23 +22,24 @@
 namespace pocketmine\command;
 
 use pocketmine\permission\Permissible;
+use pocketmine\Server;
 
 interface CommandSender extends Permissible{
 
 	/**
 	 * @param string $message
 	 */
-	public function sendMessage($message);
+	public function sendMessage(string $message) : void;
 
 	/**
-	 * @return \pocketmine\Server
+	 * @return Server
 	 */
-	public function getServer();
+	public function getServer() : Server;
 
 	/**
 	 * @return string
 	 */
-	public function getName();
+	public function getName() : string;
 
 
 }
