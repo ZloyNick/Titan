@@ -21,107 +21,116 @@
 
 namespace pocketmine\inventory;
 
-use pocketmine\inventory\InventoryType;
+use pocketmine\block\Block;
 use pocketmine\item\Item;
 use pocketmine\level\Position;
 use pocketmine\Player;
-use pocketmine\block\Block;
 
-class EnchantInventory extends ContainerInventory {
+class EnchantInventory extends ContainerInventory
+{
 
-	private $bookshelfAmount = 0;
-	private $levels = [];
-	protected $enchantingLevel = 0;
-	private $owner;
+    protected $enchantingLevel = 0;
+    private $bookshelfAmount = 0;
+    private $levels = [];
+    private $owner;
 
-	public function __construct(Position $pos, Player $owner) {
-		$this->owner = $owner;
-		parent::__construct(new FakeBlockMenu($this, $pos), InventoryType::get(InventoryType::ENCHANT_TABLE));
-	}
+    public function __construct(Position $pos, Player $owner)
+    {
+        $this->owner = $owner;
+        parent::__construct(new FakeBlockMenu($this, $pos), InventoryType::get(InventoryType::ENCHANT_TABLE));
+    }
 
-	/**
-	 * @return FakeBlockMenu
-	 */
-	public function getHolder() {
-		return $this->holder;
-	}
+    public function onOpen(Player $who)
+    {
+        parent::onOpen($who);
+        if ($this->levels == null) {
+            $this->bookshelfAmount = $this->countBookshelf();
+            $base = mt_rand(1, 8) + ($this->bookshelfAmount / 2) + mt_rand(0, $this->bookshelfAmount);
+            $this->levels = [
+                0 => max($base / 3, 1),
+                1 => (($base * 2) / 3 + 1),
+                2 => max($base, $this->bookshelfAmount * 2)
+            ];
+        }
+    }
 
-	public function onOpen(Player $who) {
-		parent::onOpen($who);
-		if ($this->levels == null) {
-			$this->bookshelfAmount = $this->countBookshelf();
-			$base = mt_rand(1, 8) + ($this->bookshelfAmount / 2) + mt_rand(0, $this->bookshelfAmount);
-			$this->levels = [
-				0 => max($base / 3, 1),
-				1 => (($base * 2) / 3 + 1),
-				2 => max($base, $this->bookshelfAmount * 2)
-			];
-		}
-	}
+    public function countBookshelf()
+    {
+        $count = 0;
+        $pos = $this->getHolder();
+        $offsets = [[2, 0], [-2, 0], [0, 2], [0, -2], [2, 1], [2, -1], [-2, 1], [-2, 1], [1, 2], [-1, 2], [1, -2], [-1, -2]];
+        for ($i = 0; $i < 3; $i++) {
+            foreach ($offsets as $offset) {
+                if ($pos->getLevel()->getBlockIdAt($pos->x + $offset[0], $pos->y + $i, $pos->z + $offset[1]) == Block::BOOKSHELF) {
+                    $count++;
+                }
+                if ($count === 15) {
+                    break 2;
+                }
+            }
+        }
+        return $count;
+    }
 
-	public function onClose(Player $who) {
-		parent::onClose($who);
-		$ownerInventory = $this->owner->getInventory();
-		$needSend = false;
-		for ($i = 0; $i < 2; $i++) {
-			$item = $this->getItem($i);			
-			if ($item->getId() != Item::AIR) {
-				$ownerInventory->addItem($item);
-				$needSend = true;
-			}
-		}
-		if ($needSend) {
-			$ownerInventory->sendContents($this->owner);
-		}
-		$this->clearAll();
-	}
+    /**
+     * @return FakeBlockMenu
+     */
+    public function getHolder()
+    {
+        return $this->holder;
+    }
 
-	public function countBookshelf() {
-		$count = 0;
-		$pos = $this->getHolder();
-		$offsets = [[2, 0], [-2, 0], [0, 2], [0, -2], [2, 1], [2, -1], [-2, 1], [-2, 1], [1, 2], [-1, 2], [1, -2], [-1, -2]];
-		for ($i = 0; $i < 3; $i++) {
-			foreach ($offsets as $offset) {
-				if ($pos->getLevel()->getBlockIdAt($pos->x + $offset[0], $pos->y + $i, $pos->z + $offset[1]) == Block::BOOKSHELF) {
-					$count++;
-				}
-				if ($count === 15) {
-					break 2;
-				}
-			}
-		}
-		return $count;
-	}
-	
-	public function setEnchantingLevel($level) {
-		$this->enchantingLevel = $level;
-	}
-	
-	public function getEnchantingLevel() {
-		return $this->enchantingLevel;
-	}
-	
-	public function isItemWasEnchant() {
-		return $this->enchantingLevel > 0;
-	}
-	
-	public function updateResultItem(Item $item) {
-		if ($this->enchantingLevel !== 0 && !is_null($this->slots[1])) {
-			$catalystCount = $this->slots[1]->getCount();
-			if ($catalystCount > $this->enchantingLevel) {
-				$this->slots[1]->setCount($catalystCount - $this->enchantingLevel);
-			} else if ($catalystCount === $this->enchantingLevel) {
-				$this->slots[1] = Item::get(Item::AIR);
-			} else {
-				echo '[Enchant]: Catalyst count problem'.PHP_EOL;
-				return false;
-			}
-			$this->slots[0] = $item;
-			$this->enchantingLevel = 0;
-			return true;
-		}
-		echo '[Enchant]: Cheaters activity'.PHP_EOL;
-		return false;
-	}
+    public function onClose(Player $who)
+    {
+        parent::onClose($who);
+        $ownerInventory = $this->owner->getInventory();
+        $needSend = false;
+        for ($i = 0; $i < 2; $i++) {
+            $item = $this->getItem($i);
+            if ($item->getId() != Item::AIR) {
+                $ownerInventory->addItem($item);
+                $needSend = true;
+            }
+        }
+        if ($needSend) {
+            $ownerInventory->sendContents($this->owner);
+        }
+        $this->clearAll();
+    }
+
+    public function getEnchantingLevel()
+    {
+        return $this->enchantingLevel;
+    }
+
+    public function setEnchantingLevel($level)
+    {
+        $this->enchantingLevel = $level;
+    }
+
+    public function isItemWasEnchant()
+    {
+        return $this->enchantingLevel > 0;
+    }
+
+    public function updateResultItem(Item $item)
+    {
+        if ($this->enchantingLevel !== 0 && !is_null($this->slots[1])) {
+            $catalystCount = $this->slots[1]->getCount();
+            if ($catalystCount > $this->enchantingLevel) {
+                $this->slots[1]->setCount($catalystCount - $this->enchantingLevel);
+            } else if ($catalystCount === $this->enchantingLevel) {
+                $this->slots[1] = Item::get(Item::AIR);
+            } else {
+                echo '[Enchant]: Catalyst count problem' . PHP_EOL;
+                return false;
+            }
+            $this->slots[0] = $item;
+            $this->enchantingLevel = 0;
+            return true;
+        }
+        echo '[Enchant]: Cheaters activity' . PHP_EOL;
+        return false;
+    }
 
 }

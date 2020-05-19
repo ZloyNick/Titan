@@ -21,12 +21,14 @@
 
 namespace pocketmine\scheduler;
 
-class GarbageCollectionTask extends Task{
+class GarbageCollectionTask extends Task
+{
 
-	public function onRun($currentTicks){
-		\gc_collect_cycles();
-		memory_get_usage();
-		memory_get_usage(true);
-	}
+    public function onRun($currentTicks)
+    {
+        \gc_collect_cycles();
+        memory_get_usage();
+        memory_get_usage(true);
+    }
 
 }

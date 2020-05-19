@@ -23,126 +23,137 @@ namespace pocketmine\inventory;
 
 use pocketmine\item\Item;
 use pocketmine\level\Level;
-use pocketmine\network\Network;
 use pocketmine\network\protocol\TileEventPacket;
 use pocketmine\Player;
-
 use pocketmine\Server;
 use pocketmine\tile\Chest;
 
-class DoubleChestInventory extends ChestInventory implements InventoryHolder{
-	/** @var ChestInventory */
-	private $left;
-	/** @var ChestInventory */
-	private $right;
-	
-	public function __construct(Chest $left, Chest $right){
-		$this->left = $left->getRealInventory();
-		$this->right = $right->getRealInventory();
-		$items = array_merge($this->left->getContents(), $this->right->getContents());
-		BaseInventory::__construct($left, InventoryType::get(InventoryType::DOUBLE_CHEST), $items);
-	}
+class DoubleChestInventory extends ChestInventory implements InventoryHolder
+{
+    /** @var ChestInventory */
+    private $left;
+    /** @var ChestInventory */
+    private $right;
 
-	public function getInventory(){
-		return $this;
-	}
+    public function __construct(Chest $left, Chest $right)
+    {
+        $this->left = $left->getRealInventory();
+        $this->right = $right->getRealInventory();
+        $items = array_merge($this->left->getContents(), $this->right->getContents());
+        BaseInventory::__construct($left, InventoryType::get(InventoryType::DOUBLE_CHEST), $items);
+    }
 
-	public function getHolder(){
-		return $this->left->getHolder();
-	}
+    public function getInventory()
+    {
+        return $this;
+    }
 
-	public function getItem($index){
-		return $index < $this->left->getSize() ? $this->left->getItem($index) : $this->right->getItem($index - $this->right->getSize());
-	}
+    public function getHolder()
+    {
+        return $this->left->getHolder();
+    }
 
-	public function setItem($index, Item $item) {
-		$old = $this->getItem($index);
-		if ($index < $this->left->getSize() ? $this->left->setItem($index, $item) : $this->right->setItem($index - $this->right->getSize(), $item)) {
-			$this->onSlotChange($index, $old);
-			return true;
-		}
-		return false;
-	}
+    public function getContents()
+    {
+        $contents = [];
+        for ($i = 0; $i < $this->getSize(); ++$i) {
+            $contents[$i] = $this->getItem($i);
+        }
 
-	public function clear($index){
-		return $index < $this->left->getSize() ? $this->left->clear($index) : $this->right->clear($index - $this->right->getSize());
-	}
+        return $contents;
+    }
 
-	public function getContents(){
-		$contents = [];
-		for($i = 0; $i < $this->getSize(); ++$i){
-			$contents[$i] = $this->getItem($i);
-		}
+    public function getItem($index)
+    {
+        return $index < $this->left->getSize() ? $this->left->getItem($index) : $this->right->getItem($index - $this->right->getSize());
+    }
 
-		return $contents;
-	}
-
-	/**
-	 * @param Item[] $items
-	 */
-	public function setContents(array $items){
-		if(count($items) > $this->size){
-			$items = array_slice($items, 0, $this->size, true);
-		}
+    /**
+     * @param Item[] $items
+     */
+    public function setContents(array $items)
+    {
+        if (count($items) > $this->size) {
+            $items = array_slice($items, 0, $this->size, true);
+        }
 
 
-		for($i = 0; $i < $this->size; ++$i){
-			if(!isset($items[$i])){
-				if ($i < $this->left->size){
-					if(isset($this->left->slots[$i])){
-						$this->clear($i);
-					}
-				}elseif(isset($this->right->slots[$i - $this->left->size])){
-					$this->clear($i);
-				}
-			}elseif(!$this->setItem($i, $items[$i])){
-				$this->clear($i);
-			}
-		}
-	}
+        for ($i = 0; $i < $this->size; ++$i) {
+            if (!isset($items[$i])) {
+                if ($i < $this->left->size) {
+                    if (isset($this->left->slots[$i])) {
+                        $this->clear($i);
+                    }
+                } elseif (isset($this->right->slots[$i - $this->left->size])) {
+                    $this->clear($i);
+                }
+            } elseif (!$this->setItem($i, $items[$i])) {
+                $this->clear($i);
+            }
+        }
+    }
 
-	public function onOpen(Player $who){
-		parent::onOpen($who);
+    public function clear($index)
+    {
+        return $index < $this->left->getSize() ? $this->left->clear($index) : $this->right->clear($index - $this->right->getSize());
+    }
 
-		if(count($this->getViewers()) === 1){
-			$pk = new TileEventPacket();
-			$pk->x = $this->right->getHolder()->getX();
-			$pk->y = $this->right->getHolder()->getY();
-			$pk->z = $this->right->getHolder()->getZ();
-			$pk->case1 = 1;
-			$pk->case2 = 2;
-			if(($level = $this->right->getHolder()->getLevel()) instanceof Level){
-				Server::broadcastPacket($level->getUsingChunk($this->right->getHolder()->getX() >> 4, $this->right->getHolder()->getZ() >> 4), $pk);
-			}
-		}
-	}
+    public function setItem($index, Item $item)
+    {
+        $old = $this->getItem($index);
+        if ($index < $this->left->getSize() ? $this->left->setItem($index, $item) : $this->right->setItem($index - $this->right->getSize(), $item)) {
+            $this->onSlotChange($index, $old);
+            return true;
+        }
+        return false;
+    }
 
-	public function onClose(Player $who){
-		if(count($this->getViewers()) === 1){
-			$pk = new TileEventPacket();
-			$pk->x = $this->right->getHolder()->getX();
-			$pk->y = $this->right->getHolder()->getY();
-			$pk->z = $this->right->getHolder()->getZ();
-			$pk->case1 = 1;
-			$pk->case2 = 0;
-			if(($level = $this->right->getHolder()->getLevel()) instanceof Level){
-				Server::broadcastPacket($level->getUsingChunk($this->right->getHolder()->getX() >> 4, $this->right->getHolder()->getZ() >> 4), $pk);
-			}
-		}
-		parent::onClose($who);
-	}
+    public function onOpen(Player $who)
+    {
+        parent::onOpen($who);
 
-	/**
-	 * @return ChestInventory
-	 */
-	public function getLeftSide(){
-		return $this->left;
-	}
+        if (count($this->getViewers()) === 1) {
+            $pk = new TileEventPacket();
+            $pk->x = $this->right->getHolder()->getX();
+            $pk->y = $this->right->getHolder()->getY();
+            $pk->z = $this->right->getHolder()->getZ();
+            $pk->case1 = 1;
+            $pk->case2 = 2;
+            if (($level = $this->right->getHolder()->getLevel()) instanceof Level) {
+                Server::broadcastPacket($level->getUsingChunk($this->right->getHolder()->getX() >> 4, $this->right->getHolder()->getZ() >> 4), $pk);
+            }
+        }
+    }
 
-	/**
-	 * @return ChestInventory
-	 */
-	public function getRightSide(){
-		return $this->right;
-	}
+    public function onClose(Player $who)
+    {
+        if (count($this->getViewers()) === 1) {
+            $pk = new TileEventPacket();
+            $pk->x = $this->right->getHolder()->getX();
+            $pk->y = $this->right->getHolder()->getY();
+            $pk->z = $this->right->getHolder()->getZ();
+            $pk->case1 = 1;
+            $pk->case2 = 0;
+            if (($level = $this->right->getHolder()->getLevel()) instanceof Level) {
+                Server::broadcastPacket($level->getUsingChunk($this->right->getHolder()->getX() >> 4, $this->right->getHolder()->getZ() >> 4), $pk);
+            }
+        }
+        parent::onClose($who);
+    }
+
+    /**
+     * @return ChestInventory
+     */
+    public function getLeftSide()
+    {
+        return $this->left;
+    }
+
+    /**
+     * @return ChestInventory
+     */
+    public function getRightSide()
+    {
+        return $this->right;
+    }
 }

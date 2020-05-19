@@ -2,6 +2,7 @@
 
 namespace pocketmine\inventory;
 
-class PlayerInventory120 extends PlayerInventory {
-	
+class PlayerInventory120 extends PlayerInventory
+{
+
 }
