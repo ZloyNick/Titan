@@ -183,7 +183,7 @@ class Bed extends Transparent
     public function getDrops(Item $item)
     {
         return [
-            [Item::BED, 0, 1],
+            [ItemIds::BED, 0, 1],
         ];
     }
 

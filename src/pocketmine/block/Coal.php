@@ -53,7 +53,7 @@ class Coal extends Solid
     {
         if ($item->isPickaxe() >= 1) {
             return [
-                [Item::COAL_BLOCK, 0, 1],
+                [ItemIds::COAL_BLOCK, 0, 1],
             ];
         } else {
             return [];

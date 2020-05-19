@@ -18,7 +18,7 @@ class RedSandstoneStairs extends SandstoneStairs
     {
         if ($item->isPickaxe() >= 1) {
             return [
-                [Item::RED_SANDSTONE_STAIRS, $this->meta & 0x03, 1],
+                [ItemIds::RED_SANDSTONE_STAIRS, $this->meta & 0x03, 1],
             ];
         } else {
             return [];

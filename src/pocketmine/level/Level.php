@@ -1244,7 +1244,7 @@ class Level implements ChunkManager, Metadatable
     public function useBreakOn(Vector3 $vector, Item &$item = null, Player $player = null)
     {
         if ($item === null) {
-            $item = Item::get(Item::AIR, 0, 0);
+            $item = ItemIds::get(ItemIds::AIR, 0, 0);
         }
         $target = $this->getBlock($vector);
         $drops = $target->getDrops($item);
@@ -1292,7 +1292,7 @@ class Level implements ChunkManager, Metadatable
         if ($level instanceof Level) {
             $above = $level->getBlock(new Vector3($target->x, $target->y + 1, $target->z));
             if ($above instanceof Block) {
-                if ($above->getId() === Item::FIRE) {
+                if ($above->getId() === ItemIds::FIRE) {
                     $level->setBlock($above, new Air(), true);
                 }
             }
@@ -1314,14 +1314,14 @@ class Level implements ChunkManager, Metadatable
         if ($item instanceof Item) {
             $item->useOn($target);
             if ($item->isTool() && $item->getDamage() >= $item->getMaxDurability()) {
-                $item = Item::get(Item::AIR, 0, 0);
+                $item = ItemIds::get(ItemIds::AIR, 0, 0);
             }
         }
 
         if (!($player instanceof Player) || $player->isSurvival()) {
             foreach ($drops as $drop) {
                 if ($drop[2] > 0) {
-                    $this->dropItem($vector->add(0.5, 0.5, 0.5), Item::get(...$drop));
+                    $this->dropItem($vector->add(0.5, 0.5, 0.5), ItemIds::get(...$drop));
                 }
             }
         }
@@ -1584,7 +1584,7 @@ class Level implements ChunkManager, Metadatable
     public function useItemOn(Vector3 $vector, Item &$item, $face, $fx = 0.0, $fy = 0.0, $fz = 0.0, Player $player = null)
     {
         $target = $this->getBlock($vector);
-        if ($target->getId() === Item::AIR) {
+        if ($target->getId() === ItemIds::AIR) {
             return false;
         }
 
@@ -1608,7 +1608,7 @@ class Level implements ChunkManager, Metadatable
                 }
                 if ($item->canBeActivated() && $item->onActivate($this, $player, $block, $target, $face, $fx, $fy, $fz)) {
                     if ($item->getCount() <= 0) {
-                        $item = Item::get(Item::AIR, 0, 0);
+                        $item = ItemIds::get(ItemIds::AIR, 0, 0);
                     }
                     return true;
                 }
@@ -1622,14 +1622,14 @@ class Level implements ChunkManager, Metadatable
         if ($item->isPlaceable()) {
             $hand = $item->getBlock();
             $hand->position($block);
-        } else if ($block->getId() === Item::FIRE) {
+        } else if ($block->getId() === ItemIds::FIRE) {
             $block->onUpdate(self::BLOCK_UPDATE_TOUCH);
             return false;
         } else {
             return false;
         }
 
-        if (!($block->canBeReplaced() === true || ($hand->getId() === $block->getId() && ($block->getId() === Item::SLAB || $block->getId() === Item::STONE_SLAB2)))) {
+        if (!($block->canBeReplaced() === true || ($hand->getId() === $block->getId() && ($block->getId() === ItemIds::SLAB || $block->getId() === ItemIds::STONE_SLAB2)))) {
             return false;
         }
 
@@ -1697,7 +1697,7 @@ class Level implements ChunkManager, Metadatable
         $viewers[] = $player;
         $player->sendSound(LevelSoundEventPacket::SOUND_PLACE, $position, MultiversionEntity::ID_NONE, $blockId, $viewers);
 
-        if ($hand->getId() === Item::SIGN_POST or $hand->getId() === Item::WALL_SIGN) {
+        if ($hand->getId() === ItemIds::SIGN_POST or $hand->getId() === ItemIds::WALL_SIGN) {
             $tile = Tile::createTile("Sign", $this->getChunk($block->x >> 4, $block->z >> 4), new Compound(false, [
                 "id" => new StringTag("id", Tile::SIGN),
                 "x" => new IntTag("x", $block->x),
@@ -1714,7 +1714,7 @@ class Level implements ChunkManager, Metadatable
         }
         $item->setCount($item->getCount() - 1);
         if ($item->getCount() <= 0) {
-            $item = Item::get(Item::AIR, 0, 0);
+            $item = ItemIds::get(ItemIds::AIR, 0, 0);
         }
 
         return true;

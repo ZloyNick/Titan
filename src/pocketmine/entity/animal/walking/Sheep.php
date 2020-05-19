@@ -31,7 +31,7 @@ class Sheep extends WalkingAnimal implements Colorable
     public function targetOption(Creature $creature, float $distance)
     {
         if ($creature instanceof Player) {
-            return $creature->spawned && $creature->isAlive() && !$creature->closed && $creature->getInventory()->getItemInHand()->getId() == Item::SEEDS && $distance <= 49;
+            return $creature->spawned && $creature->isAlive() && !$creature->closed && $creature->getInventory()->getItemInHand()->getId() == ItemIds::SEEDS && $distance <= 49;
         }
         return false;
     }
@@ -39,7 +39,7 @@ class Sheep extends WalkingAnimal implements Colorable
     public function getDrops()
     {
         if ($this->lastDamageCause instanceof EntityDamageByEntityEvent) {
-            return [Item::get(Item::WOOL, mt_rand(0, 15), 1)];
+            return [ItemIds::get(ItemIds::WOOL, mt_rand(0, 15), 1)];
         }
         return [];
     }

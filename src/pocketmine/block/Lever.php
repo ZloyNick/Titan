@@ -57,7 +57,7 @@ class Lever extends Transparent
     public function getDrops(Item $item)
     {
         return [
-            [Item::LEVER, 0, 1],
+            [ItemIds::LEVER, 0, 1],
         ];
     }
 

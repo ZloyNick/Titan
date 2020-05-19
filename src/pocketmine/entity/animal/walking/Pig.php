@@ -31,7 +31,7 @@ class Pig extends WalkingAnimal implements Rideable
     public function targetOption(Creature $creature, float $distance)
     {
         if ($creature instanceof Player) {
-            return $creature->spawned && $creature->isAlive() && !$creature->closed && $creature->getInventory()->getItemInHand()->getId() == Item::CARROT && $distance <= 49;
+            return $creature->spawned && $creature->isAlive() && !$creature->closed && $creature->getInventory()->getItemInHand()->getId() == ItemIds::CARROT && $distance <= 49;
         }
         return false;
     }
@@ -39,7 +39,7 @@ class Pig extends WalkingAnimal implements Rideable
     public function getDrops()
     {
         if ($this->lastDamageCause instanceof EntityDamageByEntityEvent) {
-            return [Item::get(Item::RAW_PORKCHOP, 0, 1)];
+            return [ItemIds::get(ItemIds::RAW_PORKCHOP, 0, 1)];
         }
         return [];
     }

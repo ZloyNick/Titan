@@ -53,7 +53,7 @@ class Obsidian extends Solid
     {
         if ($item->isPickaxe() >= 5) {
             return [
-                [Item::OBSIDIAN, 0, 1],
+                [ItemIds::OBSIDIAN, 0, 1],
             ];
         } else {
             return [];

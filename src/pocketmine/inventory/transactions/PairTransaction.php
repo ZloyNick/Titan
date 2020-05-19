@@ -51,7 +51,7 @@ class PairTransaction extends BaseTransaction
         $itemId = $item->getId();
         $itemCount = $item->getCount();
 
-        if ($itemId !== Item::AIR) {
+        if ($itemId !== ItemIds::AIR) {
             if (!isset($itemsData['items'][$itemId])) {
                 $itemsData['items'][$itemId] = 0;
             }

@@ -57,7 +57,7 @@ class DarkOakDoor extends Door
     public function getDrops(Item $item)
     {
         return [
-            [Item::DARK_OAK_DOOR, 0, 1],
+            [ItemIds::DARK_OAK_DOOR, 0, 1],
         ];
     }
 }

@@ -58,7 +58,7 @@ class Bricks extends Solid
     {
         if ($item->isPickaxe() >= 1) {
             return [
-                [Item::BRICKS_BLOCK, 0, 1],
+                [ItemIds::BRICKS_BLOCK, 0, 1],
             ];
         } else {
             return [];

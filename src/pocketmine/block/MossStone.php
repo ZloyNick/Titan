@@ -53,7 +53,7 @@ class MossStone extends Solid
     {
         if ($item->isPickaxe() >= 1) {
             return [
-                [Item::MOSS_STONE, $this->meta, 1],
+                [ItemIds::MOSS_STONE, $this->meta, 1],
             ];
         } else {
             return [];

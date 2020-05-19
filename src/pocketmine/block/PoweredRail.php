@@ -52,7 +52,7 @@ class PoweredRail extends Rail
     public function getDrops(Item $item)
     {
         return [
-            [Item::POWERED_RAIL, 0, 1],
+            [ItemIds::POWERED_RAIL, 0, 1],
         ];
     }
 }

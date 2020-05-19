@@ -53,7 +53,7 @@ class Diamond extends Solid
     {
         if ($item->isPickaxe() >= 4) {
             return [
-                [Item::DIAMOND_BLOCK, 0, 1],
+                [ItemIds::DIAMOND_BLOCK, 0, 1],
             ];
         } else {
             return [];

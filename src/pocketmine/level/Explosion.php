@@ -165,7 +165,7 @@ private $rays = 16;
         }
 
 
-        $air = Item::get(Item::AIR);
+        $air = ItemIds::get(ItemIds::AIR);
 
         foreach ($this->affectedBlocks as $block) {
             if ($block->getId() === Block::TNT) {
@@ -193,7 +193,7 @@ private $rays = 16;
                 $tnt->spawnToAll();
             } elseif (mt_rand(0, 100) < $yield) {
                 foreach ($block->getDrops($air) as $drop) {
-                    $this->level->dropItem($block->add(0.5, 0.5, 0.5), Item::get(...$drop));
+                    $this->level->dropItem($block->add(0.5, 0.5, 0.5), ItemIds::get(...$drop));
                 }
             }
             $this->level->setBlock(new Vector3($block->x, $block->y, $block->z), new Air());

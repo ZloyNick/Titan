@@ -52,7 +52,7 @@ class DetectorRail extends Rail
     public function getDrops(Item $item)
     {
         return [
-            [Item::DETECTOR_RAIL, 0, 1],
+            [ItemIds::DETECTOR_RAIL, 0, 1],
         ];
     }
 }

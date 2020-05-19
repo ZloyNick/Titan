@@ -46,7 +46,7 @@ class WeightedPressurePlateHeavy extends StonePressurePlate
     public function getDrops(Item $item)
     {
         return [
-            [Item::WEIGHTED_PRESSURE_PLATE_HEAVY, 0, 1],
+            [ItemIds::WEIGHTED_PRESSURE_PLATE_HEAVY, 0, 1],
         ];
     }
 }

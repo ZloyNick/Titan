@@ -64,7 +64,7 @@ class StoneBricks extends Solid
     {
         if ($item->isPickaxe() >= 1) {
             return [
-                [Item::STONE_BRICKS, $this->meta & 0x03, 1],
+                [ItemIds::STONE_BRICKS, $this->meta & 0x03, 1],
             ];
         } else {
             return [];

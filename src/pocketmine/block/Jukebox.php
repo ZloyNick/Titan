@@ -52,7 +52,7 @@ class Jukebox extends Solid
     public function getDrops(Item $item)
     {
         return [
-            [Item::JUKEBOX, 0, 1]
+            [ItemIds::JUKEBOX, 0, 1]
         ];
     }
 }

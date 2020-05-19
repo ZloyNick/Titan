@@ -96,16 +96,16 @@ class SimpleTransactionGroup implements TransactionGroup
     {
         $oldSourceItem = $sourceTr->getSourceItem();
         $newSourceItem = $targetTr->getSourceItem();
-        if ($oldSourceItem->equals($newSourceItem) || $oldSourceItem->getId() == Item::AIR || $newSourceItem->getId() == Item::AIR) {
+        if ($oldSourceItem->equals($newSourceItem) || $oldSourceItem->getId() == ItemIds::AIR || $newSourceItem->getId() == ItemIds::AIR) {
             $oldTargetItem = $sourceTr->getTargetItem();
             $newTargetItem = $targetTr->getTargetItem();
-            if ($oldTargetItem->equals($newTargetItem) || $oldTargetItem->getId() == Item::AIR || $newTargetItem->getId() == Item::AIR) {
-                if ($oldSourceItem->getId() != Item::AIR) {
+            if ($oldTargetItem->equals($newTargetItem) || $oldTargetItem->getId() == ItemIds::AIR || $newTargetItem->getId() == ItemIds::AIR) {
+                if ($oldSourceItem->getId() != ItemIds::AIR) {
                     $oldSourceItem->count += $newSourceItem->count;
                 } else {
                     $oldSourceItem = $newSourceItem;
                 }
-                if ($oldTargetItem->getId() != Item::AIR) {
+                if ($oldTargetItem->getId() != ItemIds::AIR) {
                     $oldTargetItem->count += $newTargetItem->count;
                 } else {
                     $oldTargetItem = $newTargetItem;
@@ -163,19 +163,19 @@ class SimpleTransactionGroup implements TransactionGroup
     protected function matchItems(array &$needItems, array &$haveItems)
     {
         foreach ($this->transactions as $key => $ts) {
-            if ($ts->getTargetItem()->getId() !== Item::AIR) {
+            if ($ts->getTargetItem()->getId() !== ItemIds::AIR) {
                 $needItems[] = $ts->getTargetItem();
             }
             $sourceItem = $ts->getSourceItem();
-            $sourceItemIsAir = $sourceItem->getId() === Item::AIR;
+            $sourceItemIsAir = $sourceItem->getId() === ItemIds::AIR;
             if ($ts->getSlot() == PlayerInventory::CREATIVE_INDEX) {
-                if (!$sourceItemIsAir && Item::getCreativeItemIndex($sourceItem) === -1) {
+                if (!$sourceItemIsAir && ItemIds::getCreativeItemIndex($sourceItem) === -1) {
                     return false;
                 }
             } else {
                 $checkSourceItem = $ts->getInventory()->getItem($ts->getSlot());
                 if (is_null($checkSourceItem)) {
-                    $checkSourceItem = Item::get(Item::AIR, 0, 0);
+                    $checkSourceItem = ItemIds::get(ItemIds::AIR, 0, 0);
                     error_log("--------------------------------------");
                     error_log("Get item return null for inventory " . get_class() . " and slot " . $ts->getSlot());
                     ob_start();

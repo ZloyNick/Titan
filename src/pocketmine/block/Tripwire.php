@@ -46,7 +46,7 @@ class Tripwire extends Transparent
     public function getDrops(Item $item)
     {
         return [
-            [Item::TRIPWIRE, 0, 1],
+            [ItemIds::TRIPWIRE, 0, 1],
         ];
     }
 

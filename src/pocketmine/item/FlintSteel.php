@@ -45,7 +45,7 @@ class FlintSteel extends Tool
             $level->setBlock($block, new Fire(), true);
             if (($player->gamemode & 0x01) === 0 and $this->useOn($block)) {
                 if ($this->getDamage() >= $this->getMaxDurability()) {
-                    $player->getInventory()->setItemInHand(new Item(Item::AIR, 0, 0));
+                    $player->getInventory()->setItemInHand(new Item(ItemIds::AIR, 0, 0));
                 } else {
                     $this->meta++;
                     $player->getInventory()->setItemInHand($this);

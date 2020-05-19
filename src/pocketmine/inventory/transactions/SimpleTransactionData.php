@@ -42,8 +42,8 @@ class SimpleTransactionData
 
     public function __construct()
     {
-        $this->oldItem = Item::get(Item::AIR);
-        $this->newItem = Item::get(Item::AIR);
+        $this->oldItem = ItemIds::get(ItemIds::AIR);
+        $this->newItem = ItemIds::get(ItemIds::AIR);
     }
 
     public function __toString()

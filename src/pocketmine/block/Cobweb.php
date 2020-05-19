@@ -66,7 +66,7 @@ class Cobweb extends Flowable
         //TODO: correct drops
         if ($item->isSword() >= 1) {
             return [
-                [Item::AIR, 0, 0],
+                [ItemIds::AIR, 0, 0],
             ];
         } else {
             return [];

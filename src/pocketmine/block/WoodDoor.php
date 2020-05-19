@@ -57,7 +57,7 @@ class WoodDoor extends Door
     public function getDrops(Item $item)
     {
         return [
-            [Item::WOODEN_DOOR, 0, 1],
+            [ItemIds::WOODEN_DOOR, 0, 1],
         ];
     }
 }

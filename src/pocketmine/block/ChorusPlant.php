@@ -33,7 +33,7 @@ class ChorusPlant extends Solid
     public function getDrops(Item $item)
     {
         return [
-            [Item::CHORUS_FRUIT, 0, 2]
+            [ItemIds::CHORUS_FRUIT, 0, 2]
         ];
     }
 }

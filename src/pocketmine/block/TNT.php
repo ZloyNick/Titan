@@ -58,7 +58,7 @@ class TNT extends Solid
 
     public function onActivate(Item $item, Player $player = null)
     {
-        if ($item->getId() === Item::FLINT_STEEL) {
+        if ($item->getId() === ItemIds::FLINT_STEEL) {
             $item->useOn($this);
             $this->getLevel()->setBlock($this, new Air());
 

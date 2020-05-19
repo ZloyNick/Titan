@@ -56,9 +56,9 @@ class PlayerInventory extends BaseInventory
         for ($i = 0; $i < $this->getHotbarSize(); $i++) {
             $this->hotbar[$i] = $i;
         }
-        $this->cursor = Item::get(Item::AIR, 0, 0);
+        $this->cursor = ItemIds::get(ItemIds::AIR, 0, 0);
         for ($i = 0; $i < 9; $i++) {
-            $this->craftSlots[$i] = Item::get(Item::AIR, 0, 0);
+            $this->craftSlots[$i] = ItemIds::get(ItemIds::AIR, 0, 0);
         }
         parent::__construct($player, InventoryType::get(InventoryType::PLAYER));
     }
@@ -313,7 +313,7 @@ class PlayerInventory extends BaseInventory
             }
             $oldItem = $this->slots[$slotIndex];
             $newItem = $ev->getNewItem();
-            if ($newItem->getId() !== Item::AIR) {
+            if ($newItem->getId() !== ItemIds::AIR) {
                 $this->slots[$slotIndex] = clone $newItem;
             } else {
                 unset($this->slots[$slotIndex]);
@@ -570,7 +570,7 @@ class PlayerInventory extends BaseInventory
                 $items[$i] = clone $this->air;
             }
 
-            if ($items[$i]->getId() === Item::AIR) {
+            if ($items[$i]->getId() === ItemIds::AIR) {
                 $this->clear($this->getSize() + $i);
             } else {
                 $this->setItem($this->getSize() + $i, $items[$i], $sendPacket);
@@ -582,8 +582,8 @@ class PlayerInventory extends BaseInventory
     {
         $offhandSlotId = $this->getSize() + self::OFFHAND_ARMOR_SLOT_ID;
         $item = $this->getItem($offhandSlotId);
-        if ($item->getId() !== Item::AIR && $item->getCount() > 0) {
-            if ($searchItem->equals($item, $searchItem->getDamage() === null ? false : true, $searchItem->getId() == Item::ARROW || $searchItem->getCompound() === null ? false : true)) {
+        if ($item->getId() !== ItemIds::AIR && $item->getCount() > 0) {
+            if ($searchItem->equals($item, $searchItem->getDamage() === null ? false : true, $searchItem->getId() == ItemIds::ARROW || $searchItem->getCompound() === null ? false : true)) {
                 $amount = min($item->getCount(), $searchItem->getCount());
                 $searchItem->setCount($searchItem->getCount() - $amount);
                 $item->setCount($item->getCount() - $amount);
@@ -625,14 +625,14 @@ class PlayerInventory extends BaseInventory
         parent::close($who);
         $isChanged = false;
         foreach ($this->craftSlots as $index => $slot) {
-            if ($slot->getId() != Item::AIR) {
+            if ($slot->getId() != ItemIds::AIR) {
                 $this->addItem($slot);
-                $this->craftSlots[$index] = Item::get(Item::AIR, 0, 0);
+                $this->craftSlots[$index] = ItemIds::get(ItemIds::AIR, 0, 0);
                 $isChanged = true;
             }
         }
         foreach ($this->quickCraftSlots as $slot) {
-            if ($slot->getId() != Item::AIR) {
+            if ($slot->getId() != ItemIds::AIR) {
                 $this->addItem($slot);
                 $isChanged = true;
             }

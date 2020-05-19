@@ -53,7 +53,7 @@ class Netherrack extends Solid
     {
         if ($item->isPickaxe() >= 1) {
             return [
-                [Item::NETHERRACK, 0, 1],
+                [ItemIds::NETHERRACK, 0, 1],
             ];
         } else {
             return [];

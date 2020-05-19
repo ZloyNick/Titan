@@ -86,7 +86,7 @@ class PumpkinStem extends Crops
     public function getDrops(Item $item)
     {
         return [
-            [Item::PUMPKIN_SEEDS, 0, mt_rand(0, 2)],
+            [ItemIds::PUMPKIN_SEEDS, 0, mt_rand(0, 2)],
         ];
     }
 }

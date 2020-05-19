@@ -52,7 +52,7 @@ class StoneButton extends Button
     public function getDrops(Item $item)
     {
         return [
-            [Item::STONE_BUTTON, 0, 1],
+            [ItemIds::STONE_BUTTON, 0, 1],
         ];
     }
 }

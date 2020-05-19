@@ -46,7 +46,7 @@ class RedstoneWire extends Transparent
     public function getDrops(Item $item)
     {
         return [
-            [Item::REDSTONE_WIRE, 0, 1],
+            [ItemIds::REDSTONE_WIRE, 0, 1],
         ];
     }
 }

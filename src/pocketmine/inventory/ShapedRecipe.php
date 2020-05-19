@@ -158,7 +158,7 @@ class ShapedRecipe implements Recipe
                 if ($ingredient !== null) {
                     $ingredients[$y][$x] = clone $ingredient;
                 } else {
-                    $ingredients[$y][$x] = Item::get(Item::AIR);
+                    $ingredients[$y][$x] = ItemIds::get(ItemIds::AIR);
                 }
             }
         }
@@ -173,7 +173,7 @@ class ShapedRecipe implements Recipe
      */
     public function getIngredient($x, $y)
     {
-        return isset($this->ingredients[$y][$x]) ? $this->ingredients[$y][$x] : Item::get(Item::AIR);
+        return isset($this->ingredients[$y][$x]) ? $this->ingredients[$y][$x] : ItemIds::get(ItemIds::AIR);
     }
 
     /**

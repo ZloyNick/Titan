@@ -36,7 +36,7 @@ class RedNetherBrick extends NetherBrick
     public function getDrops(Item $item)
     {
         return [
-            [Item::RED_NETHER_BRICK, 0, 1],
+            [ItemIds::RED_NETHER_BRICK, 0, 1],
         ];
     }
 

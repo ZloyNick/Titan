@@ -103,13 +103,13 @@ class Human extends Creature implements ProjectileSource, InventoryHolder
                 $hotbarSlot = $this->inventory->getHotbarSlotIndex($slot);
                 if ($hotbarSlot !== -1) {
                     $item = $this->inventory->getItem($hotbarSlot);
-                    if ($item->getId() !== ItemItem::AIR && $item->getCount() > 0) {
+                    if ($item->getId() !== ItemItemIds::AIR && $item->getCount() > 0) {
                         $this->namedtag->Inventory[$slot] = NBT::putItemHelper($item, $slot);
                         $this->namedtag->Inventory[$slot]->TrueSlot = new ByteTag("TrueSlot", $hotbarSlot);
                         continue;
                     }
                 }
-                $this->namedtag->Inventory[$slot] = NBT::putItemHelper(ItemItem::get(ItemItem::AIR), $slot);
+                $this->namedtag->Inventory[$slot] = NBT::putItemHelper(ItemItemIds::get(ItemItemIds::AIR), $slot);
                 $this->namedtag->Inventory[$slot]->TrueSlot = new ByteTag("TrueSlot", -1);
             }
 
@@ -123,7 +123,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder
             //Armor
             for ($slot = 100; $slot < 104; ++$slot) {
                 $item = $this->inventory->getItem($this->inventory->getSize() + $slot - 100);
-                if ($item instanceof ItemItem and $item->getId() !== ItemItem::AIR) {
+                if ($item instanceof ItemItem and $item->getId() !== ItemItemIds::AIR) {
                     $this->namedtag->Inventory[$slot] = NBT::putItemHelper($item, $slot);
                 }
             }

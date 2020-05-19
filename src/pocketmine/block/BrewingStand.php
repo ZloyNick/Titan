@@ -57,7 +57,7 @@ class BrewingStand extends Transparent
     public function getDrops(Item $item)
     {
         return [
-            [Item::BREWING_STAND, 0, 1],
+            [ItemIds::BREWING_STAND, 0, 1],
         ];
     }
 

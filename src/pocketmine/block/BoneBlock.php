@@ -52,7 +52,7 @@ class BoneBlock extends Solid
     public function getDrops(Item $item)
     {
         return [
-            [Item::BONE_BLOCK, 0, 1]
+            [ItemIds::BONE_BLOCK, 0, 1]
         ];
     }
 

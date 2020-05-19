@@ -71,7 +71,7 @@ class Stone extends Solid
     {
         if ($item->isPickaxe() >= Tool::TIER_WOODEN) {
             return [
-                [$this->getDamage() === 0 ? Item::COBBLESTONE : Item::STONE, $this->getDamage(), 1],
+                [$this->getDamage() === 0 ? ItemIds::COBBLESTONE : ItemIds::STONE, $this->getDamage(), 1],
             ];
         } else {
             return [];

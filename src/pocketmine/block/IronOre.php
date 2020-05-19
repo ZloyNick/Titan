@@ -53,7 +53,7 @@ class IronOre extends Solid
     {
         if ($item->isPickaxe() >= 3) {
             return [
-                [Item::IRON_ORE, 0, 1],
+                [ItemIds::IRON_ORE, 0, 1],
             ];
         } else {
             return [];

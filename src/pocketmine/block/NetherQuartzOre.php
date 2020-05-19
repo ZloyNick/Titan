@@ -34,7 +34,7 @@ class NetherQuartzOre extends Solid
     {
         if ($item->isPickaxe() >= 1) {
             return [
-                [Item::NETHER_QUARTZ, 0, 1],
+                [ItemIds::NETHER_QUARTZ, 0, 1],
             ];
         } else {
             return [];

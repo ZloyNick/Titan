@@ -62,7 +62,7 @@ class StonePressurePlate extends Transparent
     public function getDrops(Item $item)
     {
         return [
-            [Item::STONE_PRESSURE_PLATE, 0, 1],
+            [ItemIds::STONE_PRESSURE_PLATE, 0, 1],
         ];
     }
 }

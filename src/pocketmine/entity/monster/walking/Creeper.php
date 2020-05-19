@@ -141,7 +141,7 @@ class Creeper extends WalkingMonster implements Explosive
                     } else {
                         $this->motionY = 0.3;
                     }
-                } elseif ($this->level->getBlock($vec)->getId() == Item::LADDER) {
+                } elseif ($this->level->getBlock($vec)->getId() == ItemIds::LADDER) {
                     $isJump = true;
                     $this->motionY = 0.15;
                 }
@@ -199,11 +199,11 @@ class Creeper extends WalkingMonster implements Explosive
         if ($this->lastDamageCause instanceof EntityDamageByEntityEvent) {
             switch (mt_rand(0, 2)) {
                 case 0:
-                    return [Item::get(Item::FLINT, 0, 1)];
+                    return [ItemIds::get(ItemIds::FLINT, 0, 1)];
                 case 1:
-                    return [Item::get(Item::GUNPOWDER, 0, 1)];
+                    return [ItemIds::get(ItemIds::GUNPOWDER, 0, 1)];
                 case 2:
-                    return [Item::get(Item::REDSTONE_DUST, 0, 1)];
+                    return [ItemIds::get(ItemIds::REDSTONE_DUST, 0, 1)];
             }
         }
         return [];

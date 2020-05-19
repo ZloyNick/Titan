@@ -34,7 +34,7 @@ class Ocelot extends WalkingAnimal
     public function targetOption(Creature $creature, float $distance)
     {
         if ($creature instanceof Player) {
-            return $creature->spawned && $creature->isAlive() && !$creature->closed && $creature->getInventory()->getItemInHand()->getId() == Item::RAW_FISH && $distance <= 49;
+            return $creature->spawned && $creature->isAlive() && !$creature->closed && $creature->getInventory()->getItemInHand()->getId() == ItemIds::RAW_FISH && $distance <= 49;
         }
         return false;
     }

@@ -189,7 +189,7 @@ abstract class Liquid extends Transparent
 
             if ($bottomBlock->canBeFlowedInto() or $bottomBlock instanceof Liquid) {
                 if (($this instanceof Lava and $bottomBlock instanceof Water) || ($this instanceof Water and $bottomBlock instanceof Lava)) {
-                    $this->getLevel()->setBlock($bottomBlock, Block::get(Item::STONE), true);
+                    $this->getLevel()->setBlock($bottomBlock, Block::get(ItemIds::STONE), true);
                     return;
                 }
 
@@ -246,9 +246,9 @@ abstract class Liquid extends Transparent
 
             if ($colliding) {
                 if ($this->getDamage() === 0) {
-                    $this->getLevel()->setBlock($this, Block::get(Item::OBSIDIAN), true);
+                    $this->getLevel()->setBlock($this, Block::get(ItemIds::OBSIDIAN), true);
                 } elseif ($this->getDamage() <= 4) {
-                    $this->getLevel()->setBlock($this, Block::get(Item::COBBLESTONE), true);
+                    $this->getLevel()->setBlock($this, Block::get(ItemIds::COBBLESTONE), true);
                 }
             }
         }

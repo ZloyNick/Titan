@@ -53,12 +53,12 @@ class Gravel extends Fallable
     {
         if (mt_rand(1, 10) === 1) {
             return [
-                [Item::FLINT, 0, 1],
+                [ItemIds::FLINT, 0, 1],
             ];
         }
 
         return [
-            [Item::GRAVEL, 0, 1],
+            [ItemIds::GRAVEL, 0, 1],
         ];
     }
 

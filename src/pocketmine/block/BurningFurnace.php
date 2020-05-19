@@ -155,7 +155,7 @@ class BurningFurnace extends Solid
     {
         $drops = [];
         if ($item->isPickaxe() >= 1) {
-            $drops[] = [Item::FURNACE, 0, 1];
+            $drops[] = [ItemIds::FURNACE, 0, 1];
         }
 
         return $drops;

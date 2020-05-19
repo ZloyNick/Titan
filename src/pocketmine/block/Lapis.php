@@ -53,7 +53,7 @@ class Lapis extends Solid
     {
         if ($item->isPickaxe() >= 3) {
             return [
-                [Item::LAPIS_BLOCK, 0, 1],
+                [ItemIds::LAPIS_BLOCK, 0, 1],
             ];
         } else {
             return [];

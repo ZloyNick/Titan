@@ -41,7 +41,7 @@ class NetherWart extends Flowable
     public function getDrops(Item $item)
     {
         return [
-            [Item::NETHER_WART, 0, 1]
+            [ItemIds::NETHER_WART, 0, 1]
         ];
     }
 }

@@ -46,7 +46,7 @@ class SeaLantern extends Solid
     public function getDrops(Item $item)
     {
         return [
-            [Item::SEA_LANTERN, 0, 1]
+            [ItemIds::SEA_LANTERN, 0, 1]
         ];
     }
 

@@ -52,7 +52,7 @@ class Cocoa extends Transparent
     public function getDrops(Item $item)
     {
         return [
-            [Item::COCOA, 0, 1],
+            [ItemIds::COCOA, 0, 1],
         ];
     }
 

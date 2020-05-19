@@ -53,7 +53,7 @@ class Farmland extends Solid
     public function getDrops(Item $item)
     {
         return [
-            [Item::DIRT, 0, 1],
+            [ItemIds::DIRT, 0, 1],
         ];
     }
 

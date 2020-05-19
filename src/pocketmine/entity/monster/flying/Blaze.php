@@ -220,7 +220,7 @@ class Blaze extends FlyingMonster implements ProjectileSource
     public function getDrops()
     {
         if ($this->lastDamageCause instanceof EntityDamageByEntityEvent) {
-            return [Item::get(Item::GLOWSTONE_DUST, 0, mt_rand(0, 2))];
+            return [ItemIds::get(ItemIds::GLOWSTONE_DUST, 0, mt_rand(0, 2))];
         }
         return [];
     }

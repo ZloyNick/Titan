@@ -89,7 +89,7 @@ class Furnace extends Tile implements InventoryHolder, Container, Nameable
     {
         $i = $this->getSlotIndex($index);
         if ($i < 0) {
-            return Item::get(Item::AIR, 0, 0);
+            return ItemIds::get(ItemIds::AIR, 0, 0);
         } else {
             return NBT::getItemHelper($this->namedtag->Items[$i]);
         }
@@ -173,7 +173,7 @@ class Furnace extends Tile implements InventoryHolder, Container, Nameable
 
         $d = NBT::putItemHelper($item, $index);
 
-        if ($item->getId() === Item::AIR or $item->getCount() <= 0) {
+        if ($item->getId() === ItemIds::AIR or $item->getCount() <= 0) {
             if ($i >= 0) {
                 unset($this->namedtag->Items[$i]);
             }
@@ -205,7 +205,7 @@ class Furnace extends Tile implements InventoryHolder, Container, Nameable
         $raw = $this->inventory->getSmelting();
         $product = $this->inventory->getResult();
         $smelt = $this->server->getCraftingManager()->matchFurnaceRecipe($raw);
-        $canSmelt = ($smelt instanceof FurnaceRecipe and $raw->getCount() > 0 and (($smelt->getResult()->equals($product) and $product->getCount() < $product->getMaxStackSize()) or $product->getId() === Item::AIR));
+        $canSmelt = ($smelt instanceof FurnaceRecipe and $raw->getCount() > 0 and (($smelt->getResult()->equals($product) and $product->getCount() < $product->getMaxStackSize()) or $product->getId() === ItemIds::AIR));
 
         if ($this->namedtag["BurnTime"] <= 0 and $canSmelt and $fuel->getFuelTime() !== null and $fuel->getCount() > 0) {
             $this->checkFuel($fuel);
@@ -218,7 +218,7 @@ class Furnace extends Tile implements InventoryHolder, Container, Nameable
             if ($smelt instanceof FurnaceRecipe and $canSmelt) {
                 $this->namedtag->CookTime = new ShortTag("CookTime", $this->namedtag["CookTime"] + 1);
                 if ($this->namedtag["CookTime"] >= 200) { //10 seconds
-                    $product = Item::get($smelt->getResult()->getId(), $smelt->getResult()->getDamage(), $product->getCount() + 1);
+                    $product = ItemIds::get($smelt->getResult()->getId(), $smelt->getResult()->getDamage(), $product->getCount() + 1);
 
                     $this->server->getPluginManager()->callEvent($ev = new FurnaceSmeltEvent($this, $raw, $product));
 
@@ -226,7 +226,7 @@ class Furnace extends Tile implements InventoryHolder, Container, Nameable
                         $this->inventory->setResult($ev->getResult());
                         $raw->setCount($raw->getCount() - 1);
                         if ($raw->getCount() === 0) {
-                            $raw = Item::get(Item::AIR, 0, 0);
+                            $raw = ItemIds::get(ItemIds::AIR, 0, 0);
                         }
                         $this->inventory->setSmelting($raw);
                     }
@@ -243,8 +243,8 @@ class Furnace extends Tile implements InventoryHolder, Container, Nameable
             $ret = true;
         } else {
             ;
-            if ($this->getBlock()->getId() === Item::BURNING_FURNACE) {
-                $this->getLevel()->setBlock($this, Block::get(Item::FURNACE, $this->getBlock()->getDamage()), true);
+            if ($this->getBlock()->getId() === ItemIds::BURNING_FURNACE) {
+                $this->getLevel()->setBlock($this, Block::get(ItemIds::FURNACE, $this->getBlock()->getDamage()), true);
             }
             $this->namedtag->BurnTime = new ShortTag("BurnTime", 0);
             $this->namedtag->CookTime = new ShortTag("CookTime", 0);
@@ -287,14 +287,14 @@ class Furnace extends Tile implements InventoryHolder, Container, Nameable
         $this->namedtag->MaxTime = new ShortTag("MaxTime", $ev->getBurnTime());
         $this->namedtag->BurnTime = new ShortTag("BurnTime", $ev->getBurnTime());
         $this->namedtag->BurnTicks = new ShortTag("BurnTicks", 0);
-        if ($this->getBlock()->getId() === Item::FURNACE) {
-            $this->getLevel()->setBlock($this, Block::get(Item::BURNING_FURNACE, $this->getBlock()->getDamage()), true);
+        if ($this->getBlock()->getId() === ItemIds::FURNACE) {
+            $this->getLevel()->setBlock($this, Block::get(ItemIds::BURNING_FURNACE, $this->getBlock()->getDamage()), true);
         }
 
         if ($this->namedtag["BurnTime"] > 0 and $ev->isBurning()) {
             $fuel->setCount($fuel->getCount() - 1);
             if ($fuel->getCount() === 0) {
-                $fuel = Item::get(Item::AIR, 0, 0);
+                $fuel = ItemIds::get(ItemIds::AIR, 0, 0);
             }
             $this->inventory->setFuel($fuel);
         }

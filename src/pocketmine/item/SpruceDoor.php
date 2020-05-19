@@ -8,7 +8,7 @@ class SpruceDoor extends Item
 {
     public function __construct($meta = 0, $count = 1)
     {
-        $this->block = Block::get(Item::SPRUCE_DOOR_BLOCK);
+        $this->block = Block::get(ItemIds::SPRUCE_DOOR_BLOCK);
         parent::__construct(self::SPRUCE_DOOR, 0, $count, "Spruce Door");
     }
 

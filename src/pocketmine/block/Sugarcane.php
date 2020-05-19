@@ -47,13 +47,13 @@ class Sugarcane extends Flowable
     public function getDrops(Item $item)
     {
         return [
-            [Item::SUGARCANE, 0, 1],
+            [ItemIds::SUGARCANE, 0, 1],
         ];
     }
 
     public function onActivate(Item $item, Player $player = null)
     {
-        if ($item->getId() === Item::DYE and $item->getDamage() === 0x0F) { //Bonemeal
+        if ($item->getId() === ItemIds::DYE and $item->getDamage() === 0x0F) { //Bonemeal
             if ($this->getSide(0)->getId() !== self::SUGARCANE_BLOCK) {
                 for ($y = 1; $y < 3; ++$y) {
                     $b = $this->getLevel()->getBlock(new Vector3($this->x, $this->y + $y, $this->z));

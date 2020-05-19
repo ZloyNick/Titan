@@ -48,7 +48,7 @@ class RedstoneOre extends Solid
     public function onUpdate($type)
     {
         if ($type === Level::BLOCK_UPDATE_NORMAL or $type === Level::BLOCK_UPDATE_TOUCH) {
-            $this->getLevel()->setBlock($this, Block::get(Item::GLOWING_REDSTONE_ORE, $this->meta), false, false);
+            $this->getLevel()->setBlock($this, Block::get(ItemIds::GLOWING_REDSTONE_ORE, $this->meta), false, false);
 
             return Level::BLOCK_UPDATE_WEAK;
         }
@@ -66,7 +66,7 @@ class RedstoneOre extends Solid
     {
         if ($item->isPickaxe() >= 2) {
             return [
-                [Item::REDSTONE_DUST, 0, mt_rand(4, 5)],
+                [ItemIds::REDSTONE_DUST, 0, mt_rand(4, 5)],
             ];
         } else {
             return [];

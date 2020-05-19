@@ -148,7 +148,7 @@ class ParticleCommand extends VanillaCommand
             case "reddust":
                 return new RedstoneParticle($pos, $data !== null ? $data : 1);
             case "snowballpoof":
-                return new ItemBreakParticle($pos, Item::get(Item::SNOWBALL));
+                return new ItemBreakParticle($pos, ItemIds::get(ItemIds::SNOWBALL));
             case "itembreak":
                 if ($data !== null and $data !== 0) {
                     return new ItemBreakParticle($pos, $data);
@@ -169,7 +169,7 @@ class ParticleCommand extends VanillaCommand
         if (substr($name, 0, 10) === "iconcrack_") {
             $d = explode("_", $name);
             if (count($d) === 3) {
-                return new ItemBreakParticle($pos, Item::get((int)$d[1], (int)$d[2]));
+                return new ItemBreakParticle($pos, ItemIds::get((int)$d[1], (int)$d[2]));
             }
         } elseif (substr($name, 0, 11) === "blockcrack_") {
             $d = explode("_", $name);

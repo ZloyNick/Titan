@@ -42,10 +42,10 @@ class Beetroot extends Crops
     {
         $drops = [];
         if ($this->meta >= 0x07) {
-            $drops[] = [Item::BEETROOT, 0, 1];
-            $drops[] = [Item::BEETROOT_SEEDS, 0, mt_rand(0, 3)];
+            $drops[] = [ItemIds::BEETROOT, 0, 1];
+            $drops[] = [ItemIds::BEETROOT_SEEDS, 0, mt_rand(0, 3)];
         } else {
-            $drops[] = [Item::BEETROOT_SEEDS, 0, 1];
+            $drops[] = [ItemIds::BEETROOT_SEEDS, 0, 1];
         }
 
         return $drops;

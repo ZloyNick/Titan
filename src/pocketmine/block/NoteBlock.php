@@ -52,7 +52,7 @@ class NoteBlock extends Solid
 
     public function getDrops(Item $item)
     {
-        return [Item::NOTE_BLOCK, 0, 1];
+        return [ItemIds::NOTE_BLOCK, 0, 1];
     }
 
 }

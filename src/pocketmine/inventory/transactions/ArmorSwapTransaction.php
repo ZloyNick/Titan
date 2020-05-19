@@ -58,12 +58,12 @@ class ArmorSwapTransaction extends BaseTransaction
             return true;
         }
         // 3 transaction case
-        if ($sourceFound && !$this->foundTransactions['source'] && $sourceItem->getId() === Item::AIR) {
+        if ($sourceFound && !$this->foundTransactions['source'] && $sourceItem->getId() === ItemIds::AIR) {
             $this->foundTransactions['source'] = true;
             return true;
         }
         // also 3 transaction case
-        if ($targetFound && !$this->foundTransactions['target'] && $targetItem->getId() === Item::AIR) {
+        if ($targetFound && !$this->foundTransactions['target'] && $targetItem->getId() === ItemIds::AIR) {
             $this->foundTransactions['target'] = true;
             return true;
         }

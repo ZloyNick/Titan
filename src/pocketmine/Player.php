@@ -219,43 +219,43 @@ const MAX_EXPERIENCE = 1.0;
     protected static $availableCommands = [];
     protected static $damegeTimeList = ['0.1' => 0, '0.15' => 0.4, '0.2' => 0.6, '0.25' => 0.8];
     protected static $foodData = [
-        Item::APPLE => ['food' => 4, 'saturation' => 2.4],
-        Item::BAKED_POTATO => ['food' => 5, 'saturation' => 6],
-        Item::BEETROOT => ['food' => 1, 'saturation' => 1.2],
-        Item::BEETROOT_SOUP => ['food' => 6, 'saturation' => 7.2],
-        Item::BREAD => ['food' => 5, 'saturation' => 6],
+        ItemIds::APPLE => ['food' => 4, 'saturation' => 2.4],
+        ItemIds::BAKED_POTATO => ['food' => 5, 'saturation' => 6],
+        ItemIds::BEETROOT => ['food' => 1, 'saturation' => 1.2],
+        ItemIds::BEETROOT_SOUP => ['food' => 6, 'saturation' => 7.2],
+        ItemIds::BREAD => ['food' => 5, 'saturation' => 6],
         /** @todo cake slice and whole */
-        Item::CARROT => ['food' => 3, 'saturation' => 3.6],
-        Item::CHORUS_FRUIT => ['food' => 4, 'saturation' => 2.4],
-        Item::COOKED_CHICKEN => ['food' => 6, 'saturation' => 7.2],
-        Item::COOKED_FISH => ['food' => 5, 'saturation' => 6],
-        Item::COOKED_MUTTON => ['food' => 6, 'saturation' => 9.6],
-        Item::COOKED_PORKCHOP => ['food' => 8, 'saturation' => 12.8],
-        Item::COOKED_RABBIT => ['food' => 5, 'saturation' => 6],
-        Item::COOKED_SALMON => ['food' => 6, 'saturation' => 9.6],
-        Item::COOKIE => ['food' => 2, 'saturation' => 0.4],
-        Item::GOLDEN_APPLE => ['food' => 4, 'saturation' => 9.6],
-        Item::GOLDEN_CARROT => ['food' => 6, 'saturation' => 14.4],
-        Item::MELON => ['food' => 2, 'saturation' => 1.2],
-        Item::MUSHROOM_STEW => ['food' => 6, 'saturation' => 7.2],
-        Item::POISONOUS_POTATO => ['food' => 2, 'saturation' => 1.2],
-        Item::POTATO => ['food' => 1, 'saturation' => 0.6],
-        Item::PUMPKIN_PIE => ['food' => 8, 'saturation' => 4.8],
-        Item::RABBIT_STEW => ['food' => 10, 'saturation' => 12],
-        Item::RAW_BEEF => ['food' => 3, 'saturation' => 1.8],
-        Item::RAW_CHICKEN => ['food' => 2, 'saturation' => 1.2],
-        Item::RAW_FISH => [
+        ItemIds::CARROT => ['food' => 3, 'saturation' => 3.6],
+        ItemIds::CHORUS_FRUIT => ['food' => 4, 'saturation' => 2.4],
+        ItemIds::COOKED_CHICKEN => ['food' => 6, 'saturation' => 7.2],
+        ItemIds::COOKED_FISH => ['food' => 5, 'saturation' => 6],
+        ItemIds::COOKED_MUTTON => ['food' => 6, 'saturation' => 9.6],
+        ItemIds::COOKED_PORKCHOP => ['food' => 8, 'saturation' => 12.8],
+        ItemIds::COOKED_RABBIT => ['food' => 5, 'saturation' => 6],
+        ItemIds::COOKED_SALMON => ['food' => 6, 'saturation' => 9.6],
+        ItemIds::COOKIE => ['food' => 2, 'saturation' => 0.4],
+        ItemIds::GOLDEN_APPLE => ['food' => 4, 'saturation' => 9.6],
+        ItemIds::GOLDEN_CARROT => ['food' => 6, 'saturation' => 14.4],
+        ItemIds::MELON => ['food' => 2, 'saturation' => 1.2],
+        ItemIds::MUSHROOM_STEW => ['food' => 6, 'saturation' => 7.2],
+        ItemIds::POISONOUS_POTATO => ['food' => 2, 'saturation' => 1.2],
+        ItemIds::POTATO => ['food' => 1, 'saturation' => 0.6],
+        ItemIds::PUMPKIN_PIE => ['food' => 8, 'saturation' => 4.8],
+        ItemIds::RABBIT_STEW => ['food' => 10, 'saturation' => 12],
+        ItemIds::RAW_BEEF => ['food' => 3, 'saturation' => 1.8],
+        ItemIds::RAW_CHICKEN => ['food' => 2, 'saturation' => 1.2],
+        ItemIds::RAW_FISH => [
             0 => ['food' => 2, 'saturation' => 0.4], // raw fish
             1 => ['food' => 2, 'saturation' => 0.4], // raw salmon
             2 => ['food' => 1, 'saturation' => 0.2], // clownfish
             3 => ['food' => 1, 'saturation' => 0.2], // pufferfish
         ],
-        Item::RAW_MUTTON => ['food' => 2, 'saturation' => 1.2],
-        Item::RAW_PORKCHOP => ['food' => 3, 'saturation' => 1.8],
-        Item::RAW_RABBIT => ['food' => 3, 'saturation' => 1.8],
-        Item::ROTTEN_FLESH => ['food' => 4, 'saturation' => 0.8],
-        Item::SPIDER_EYE => ['food' => 2, 'saturation' => 3.2],
-        Item::STEAK => ['food' => 8, 'saturation' => 12.8],
+        ItemIds::RAW_MUTTON => ['food' => 2, 'saturation' => 1.2],
+        ItemIds::RAW_PORKCHOP => ['food' => 3, 'saturation' => 1.8],
+        ItemIds::RAW_RABBIT => ['food' => 3, 'saturation' => 1.8],
+        ItemIds::ROTTEN_FLESH => ['food' => 4, 'saturation' => 0.8],
+        ItemIds::SPIDER_EYE => ['food' => 2, 'saturation' => 3.2],
+        ItemIds::STEAK => ['food' => 8, 'saturation' => 12.8],
     ];
     public $spawned = false;
     public $loggedIn = false;
@@ -1779,7 +1779,7 @@ const MAX_EXPERIENCE = 1.0;
                         $this->inventory->sendContents($this);
                         break;
                     }
-                } elseif ($item === null || $slot === -1 || ($item->getId() != Item::FILLED_MAP && !$item->deepEquals($packet->item) || !$item->deepEquals($packet->item, true, false))) { // packet error or not implemented
+                } elseif ($item === null || $slot === -1 || ($item->getId() != ItemIds::FILLED_MAP && !$item->deepEquals($packet->item) || !$item->deepEquals($packet->item, true, false))) { // packet error or not implemented
                     // hack for map was added because type of map_uuid is different in various versions
                     $this->inventory->sendContents($this);
                     break;
@@ -1979,7 +1979,7 @@ const MAX_EXPERIENCE = 1.0;
                                 $this->removeExperience(0, $enchantLevel);
                                 $this->currentWindow->setEnchantingLevel($enchantLevel);
                             } else {
-                                $this->currentWindow->setItem(0, Item::get(Item::AIR));
+                                $this->currentWindow->setItem(0, ItemIds::get(ItemIds::AIR));
                                 $this->currentWindow->setEnchantingLevel(0);
                                 $this->currentWindow->sendContents($this);
                                 $this->inventory->sendContents($this);
@@ -2660,9 +2660,9 @@ const MAX_EXPERIENCE = 1.0;
     protected function releaseUseItem()
     {
         $itemInHand = $this->inventory->getItemInHand();
-        if ($this->startAction > -1 && $itemInHand->getId() === Item::BOW) {
+        if ($this->startAction > -1 && $itemInHand->getId() === ItemIds::BOW) {
             $bow = $this->inventory->getItemInHand();
-            if ($this->isSurvival() and !$this->inventory->contains(Item::get(Item::ARROW, 0, 1))) {
+            if ($this->isSurvival() and !$this->inventory->contains(ItemIds::get(ItemIds::ARROW, 0, 1))) {
                 $this->inventory->sendContents($this);
                 return;
             }
@@ -2706,12 +2706,12 @@ const MAX_EXPERIENCE = 1.0;
                 $projectile->setMotion($projectile->getMotion()->multiply($ev->getForce()));
                 if ($this->isSurvival()) {
                     if (is_null($bow->getEnchantment(Enchantment::TYPE_BOW_INFINITY))) {
-                        $this->inventory->removeItemWithCheckOffHand(Item::get(Item::ARROW, 0, 1));
+                        $this->inventory->removeItemWithCheckOffHand(ItemIds::get(ItemIds::ARROW, 0, 1));
                     }
 
                     $bow->setDamage($bow->getDamage() + 1);
                     if ($bow->getDamage() >= 385) {
-                        $this->inventory->setItemInHand(Item::get(Item::AIR, 0, 0));
+                        $this->inventory->setItemInHand(ItemIds::get(ItemIds::AIR, 0, 0));
                     } else {
                         $this->inventory->setItemInHand($bow);
                     }
@@ -2737,7 +2737,7 @@ const MAX_EXPERIENCE = 1.0;
                     $projectile->spawnToAll();
                 }
             }
-        } else if ($itemInHand->getId() === Item::BUCKET && $itemInHand->getDamage() === 1) { //Milk!
+        } else if ($itemInHand->getId() === ItemIds::BUCKET && $itemInHand->getDamage() === 1) { //Milk!
             $this->server->getPluginManager()->callEvent($ev = new PlayerItemConsumeEvent($this, $itemInHand));
             if ($ev->isCancelled()) {
                 $this->inventory->sendContents($this);
@@ -2754,7 +2754,7 @@ const MAX_EXPERIENCE = 1.0;
             if ($this->isSurvival()) {
                 --$itemInHand->count;
                 $this->inventory->setItemInHand($itemInHand);
-                $this->inventory->addItem(Item::get(Item::BUCKET, 0, 1));
+                $this->inventory->addItem(ItemIds::get(ItemIds::BUCKET, 0, 1));
             }
 
             $this->removeAllEffects();
@@ -3097,26 +3097,26 @@ const MAX_EXPERIENCE = 1.0;
 
         $item = $this->inventory->getItemInHand();
         $damageTable = [
-            Item::WOODEN_SWORD => 4,
-            Item::GOLD_SWORD => 4,
-            Item::STONE_SWORD => 5,
-            Item::IRON_SWORD => 6,
-            Item::DIAMOND_SWORD => 7,
-            Item::WOODEN_AXE => 3,
-            Item::GOLD_AXE => 3,
-            Item::STONE_AXE => 3,
-            Item::IRON_AXE => 5,
-            Item::DIAMOND_AXE => 6,
-            Item::WOODEN_PICKAXE => 2,
-            Item::GOLD_PICKAXE => 2,
-            Item::STONE_PICKAXE => 3,
-            Item::IRON_PICKAXE => 4,
-            Item::DIAMOND_PICKAXE => 5,
-            Item::WOODEN_SHOVEL => 1,
-            Item::GOLD_SHOVEL => 1,
-            Item::STONE_SHOVEL => 2,
-            Item::IRON_SHOVEL => 3,
-            Item::DIAMOND_SHOVEL => 4,
+            ItemIds::WOODEN_SWORD => 4,
+            ItemIds::GOLD_SWORD => 4,
+            ItemIds::STONE_SWORD => 5,
+            ItemIds::IRON_SWORD => 6,
+            ItemIds::DIAMOND_SWORD => 7,
+            ItemIds::WOODEN_AXE => 3,
+            ItemIds::GOLD_AXE => 3,
+            ItemIds::STONE_AXE => 3,
+            ItemIds::IRON_AXE => 5,
+            ItemIds::DIAMOND_AXE => 6,
+            ItemIds::WOODEN_PICKAXE => 2,
+            ItemIds::GOLD_PICKAXE => 2,
+            ItemIds::STONE_PICKAXE => 3,
+            ItemIds::IRON_PICKAXE => 4,
+            ItemIds::DIAMOND_PICKAXE => 5,
+            ItemIds::WOODEN_SHOVEL => 1,
+            ItemIds::GOLD_SHOVEL => 1,
+            ItemIds::STONE_SHOVEL => 2,
+            ItemIds::IRON_SHOVEL => 3,
+            ItemIds::DIAMOND_SHOVEL => 4,
         ];
 
         $damage = [
@@ -3127,26 +3127,26 @@ const MAX_EXPERIENCE = 1.0;
             return;
         } elseif ($target instanceof Player) {
             $armorValues = [
-                Item::LEATHER_CAP => 1,
-                Item::LEATHER_TUNIC => 3,
-                Item::LEATHER_PANTS => 2,
-                Item::LEATHER_BOOTS => 1,
-                Item::CHAIN_HELMET => 1,
-                Item::CHAIN_CHESTPLATE => 5,
-                Item::CHAIN_LEGGINGS => 4,
-                Item::CHAIN_BOOTS => 1,
-                Item::GOLD_HELMET => 1,
-                Item::GOLD_CHESTPLATE => 5,
-                Item::GOLD_LEGGINGS => 3,
-                Item::GOLD_BOOTS => 1,
-                Item::IRON_HELMET => 2,
-                Item::IRON_CHESTPLATE => 6,
-                Item::IRON_LEGGINGS => 5,
-                Item::IRON_BOOTS => 2,
-                Item::DIAMOND_HELMET => 3,
-                Item::DIAMOND_CHESTPLATE => 8,
-                Item::DIAMOND_LEGGINGS => 6,
-                Item::DIAMOND_BOOTS => 3,
+                ItemIds::LEATHER_CAP => 1,
+                ItemIds::LEATHER_TUNIC => 3,
+                ItemIds::LEATHER_PANTS => 2,
+                ItemIds::LEATHER_BOOTS => 1,
+                ItemIds::CHAIN_HELMET => 1,
+                ItemIds::CHAIN_CHESTPLATE => 5,
+                ItemIds::CHAIN_LEGGINGS => 4,
+                ItemIds::CHAIN_BOOTS => 1,
+                ItemIds::GOLD_HELMET => 1,
+                ItemIds::GOLD_CHESTPLATE => 5,
+                ItemIds::GOLD_LEGGINGS => 3,
+                ItemIds::GOLD_BOOTS => 1,
+                ItemIds::IRON_HELMET => 2,
+                ItemIds::IRON_CHESTPLATE => 6,
+                ItemIds::IRON_LEGGINGS => 5,
+                ItemIds::IRON_BOOTS => 2,
+                ItemIds::DIAMOND_HELMET => 3,
+                ItemIds::DIAMOND_CHESTPLATE => 8,
+                ItemIds::DIAMOND_LEGGINGS => 6,
+                ItemIds::DIAMOND_BOOTS => 3,
             ];
             $points = 0;
             foreach ($target->getInventory()->getArmorContents() as $index => $i) {
@@ -3196,7 +3196,7 @@ const MAX_EXPERIENCE = 1.0;
                     }
 
                     if ($item->getDamage() >= $item->getMaxDurability()) {
-                        $target->getInventory()->setArmorItem($key, Item::get(Item::AIR));
+                        $target->getInventory()->setArmorItem($key, ItemIds::get(ItemIds::AIR));
                     }
 
 
@@ -3211,7 +3211,7 @@ const MAX_EXPERIENCE = 1.0;
 
         if ($item->isTool() && $this->isSurvival()) {
             if ($item->useOn($target) && $item->getDamage() >= $item->getMaxDurability()) {
-                $this->inventory->setItemInHand(Item::get(Item::AIR));
+                $this->inventory->setItemInHand(ItemIds::get(ItemIds::AIR));
             } elseif ($this->inventory->getItemInHand()->getId() === $item->getId()) {
                 $this->inventory->setItemInHand($item);
             }
@@ -3322,16 +3322,16 @@ const MAX_EXPERIENCE = 1.0;
             $this->setFood($this->foodLevel);
 
             switch ($foodId) {
-                case Item::BEETROOT_SOUP:
-                case Item::MUSHROOM_STEW:
-                case Item::RABBIT_STEW:
-                    $this->inventory->addItem(Item::get(Item::BOWL, 0, 1));
+                case ItemIds::BEETROOT_SOUP:
+                case ItemIds::MUSHROOM_STEW:
+                case ItemIds::RABBIT_STEW:
+                    $this->inventory->addItem(ItemIds::get(ItemIds::BOWL, 0, 1));
                     break;
-                case Item::GOLDEN_APPLE:
+                case ItemIds::GOLDEN_APPLE:
                     $this->addEffect(Effect::getEffect(Effect::REGENERATION)->setAmplifier(1)->setDuration(5 * 20));
 //						$this->addEffect(Effect::getEffect(Effect::ABSORPTION)->setAmplifier(0)->setDuration(120 * 20));
                     break;
-                case Item::ENCHANTED_GOLDEN_APPLE:
+                case ItemIds::ENCHANTED_GOLDEN_APPLE:
                     $this->addEffect(Effect::getEffect(Effect::REGENERATION)->setAmplifier(4)->setDuration(30 * 20));
 //						$this->addEffect(Effect::getEffect(Effect::ABSORPTION)->setAmplifier(0)->setDuration(120 * 20));
                     $this->addEffect(Effect::getEffect(Effect::DAMAGE_RESISTANCE)->setAmplifier(0)->setDuration(300 * 20));
@@ -3430,14 +3430,14 @@ const MAX_EXPERIENCE = 1.0;
             $ingredients = $recipe->getIngredientList();
         }
         foreach ($ingredients as $ingKey => $ingredient) {
-            if ($ingredient == null || $ingredient->getId() == Item::AIR) {
+            if ($ingredient == null || $ingredient->getId() == ItemIds::AIR) {
                 unset($ingredients[$ingKey]);
             }
         }
         $isAllCraftSlotsEmpty = true;
         foreach ($ingredients as $ingKey => $ingredient) {
             foreach ($craftSlots as $itemKey => &$item) {
-                if ($item == null || $item->getId() == Item::AIR) {
+                if ($item == null || $item->getId() == ItemIds::AIR) {
                     continue;
                 }
                 $isItemsEquals = $item->getId() == $ingredient->getId() && ($item->getDamage() == $ingredient->getDamage() || $ingredient->getDamage() == 32767);
@@ -3447,7 +3447,7 @@ const MAX_EXPERIENCE = 1.0;
                     $ingredientCount = $ingredient->getCount();
                     if ($itemCount >= $ingredientCount) {
                         if ($itemCount == $ingredientCount) {
-                            $item = Item::get(Item::AIR, 0, 0);
+                            $item = ItemIds::get(ItemIds::AIR, 0, 0);
                         } else {
                             $item->setCount($itemCount - $ingredientCount);
                         }
@@ -3455,7 +3455,7 @@ const MAX_EXPERIENCE = 1.0;
                         break;
                     } else {
                         $ingredient->setCount($ingredientCount - $itemCount);
-                        $item = Item::get(Item::AIR, 0, 0);
+                        $item = ItemIds::get(ItemIds::AIR, 0, 0);
                     }
                 }
             }
@@ -3494,14 +3494,14 @@ const MAX_EXPERIENCE = 1.0;
             $ingredients = $recipe->getIngredientList();
         }
         foreach ($ingredients as $ingKey => $ingredient) {
-            if ($ingredient == null || $ingredient->getId() == Item::AIR) {
+            if ($ingredient == null || $ingredient->getId() == ItemIds::AIR) {
                 unset($ingredients[$ingKey]);
             }
         }
         $isAllCraftSlotsEmpty = true;
         $usedItemData = [];
         foreach ($craftSlots as $itemKey => &$item) {
-            if ($item == null || $item->getId() == Item::AIR) {
+            if ($item == null || $item->getId() == ItemIds::AIR) {
                 continue;
             }
             foreach ($ingredients as $ingKey => $ingredient) {
@@ -3531,7 +3531,7 @@ const MAX_EXPERIENCE = 1.0;
             $craftSlots[$itemKey]->count -= $itemCount;
             if ($craftSlots[$itemKey]->count == 0) {
                 /** @important count = 0 is important */
-                $craftSlots[$itemKey] = Item::get(Item::AIR, 0, 0);
+                $craftSlots[$itemKey] = ItemIds::get(ItemIds::AIR, 0, 0);
             }
         }
     }
@@ -3744,12 +3744,12 @@ const MAX_EXPERIENCE = 1.0;
 
         if ($this->getPlayerProtocol() >= Info::PROTOCOL_392) {
             $pk = new CreativeItemsListPacket();
-            $pk->groups = Item::getCreativeGroups();
-            $pk->items = Item::getCreativeItems();
+            $pk->groups = ItemIds::getCreativeGroups();
+            $pk->items = ItemIds::getCreativeItems();
             $this->dataPacket($pk);
         } else {
             $slots = [];
-            foreach (Item::getCreativeItems() as $item) {
+            foreach (ItemIds::getCreativeItems() as $item) {
                 $slots[] = clone $item['item'];
             }
             $pk = new InventoryContentPacket();
@@ -3764,7 +3764,7 @@ const MAX_EXPERIENCE = 1.0;
         $this->updateSpeed($this->movementSpeed);
         $this->sendFullPlayerList();
 //		$this->updateExperience(0, 100);
-//		$this->getInventory()->addItem(Item::get(Item::ENCHANTMENT_TABLE), Item::get(Item::DYE, 4, 64), Item::get(Item::IRON_AXE), Item::get(Item::IRON_SWORD));
+//		$this->getInventory()->addItem(ItemIds::get(ItemIds::ENCHANTMENT_TABLE), ItemIds::get(ItemIds::DYE, 4, 64), ItemIds::get(ItemIds::IRON_AXE), ItemIds::get(ItemIds::IRON_SWORD));
     }
 
     public function kickOnFullServer(): bool
@@ -3936,7 +3936,7 @@ const MAX_EXPERIENCE = 1.0;
         }
         // finalizing drop item process
         if ($item->count == $dropItem->count) {
-            $item = Item::get(Item::AIR, 0, 0);
+            $item = ItemIds::get(ItemIds::AIR, 0, 0);
         } else {
             $item->count -= $dropItem->count;
         }
@@ -3955,7 +3955,7 @@ const MAX_EXPERIENCE = 1.0;
     private function tryEnchant($transactionsData)
     {
         foreach ($transactionsData as $trData) {
-            if (!$trData->isUpdateEnchantSlotTransaction() || $trData->oldItem->getId() == Item::AIR) {
+            if (!$trData->isUpdateEnchantSlotTransaction() || $trData->oldItem->getId() == ItemIds::AIR) {
                 continue;
             }
             $transaction = $trData->convertToTransaction($this);
@@ -4082,7 +4082,7 @@ const MAX_EXPERIENCE = 1.0;
                         $this->startAction = -1;
                         return;
                     }
-                } elseif ($itemInHand->getId() === Item::SNOWBALL || $itemInHand->getId() === Item::SPLASH_POTION || $itemInHand->getId() === Item::EGG || $itemInHand->getId() === Item::BOTTLE_ENCHANTING) {
+                } elseif ($itemInHand->getId() === ItemIds::SNOWBALL || $itemInHand->getId() === ItemIds::SPLASH_POTION || $itemInHand->getId() === ItemIds::EGG || $itemInHand->getId() === ItemIds::BOTTLE_ENCHANTING) {
                     $yawRad = $this->yaw / 180 * M_PI;
                     $pitchRad = $this->pitch / 180 * M_PI;
                     $nbt = new Compound("", [
@@ -4104,24 +4104,24 @@ const MAX_EXPERIENCE = 1.0;
 
                     $f = 1.5;
                     switch ($itemInHand->getId()) {
-                        case Item::SNOWBALL:
+                        case ItemIds::SNOWBALL:
                             $projectile = Entity::createEntity("Snowball", $this->chunk, $nbt, $this);
                             break;
-                        case Item::EGG:
+                        case ItemIds::EGG:
                             $projectile = Entity::createEntity("Egg", $this->chunk, $nbt, $this);
                             break;
-                        case Item::BOTTLE_ENCHANTING:
+                        case ItemIds::BOTTLE_ENCHANTING:
                             $f = .3;
                             $projectile = Entity::createEntity("BottleOEnchanting", $this->chunk, $nbt, $this);
                             break;
-                        case Item::SPLASH_POTION:
+                        case ItemIds::SPLASH_POTION:
                             $projectile = Entity::createEntity("SplashPotion", $this->chunk, $nbt, $this, $itemInHand->getDamage());
                             break;
                     }
                     $projectile->setMotion($projectile->getMotion()->multiply($f));
                     if ($this->isSurvival()) {
                         $itemInHand->setCount($itemInHand->getCount() - 1);
-                        $this->inventory->setItemInHand($itemInHand->getCount() > 0 ? $itemInHand : Item::get(Item::AIR));
+                        $this->inventory->setItemInHand($itemInHand->getCount() > 0 ? $itemInHand : ItemIds::get(ItemIds::AIR));
                     }
                     if ($projectile instanceof Projectile) {
                         $this->server->getPluginManager()->callEvent($projectileEv = new ProjectileLaunchEvent($projectile));
@@ -4321,7 +4321,7 @@ const MAX_EXPERIENCE = 1.0;
             }
 
             if ($entity instanceof Arrow && $entity->hadCollision) {
-                $item = Item::get(Item::ARROW, 0, 1);
+                $item = ItemIds::get(ItemIds::ARROW, 0, 1);
                 if ($this->isSurvival() and !$this->inventory->canAddItem($item)) {
                     continue;
                 }
@@ -4974,7 +4974,7 @@ const MAX_EXPERIENCE = 1.0;
         $armor = $this->getInventory()->getArmorContents();
         $armorProtection = 0;
         foreach ($armor as $item) {
-            if ($item->getId() === Item::AIR) {
+            if ($item->getId() === ItemIds::AIR) {
                 continue;
             }
             $enchantments = $item->getEnchantments();
@@ -5271,7 +5271,7 @@ const MAX_EXPERIENCE = 1.0;
         $newItem = $transaction->getTargetItem();
         $oldItem = $transaction->getSourceItem();
         // if decreasing transaction drop down
-        if ($newItem->getId() === Item::AIR || ($oldItem->deepEquals($newItem) && $oldItem->count > $newItem->count)) {
+        if ($newItem->getId() === ItemIds::AIR || ($oldItem->deepEquals($newItem) && $oldItem->count > $newItem->count)) {
 
             return;
         }
@@ -5299,10 +5299,10 @@ const MAX_EXPERIENCE = 1.0;
             $trGroup = new SimpleTransactionGroup($this);
             $trGroup->addTransaction($transaction);
             // create pair for the first transaction
-            if (!$oldItem->deepEquals($newItem) && $oldItem->getId() !== Item::AIR && $inventory === $transaction->getInventory()) { // for swap
+            if (!$oldItem->deepEquals($newItem) && $oldItem->getId() !== ItemIds::AIR && $inventory === $transaction->getInventory()) { // for swap
                 $targetItem = clone $oldItem;
             } else if ($newItem->count === $items[$targetSlot]->count) {
-                $targetItem = Item::get(Item::AIR);
+                $targetItem = ItemIds::get(ItemIds::AIR);
             } else {
                 $targetItem = clone $items[$targetSlot];
                 $targetItem->count -= $newItem->count;
@@ -5343,14 +5343,14 @@ const MAX_EXPERIENCE = 1.0;
 
             if ($enchantInv->isItemWasEnchant() && $newItem->deepEquals($source, true, false)) {
                 // reset enchanting data
-                $enchantInv->setItem(0, Item::get(Item::AIR));
+                $enchantInv->setItem(0, ItemIds::get(ItemIds::AIR));
                 $enchantInv->setEnchantingLevel(0);
 
                 $playerItems = $this->inventory->getContents();
                 $dyeSlot = -1;
                 $targetItemSlot = -1;
                 foreach ($playerItems as $slot => $item) {
-                    if ($item->getId() === Item::DYE && $item->getDamage() === 4 && $item->getCount() >= $enchantingLevel) {
+                    if ($item->getId() === ItemIds::DYE && $item->getDamage() === 4 && $item->getCount() >= $enchantingLevel) {
                         $dyeSlot = $slot;
                     } else if ($item->deepEquals($source)) {
                         $targetItemSlot = $slot;
@@ -5362,11 +5362,11 @@ const MAX_EXPERIENCE = 1.0;
                         $playerItems[$dyeSlot]->count -= $enchantingLevel;
                         $this->inventory->setItem($dyeSlot, $playerItems[$dyeSlot]);
                     } else {
-                        $this->inventory->setItem($dyeSlot, Item::get(Item::AIR));
+                        $this->inventory->setItem($dyeSlot, ItemIds::get(ItemIds::AIR));
                     }
                 }
             } else if (!$enchantInv->isItemWasEnchant()) {
-                $enchantInv->setItem(0, Item::get(Item::AIR));
+                $enchantInv->setItem(0, ItemIds::get(ItemIds::AIR));
             }
             $enchantInv->sendContents($this);
             $this->inventory->sendContents($this);

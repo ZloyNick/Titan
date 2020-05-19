@@ -51,11 +51,11 @@ class Slab2 extends Transparent
         $this->meta &= 0x07;
         if ($face === 0) {
             if ($target->getId() === self::STONE_SLAB2 and ($target->getDamage() & 0x08) === 0x08 and ($target->getDamage() & 0x07) === ($this->meta & 0x07)) {
-                $this->getLevel()->setBlock($target, Block::get(Item::DOUBLE_STONE_SLAB2, $this->meta), true);
+                $this->getLevel()->setBlock($target, Block::get(ItemIds::DOUBLE_STONE_SLAB2, $this->meta), true);
 
                 return true;
             } elseif ($block->getId() === self::STONE_SLAB2 and ($block->getDamage() & 0x07) === ($this->meta & 0x07)) {
-                $this->getLevel()->setBlock($block, Block::get(Item::DOUBLE_STONE_SLAB2, $this->meta), true);
+                $this->getLevel()->setBlock($block, Block::get(ItemIds::DOUBLE_STONE_SLAB2, $this->meta), true);
 
                 return true;
             } else {
@@ -63,11 +63,11 @@ class Slab2 extends Transparent
             }
         } elseif ($face === 1) {
             if ($target->getId() === self::STONE_SLAB2 and ($target->getDamage() & 0x08) === 0 and ($target->getDamage() & 0x07) === ($this->meta & 0x07)) {
-                $this->getLevel()->setBlock($target, Block::get(Item::DOUBLE_STONE_SLAB2, $this->meta), true);
+                $this->getLevel()->setBlock($target, Block::get(ItemIds::DOUBLE_STONE_SLAB2, $this->meta), true);
 
                 return true;
             } elseif ($block->getId() === self::STONE_SLAB2 and ($block->getDamage() & 0x07) === ($this->meta & 0x07)) {
-                $this->getLevel()->setBlock($block, Block::get(Item::DOUBLE_STONE_SLAB2, $this->meta), true);
+                $this->getLevel()->setBlock($block, Block::get(ItemIds::DOUBLE_STONE_SLAB2, $this->meta), true);
 
                 return true;
             }
@@ -75,7 +75,7 @@ class Slab2 extends Transparent
         } else {
             if ($block->getId() === self::STONE_SLAB2) {
                 if (($block->getDamage() & 0x07) === ($this->meta & 0x07)) {
-                    $this->getLevel()->setBlock($block, Block::get(Item::DOUBLE_STONE_SLAB2, $this->meta), true);
+                    $this->getLevel()->setBlock($block, Block::get(ItemIds::DOUBLE_STONE_SLAB2, $this->meta), true);
 
                     return true;
                 }

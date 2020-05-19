@@ -83,7 +83,7 @@ class SnowGolem extends WalkingMonster implements ProjectileSource
     public function getDrops()
     {
         if ($this->lastDamageCause instanceof EntityDamageByEntityEvent) {
-            return [Item::get(Item::SNOWBALL, 0, 15)];
+            return [ItemIds::get(ItemIds::SNOWBALL, 0, 15)];
         }
         return [];
     }

@@ -422,7 +422,7 @@ class Server
         InventoryType::init();
         Block::init();
         Enchantment::init();
-        Item::init();
+        ItemIds::init();
         Biome::init();
         TextWrapper::init();
         MetadataConvertor::init();
@@ -635,7 +635,7 @@ class Server
     {
         Entity::registerEntity(Arrow::class);
         Entity::registerEntity(SplashPotion::class);
-        Entity::registerEntity(DroppedItem::class);
+        Entity::registerEntity(DroppedItemIds::class);
         Entity::registerEntity(FallingSand::class);
         Entity::registerEntity(PrimedTNT::class);
         Entity::registerEntity(Snowball::class);

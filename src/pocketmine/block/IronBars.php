@@ -53,7 +53,7 @@ class IronBars extends Thin
     {
         if ($item->isPickaxe() >= 1) {
             return [
-                [Item::IRON_BARS, 0, 1],
+                [ItemIds::IRON_BARS, 0, 1],
             ];
         } else {
             return [];

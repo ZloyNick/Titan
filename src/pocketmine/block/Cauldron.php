@@ -52,7 +52,7 @@ class Cauldron extends Solid
     public function getDrops(Item $item)
     {
         return [
-            [Item::CAULDRON, 0, 1]
+            [ItemIds::CAULDRON, 0, 1]
         ];
     }
 }

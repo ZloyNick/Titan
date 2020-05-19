@@ -57,7 +57,7 @@ class JungleDoor extends Door
     public function getDrops(Item $item)
     {
         return [
-            [Item::JUNGLE_DOOR, 0, 1],
+            [ItemIds::JUNGLE_DOOR, 0, 1],
         ];
     }
 }

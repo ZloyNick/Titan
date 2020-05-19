@@ -116,7 +116,7 @@ class FlowerPot extends Flowable
         if ($player instanceof Player) {
             if ($player->isSurvival()) {
                 $item->setCount($item->getCount() - 1);
-                $player->getInventory()->setItemInHand($item->getCount() > 0 ? $item : Item::get(Item::AIR));
+                $player->getInventory()->setItemInHand($item->getCount() > 0 ? $item : ItemIds::get(ItemIds::AIR));
             }
         }
         return true;
@@ -124,11 +124,11 @@ class FlowerPot extends Flowable
 
     public function getDrops(Item $item)
     {
-        $items = [[Item::FLOWER_POT, 0, 1]];
+        $items = [[ItemIds::FLOWER_POT, 0, 1]];
         $tile = $this->getLevel()->getTile($this);
         if ($tile instanceof TileFlowerPot) {
             $item = $tile->getItem();
-            if ($item->getId() !== Item::AIR) {
+            if ($item->getId() !== ItemIds::AIR) {
                 $items[] = [$item->getId(), $item->getDamage(), 1];
             }
         }

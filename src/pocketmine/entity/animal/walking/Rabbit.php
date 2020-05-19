@@ -34,7 +34,7 @@ class Rabbit extends WalkingAnimal
     public function targetOption(Creature $creature, float $distance)
     {
         if ($creature instanceof Player) {
-            return $creature->spawned && $creature->isAlive() && !$creature->closed && $creature->getInventory()->getItemInHand()->getId() == Item::SEEDS && $distance <= 49;
+            return $creature->spawned && $creature->isAlive() && !$creature->closed && $creature->getInventory()->getItemInHand()->getId() == ItemIds::SEEDS && $distance <= 49;
         }
         return false;
     }

@@ -87,7 +87,7 @@ class EnchantInventory extends ContainerInventory
         $needSend = false;
         for ($i = 0; $i < 2; $i++) {
             $item = $this->getItem($i);
-            if ($item->getId() != Item::AIR) {
+            if ($item->getId() != ItemIds::AIR) {
                 $ownerInventory->addItem($item);
                 $needSend = true;
             }
@@ -120,7 +120,7 @@ class EnchantInventory extends ContainerInventory
             if ($catalystCount > $this->enchantingLevel) {
                 $this->slots[1]->setCount($catalystCount - $this->enchantingLevel);
             } else if ($catalystCount === $this->enchantingLevel) {
-                $this->slots[1] = Item::get(Item::AIR);
+                $this->slots[1] = ItemIds::get(ItemIds::AIR);
             } else {
                 echo '[Enchant]: Catalyst count problem' . PHP_EOL;
                 return false;

@@ -52,7 +52,7 @@ class StandingBanner extends Transparent
     public function getDrops(Item $item)
     {
         return [
-            [Item::STANDING_BANNER, 0, 1]
+            [ItemIds::STANDING_BANNER, 0, 1]
         ];
     }
 

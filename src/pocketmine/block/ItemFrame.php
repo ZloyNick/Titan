@@ -41,7 +41,7 @@ class ItemFrame extends Transparent
     public function getDrops(Item $item)
     {
         return [
-            [Item::ITEM_FRAME, 0, 1]
+            [ItemIds::ITEM_FRAME, 0, 1]
         ];
     }
 

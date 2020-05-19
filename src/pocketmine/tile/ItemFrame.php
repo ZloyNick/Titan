@@ -42,7 +42,7 @@ class ItemFrame extends Spawnable
         if (isset($this->namedtag->Item)) {
             $this->item = NBT::getItemHelper($this->namedtag["Item"]);
         } else {
-            $this->item = Item::get(Item::AIR);
+            $this->item = ItemIds::get(ItemIds::AIR);
         }
     }
 

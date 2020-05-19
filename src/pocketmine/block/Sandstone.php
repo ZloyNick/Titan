@@ -63,7 +63,7 @@ class Sandstone extends Solid
     {
         if ($item->isPickaxe() >= 1) {
             return [
-                [Item::SANDSTONE, $this->meta & 0x03, 1],
+                [ItemIds::SANDSTONE, $this->meta & 0x03, 1],
             ];
         } else {
             return [];

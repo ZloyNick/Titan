@@ -30,7 +30,7 @@ class Mooshroom extends WalkingAnimal
     public function targetOption(Creature $creature, float $distance)
     {
         if ($creature instanceof Player) {
-            return $creature->spawned && $creature->isAlive() && !$creature->closed && $creature->getInventory()->getItemInHand()->getId() == Item::WHEAT && $distance <= 49;
+            return $creature->spawned && $creature->isAlive() && !$creature->closed && $creature->getInventory()->getItemInHand()->getId() == ItemIds::WHEAT && $distance <= 49;
         }
         return false;
     }
@@ -39,7 +39,7 @@ class Mooshroom extends WalkingAnimal
     {
         $drops = [];
         if ($this->lastDamageCause instanceof EntityDamageByEntityEvent) {
-            $drops[] = Item::get(Item::MUSHROOM_STEW, 0, 1);
+            $drops[] = ItemIds::get(ItemIds::MUSHROOM_STEW, 0, 1);
         }
         return $drops;
     }

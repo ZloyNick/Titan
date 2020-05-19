@@ -75,7 +75,7 @@ class Chest extends Spawnable implements InventoryHolder, Container, Nameable
     {
         $i = $this->getSlotIndex($index);
         if ($i < 0) {
-            return Item::get(Item::AIR, 0, 0);
+            return ItemIds::get(ItemIds::AIR, 0, 0);
         } else {
             return NBT::getItemHelper($this->namedtag->Items[$i]);
         }
@@ -137,7 +137,7 @@ class Chest extends Spawnable implements InventoryHolder, Container, Nameable
 
         $d = NBT::putItemHelper($item, $index);
 
-        if ($item->getId() === Item::AIR or $item->getCount() <= 0) {
+        if ($item->getId() === ItemIds::AIR or $item->getCount() <= 0) {
             if ($i >= 0) {
                 unset($this->namedtag->Items[$i]);
             }

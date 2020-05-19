@@ -53,7 +53,7 @@ class EmeraldOre extends Solid
     {
         if ($item->isPickaxe() >= 4) {
             return [
-                [Item::EMERALD, 0, 1],
+                [ItemIds::EMERALD, 0, 1],
             ];
         } else {
             return [];

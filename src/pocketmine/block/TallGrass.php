@@ -80,7 +80,7 @@ class TallGrass extends Flowable
     public function getDrops(Item $item)
     {
         if (mt_rand(0, 15) === 0) {
-            return [[Item::WHEAT_SEEDS, 0, 1]];
+            return [[ItemIds::WHEAT_SEEDS, 0, 1]];
         }
 
         return [];

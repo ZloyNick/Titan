@@ -47,17 +47,17 @@ class FlowerPot extends Spawnable
             return false;
         }
         switch ($item->getId()) {
-            case Item::TALL_GRASS:
+            case ItemIds::TALL_GRASS:
                 if ($item->getDamage() === 1) {
                     return false;
                 }
-            case Item::SAPLING:
-            case Item::DEAD_BUSH:
-            case Item::DANDELION:
-            case Item::RED_FLOWER:
-            case Item::BROWN_MUSHROOM:
-            case Item::RED_MUSHROOM:
-            case Item::CACTUS:
+            case ItemIds::SAPLING:
+            case ItemIds::DEAD_BUSH:
+            case ItemIds::DANDELION:
+            case ItemIds::RED_FLOWER:
+            case ItemIds::BROWN_MUSHROOM:
+            case ItemIds::RED_MUSHROOM:
+            case ItemIds::CACTUS:
                 return true;
             default:
                 return false;
@@ -66,17 +66,17 @@ class FlowerPot extends Spawnable
 
     public function isEmpty()
     {
-        return $this->getItem()->getId() === Item::AIR;
+        return $this->getItem()->getId() === ItemIds::AIR;
     }
 
     public function getItem()
     {
-        return Item::get((int)($this->namedtag["item"] ?? 0), (int)($this->namedtag["mData"] ?? 0), 1);
+        return ItemIds::get((int)($this->namedtag["item"] ?? 0), (int)($this->namedtag["mData"] ?? 0), 1);
     }
 
     public function removeItem()
     {
-        $this->setItem(Item::get(Item::AIR));
+        $this->setItem(ItemIds::get(ItemIds::AIR));
     }
 
     public function setItem(Item $item)

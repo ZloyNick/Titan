@@ -199,7 +199,7 @@ class BinaryStream
     {
         $id = $this->getSignedVarInt();
         if ($id == 0) {
-            return Item::get(Item::AIR, 0, 0);
+            return ItemIds::get(ItemIds::AIR, 0, 0);
         }
 
         $aux = $this->getSignedVarInt();
@@ -226,7 +226,7 @@ class BinaryStream
                 $this->setOffset($offset + $nbtTag->getOffset());
             }
         }
-        $item = Item::get($id, $meta, $count, $nbt);
+        $item = ItemIds::get($id, $meta, $count, $nbt);
         $canPlaceOnBlocksCount = $this->getSignedVarInt();
         for ($i = 0; $i < $canPlaceOnBlocksCount; $i++) {
             $item->addCanPlaceOnBlocks($this->getString());

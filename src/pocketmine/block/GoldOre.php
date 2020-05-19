@@ -53,7 +53,7 @@ class GoldOre extends Solid
     {
         if ($item->isPickaxe() >= 4) {
             return [
-                [Item::GOLD_ORE, 0, 1],
+                [ItemIds::GOLD_ORE, 0, 1],
             ];
         } else {
             return [];

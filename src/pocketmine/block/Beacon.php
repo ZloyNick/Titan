@@ -32,7 +32,7 @@ class Beacon extends Solid
     public function getDrops(Item $item)
     {
         return [
-            [Item::BEACON, 0, 1]
+            [ItemIds::BEACON, 0, 1]
         ];
     }
 

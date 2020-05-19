@@ -66,7 +66,7 @@ class RedstoneRepeater extends Transparent
     public function getDrops(Item $item)
     {
         return [
-            [Item::REDSTONE_REPEATER, 0, 1],
+            [ItemIds::REDSTONE_REPEATER, 0, 1],
         ];
     }
 }

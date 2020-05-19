@@ -86,7 +86,7 @@ class MelonStem extends Crops
     public function getDrops(Item $item)
     {
         return [
-            [Item::MELON_SEEDS, 0, mt_rand(0, 2)],
+            [ItemIds::MELON_SEEDS, 0, mt_rand(0, 2)],
         ];
     }
 }

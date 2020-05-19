@@ -52,7 +52,7 @@ class ActivatorRail extends Rail
     public function getDrops(Item $item)
     {
         return [
-            [Item::ACTIVATOR_RAIL, 0, 1],
+            [ItemIds::ACTIVATOR_RAIL, 0, 1],
         ];
     }
 }

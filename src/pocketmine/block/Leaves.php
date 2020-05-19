@@ -100,7 +100,7 @@ class Leaves extends Transparent
         } elseif ($pos->getId() === self::LEAVES and $distance < 3) {
             $visited[$index] = true;
             $down = $pos->getSide(0)->getId();
-            if ($down === Item::WOOD) {
+            if ($down === ItemIds::WOOD) {
                 return true;
             }
             if ($fromSide === null) {
@@ -164,13 +164,13 @@ class Leaves extends Transparent
     {
         $drops = [];
         if ($item->isShears()) {
-            $drops[] = [Item::LEAVES, $this->meta & 0x03, 1];
+            $drops[] = [ItemIds::LEAVES, $this->meta & 0x03, 1];
         } else {
             if (mt_rand(1, 20) === 1) { //Saplings
-                $drops[] = [Item::SAPLING, $this->meta & 0x03, 1];
+                $drops[] = [ItemIds::SAPLING, $this->meta & 0x03, 1];
             }
             if (($this->meta & 0x03) === self::OAK and mt_rand(1, 10) === 1) { //Apples
-                $drops[] = [Item::APPLE, 0, 1];
+                $drops[] = [ItemIds::APPLE, 0, 1];
             }
         }
 

@@ -53,7 +53,7 @@ class LapisOre extends Solid
     {
         if ($item->isPickaxe() >= 3) {
             return [
-                [Item::DYE, 4, mt_rand(4, 8)],
+                [ItemIds::DYE, 4, mt_rand(4, 8)],
             ];
         } else {
             return [];

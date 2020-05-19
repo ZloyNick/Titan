@@ -30,7 +30,7 @@ class Chicken extends WalkingAnimal
     public function targetOption(Creature $creature, float $distance)
     {
         if ($creature instanceof Player) {
-            return $creature->isAlive() && !$creature->closed && $creature->getInventory()->getItemInHand()->getId() == Item::SEEDS && $distance <= 49;
+            return $creature->isAlive() && !$creature->closed && $creature->getInventory()->getItemInHand()->getId() == ItemIds::SEEDS && $distance <= 49;
         }
         return false;
     }
@@ -40,11 +40,11 @@ class Chicken extends WalkingAnimal
         if ($this->lastDamageCause instanceof EntityDamageByEntityEvent) {
             switch (mt_rand(0, 2)) {
                 case 0:
-                    return [Item::get(Item::RAW_CHICKEN, 0, 1)];
+                    return [ItemIds::get(ItemIds::RAW_CHICKEN, 0, 1)];
                 case 1:
-                    return [Item::get(Item::EGG, 0, 1)];
+                    return [ItemIds::get(ItemIds::EGG, 0, 1)];
                 case 2:
-                    return [Item::get(Item::FEATHER, 0, 1)];
+                    return [ItemIds::get(ItemIds::FEATHER, 0, 1)];
             }
         }
         return [];

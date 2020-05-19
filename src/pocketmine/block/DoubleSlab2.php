@@ -44,7 +44,7 @@ class DoubleSlab2 extends Solid
     {
         if ($item->isPickaxe() >= 1) {
             return [
-                [Item::STONE_SLAB2, $this->meta & 0x07, 2],
+                [ItemIds::STONE_SLAB2, $this->meta & 0x07, 2],
             ];
         } else {
             return [];

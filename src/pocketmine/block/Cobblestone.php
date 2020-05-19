@@ -53,7 +53,7 @@ class Cobblestone extends Solid
     {
         if ($item->isPickaxe() >= 1) {
             return [
-                [Item::COBBLESTONE, 0, 1],
+                [ItemIds::COBBLESTONE, 0, 1],
             ];
         } else {
             return [];

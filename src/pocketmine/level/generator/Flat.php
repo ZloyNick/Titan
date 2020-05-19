@@ -130,7 +130,7 @@ class Flat extends Generator
         $this->structure = [];
         $this->chunks = [];
         foreach ($matches[3] as $i => $b) {
-            $b = Item::fromString($b . $matches[4][$i]);
+            $b = ItemIds::fromString($b . $matches[4][$i]);
             $cnt = $matches[2][$i] === "" ? 1 : intval($matches[2][$i]);
             for ($cY = $y, $y += $cnt; $cY < $y; ++$cY) {
                 $this->structure[$cY] = [$b->getId(), $b->getDamage()];

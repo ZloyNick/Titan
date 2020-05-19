@@ -1089,7 +1089,7 @@ class Block extends Position implements Metadatable
             return $this->getLevel()->getBlock(Vector3::getSide($side, $step));
         }
 
-        return Block::get(Item::AIR, 0, Position::fromObject(Vector3::getSide($side, $step)));
+        return Block::get(ItemIds::AIR, 0, Position::fromObject(Vector3::getSide($side, $step)));
     }
 
     /**

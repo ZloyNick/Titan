@@ -62,7 +62,7 @@ class WoodenPressurePlate extends Transparent
     public function getDrops(Item $item)
     {
         return [
-            [Item::WOODEN_PRESSURE_PLATE, 0, 1],
+            [ItemIds::WOODEN_PRESSURE_PLATE, 0, 1],
         ];
     }
 }

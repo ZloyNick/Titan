@@ -28,7 +28,7 @@ class BlockDiamondOre extends DiamondOre
                 }
             }
         }
-        return [[Item::DIAMOND, 0, 1 * $multiply]];
+        return [[ItemIds::DIAMOND, 0, 1 * $multiply]];
     }
 
 }

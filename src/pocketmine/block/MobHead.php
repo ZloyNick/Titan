@@ -115,8 +115,8 @@ class MobHead extends Transparent
     {
         /** @var Skull $tile */
         if ($this->getLevel() != null && (($tile = $this->getLevel()->getTile($this)) instanceof Skull)) {
-            return [[Item::MOB_HEAD, $tile->getSkullType(), 1]];
+            return [[ItemIds::MOB_HEAD, $tile->getSkullType(), 1]];
         } else
-            return [[Item::MOB_HEAD, 0, 1]];
+            return [[ItemIds::MOB_HEAD, 0, 1]];
     }
 }

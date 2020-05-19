@@ -52,7 +52,7 @@ class WoodenButton extends Button
     public function getDrops(Item $item)
     {
         return [
-            [Item::WOODEN_BUTTON, 0, 1],
+            [ItemIds::WOODEN_BUTTON, 0, 1],
         ];
     }
 }

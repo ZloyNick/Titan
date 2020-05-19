@@ -113,10 +113,10 @@ class NBT
     public static function getItemHelper(Compound $tag)
     {
         if (!isset($tag->id) or !isset($tag->Count)) {
-            return Item::get(0);
+            return ItemIds::get(0);
         }
 
-        $item = Item::get($tag->id->getValue(), !isset($tag->Damage) ? 0 : $tag->Damage->getValue(), $tag->Count->getValue());
+        $item = ItemIds::get($tag->id->getValue(), !isset($tag->Damage) ? 0 : $tag->Damage->getValue(), $tag->Count->getValue());
 
         if (isset($tag->tag) and $tag->tag instanceof Compound) {
             $tag->tag->setName("");

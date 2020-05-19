@@ -53,7 +53,7 @@ class IronDoor extends Door
     {
         if ($item->isPickaxe() >= 1) {
             return [
-                [Item::IRON_DOOR, 0, 1],
+                [ItemIds::IRON_DOOR, 0, 1],
             ];
         } else {
             return [];

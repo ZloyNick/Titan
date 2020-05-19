@@ -86,7 +86,7 @@ class SnowLayer extends Flowable
     {
         if ($item->isShovel() !== false) {
             return [
-                [Item::SNOWBALL, 0, 1],
+                [ItemIds::SNOWBALL, 0, 1],
             ];
         }
 

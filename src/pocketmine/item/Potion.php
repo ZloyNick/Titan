@@ -222,7 +222,7 @@ class Potion extends Item
         if ($human instanceof Player && $human->getGamemode() === 1) {
             return;
         }
-        $human->getInventory()->setItemInHand(Item::get(self::AIR));
+        $human->getInventory()->setItemInHand(ItemIds::get(self::AIR));
     }
 
     public function getEffects(): array

@@ -53,7 +53,7 @@ class NetherBrick extends Solid
     {
         if ($item->isPickaxe() >= 1) {
             return [
-                [Item::NETHER_BRICKS, 0, 1],
+                [ItemIds::NETHER_BRICKS, 0, 1],
             ];
         } else {
             return [];
